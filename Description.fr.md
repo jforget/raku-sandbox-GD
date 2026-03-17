@@ -22,6 +22,18 @@ ajouter des  fonctionnalités supplémentaires. Le dépôt  contient aussi
 les  programmes Perl  et les  programmes Raku  que j'ai  utilisés pour
 préparer mes tests et les exécuter.
 
+Assez  souvent, dans  les  projets hébergés  sur  Github, j'ajoute  un
+fichier de  documentation expliquant  la procédure  d'installation. En
+effet, si je  reviens sur le sujet après quelques  mois, je n'ai aucun
+mal à comprendre ce le code que j'ai écris, mais j'ai beaucoup plus de
+mal  à  retrouver toutes  les  actions  effectuées pour  installer  et
+paramétrer le logiciel. Si je suis amené à ajouter des fonctionnalités
+dans le  module `GD`  ou dans  `GD::Raw`, qui sont  des modules  de la
+communauté Raku, je ne pourrai pas  raconter ma vie dans un fichier de
+documentation  ajouté au  dépôt Github.  Au lieu  de cela,  j'écris le
+fichier de documentation (le présent  fichier) et je l'ajoute au dépôt
+« bac à sable ».
+
 BESOINS
 =======
 
@@ -80,6 +92,8 @@ my $white = gdImageColorAllocate($im, 0xff, 0xff, 0xff);
 my $black = gdImageColorAllocate($im, 0, 0, 0);
 ```
 
+`GD` : exemple de code trouvé dans le fichier `README.md`.
+
 Génération d'image
 ------------------
 
@@ -110,6 +124,11 @@ $png_fh.close;
 # GD::Raw
 
 ```
+
+`GD` : exemple de code trouvé dans le fichier `README.md`.
+
+Je n'ai pas vu dans `GD` comment récupérer les données PNG sans passer
+par un fichier.
 
 Traits basiques
 ---------------
@@ -172,6 +191,28 @@ Pour `GD::Raw`, voir le
 DOCUMENTATION
 =============
 
+Bibliothèque C
+--------------
+
+La bibliothèque C a été écrite  par Thomas Boutell. Cela dit, son site
+web ne comporte plus de documentation pour sa bibliothèque. D'après la
+[page laconique consacrée à GD](http://www.boutell.com/gd/),
+la documentation se trouve sur
+[un autre site](http://www.libgd.org/)
+mais ce site n'a pas l'air de répondre aux requêtes.
+
+Le [dépôt Github](https://github.com/libgd/libgd/tree/master)
+n'a  pas l'air  non plus  de  contenir beaucoup  de documentation.  Il
+repose sur  un format "Natural  Docs" que je  ne connais pas.  Quant à
+lire  dans le  texte source  les  fichiers de  documentation, je  n'ai
+trouvé qu'un
+[qu'un seul fichier de documentation](https://github.com/libgd/libgd/blob/500995e4d4b7a730f7c7cc25213710becf414ce8/docs/naturaldocs/preamble.txt)
+qui ne résout pas tout.
+
+Heureusement, j'ai fini par trouver
+[un site dédié à la documentation](https://libgd.github.io/pages/about.html)
+de la bibliothèque GD.
+
 Module Raku `GD`
 ----------------
 
@@ -197,6 +238,10 @@ c'est dans le
 fichier `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
 que j'ai vu que l'on pouvait choisir l'épaisseur des traits.
 
+D'un  autre côté,  la philosophie  de `GD::Raw`  étant de  rester très
+proche de l'API C, la
+[documentation de la bibliothèque C](https://libgd.github.io/pages/about.html)
+pourra suffire pour ce module Raku.
 
 AUTEUR
 ======
