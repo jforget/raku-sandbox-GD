@@ -196,6 +196,39 @@ $img.line($x-from, $y-from, $x-to , $y-to , gdStyled);
 # GD::Raw
 ```
 
+Cercles et carrés
+-----------------
+
+Dessiner des cercles et des carrés, soit vides, soit emplis.
+
+
+```
+# Perl
+$im->filledEllipse  (10, 20,  20, 20, $white);
+$im->ellipse        (10, 20,  20, 20, $blue);
+$im->filledRectangle(30, 10,  50, 30, $white);
+$im->rectangle      (30, 10,  50, 30, $blue);
+$im->filledEllipse  (70, 20,  20, 20, $red);
+$im->filledRectangle(90, 10, 110, 30, $red);
+
+# Inline::Perl5 + GD
+$img.filledEllipse(  10, 20,  20, 20, $white);
+$img.ellipse(        10, 20,  20, 20, $blue);
+$img.filledRectangle(30, 10,  50, 30, $white);
+$img.rectangle(      30, 10,  50, 30, $blue);
+$img.filledEllipse(  70, 20,  20, 20, $red);
+$img.filledRectangle(90, 10, 110, 30, $red);
+
+# GD
+
+# GD::Raw
+gdImageFilledEllipse($im, 50,50, 70, 90, 0x50FFFFFF);
+gdImageFilledRectangle($im, 0,0, 299,299, 0xFFFFFF);
+```
+
+Les  exemples de  `GD::Raw` proviennent  de `bug00010.rakutest`  et de
+`bug00079.rakutest`.  Il y  en  a d'autres  dans  le répertoire  `xt`,
+inutile de tous les lister.
 
 ```
 # Perl
