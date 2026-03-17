@@ -5,5 +5,7 @@
 *.log
 *.aux
 *.pdf
+*.png
+*.html
 pod2*
 .precomp
