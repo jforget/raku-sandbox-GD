@@ -1,0 +1,9 @@
+*~
+*.bak
+*.db
+*.out
+*.log
+*.aux
+*.pdf
+pod2*
+.precomp
