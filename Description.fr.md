@@ -177,6 +177,26 @@ gdImageLine($im, $x-from, $y-from, $x-to, $y-to, $color);
 Pour `GD::Raw`, voir le
 [fichier `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
 
+Pointillés
+----------
+
+Tirer un trait pointillé ou tireté d'un point à un autre.
+
+```
+# Perl
+$im->setStyle($color, $color, gdTransparent, gdTransparent);
+$im->line($x_from, $y_from, $x_to, $y_to, gdStyled);
+
+# Inline::Perl5 + GD
+$img.setStyle($color, $color, gdTransparent, gdTransparent);
+$img.line($x-from, $y-from, $x-to , $y-to , gdStyled);
+
+# GD
+
+# GD::Raw
+```
+
+
 ```
 # Perl
 
