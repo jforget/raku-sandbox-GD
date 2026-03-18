@@ -25,14 +25,14 @@ préparer mes tests et les exécuter.
 Assez  souvent, dans  les  projets hébergés  sur  Github, j'ajoute  un
 fichier de  documentation expliquant  la procédure  d'installation. En
 effet, si je  reviens sur le sujet après quelques  mois, je n'ai aucun
-mal à comprendre ce le code que j'ai écris, mais j'ai beaucoup plus de
+mal à comprendre ce le code que j'ai écrit, mais j'ai beaucoup plus de
 mal  à  retrouver toutes  les  actions  effectuées pour  installer  et
 paramétrer le logiciel. Si je suis amené à ajouter des fonctionnalités
 dans le  module `GD`  ou dans  `GD::Raw`, qui sont  des modules  de la
 communauté Raku, je ne pourrai pas  raconter ma vie dans un fichier de
 documentation  ajouté au  dépôt Github.  Au lieu  de cela,  j'écris le
-fichier de documentation (le présent  fichier) et je l'ajoute au dépôt
-« bac à sable ».
+fichier de  documentation (le présent  fichier), je l'ajoute  au dépôt
+« bac à sable » et je publie le dépôt « bac à sable » sur Github.
 
 BESOINS
 =======
@@ -57,7 +57,6 @@ my $image = GD::Image.new($width, $height);
 # GD::Raw
 my $im = gdImageCreate($width, $height) or die;
 LEAVE gdImageDestroy($im) if $im;
-
 ```
 
 Couleurs
@@ -228,12 +227,27 @@ gdImageFilledRectangle($im, 0,0, 299,299, 0xFFFFFF);
 
 Les  exemples de  `GD::Raw` proviennent  de `bug00010.rakutest`  et de
 `bug00079.rakutest`.  Il y  en  a d'autres  dans  le répertoire  `xt`,
-inutile de tous les lister.
+inutile de tous les lister. En revanche, je n'ai trouvé aucun exemple
+omettant le qualificatif _filled_.
+
+Texte
+-----
+
+`libgd`  permet  d'afficher du  texte  avec  une  fonte interne  à  la
+bibliothèque ou  avec une fonte  système comme « Times New  Roman » ou
+« Helvetica ». N'ayant pas de gros besoins artistiques, je me contente
+de la fonte interne.
 
 ```
 # Perl
+$im->string(gdSmallFont     ,   5, 15, '01', $black);
+$im->string(gdMediumBoldFont,  35, 15, '02', $black);
+$im->string(gdLargeFont     , 153, 13, '03', $black);
 
 # Inline::Perl5 + GD
+$img.string(gdSmallFont     ,   5, 15, '01', $black);
+$img.string(gdMediumBoldFont,  35, 15, '02', $black);
+$img.string(gdLargeFont     , 153, 13, '03', $black);
 
 # GD
 

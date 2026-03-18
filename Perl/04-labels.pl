@@ -1,8 +1,8 @@
 #/usr/bin/env perl
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
-# Dessin avec des cercles et des rectangles
-# Drawing circles and rectangles
+# Dessin avec des cercles et des rectangles plus du texte
+# Drawing circles and rectangles with labels
 #
 
 use v5.10;
@@ -11,7 +11,7 @@ use warnings;
 use GD;
 use MIME::Base64;
 
-my $name = '03-circles-rectangles';
+my $name   = '04-labels';
 my $width  = 200;
 my $height =  50;
 my $im     = GD::Image->new($width, $height);
@@ -32,6 +32,9 @@ $im->filledEllipse  (130, 20,  20, 20, $white);
 $im->ellipse        (130, 20,  20, 20, $blue);
 $im->filledRectangle(150, 10, 170, 30, $white);
 $im->rectangle      (150, 10, 170, 30, $blue);
+$im->string(gdSmallFont     ,   5, 15, '01', $black);
+$im->string(gdMediumBoldFont,  35, 15, '02', $black);
+$im->string(gdLargeFont     , 153, 13, '03', $black);
 
 open my $fh, '>', "$name.png"
     or die "opening PNG file: $!";
@@ -64,18 +67,18 @@ __END__
 
 =head1 NAME
 
-03-circles-rectangles.pl - draw circles and rectangles
+04-labels.pl - draw circles and rectangles
 
 =head1 SYNOPSIS
 
-  perl    03-circles-rectangles.pl
-  display 03-circles-rectangles.png
-  firefox 03-circles-rectangles.html
+  perl    04-labels.pl
+  display 04-labels.png
+  firefox 04-labels.html
 
 =head1 DESCRIPTION
 
 This program  generates a  PNG file  and an HTML  file with  a picture
-showing circles and rectangles (or squares).
+showing circles and rectangles (or squares) and labels.
 
 =head1 PARAMETERS
 
