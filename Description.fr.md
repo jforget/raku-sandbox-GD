@@ -113,6 +113,8 @@ print $fh $im->png;
 src => "data:image/png;base64," . MIME::Base64::encode($im->png()));
 
 # Inline::Perl5 + GD
+"test.png".IO.spurt($image.png);
+[...]
 src => "data:image/png;base64," ~ MIME::Base64.encode($image.png()));
 
 # GD
@@ -247,6 +249,10 @@ gdImageFilledEllipse($im, 50,50, 70, 90, 0x50FFFFFF);
 gdImageFilledRectangle($im, 0,0, 299,299, 0xFFFFFF);
 ```
 
+Vous  noterez dans  les exemples  de `Inline::Perl5`,  les parenthèses
+ouvrantes ne sont pas alignées comme en Perl. C'est la syntaxe de Raku
+qui veut cela. Dommage.
+
 Les  exemples de  `GD` proviennent  de `examples/gd.p6`.  Je n'ai  pas
 trouvé d'exemple  avec le  qualificatif _filled_. Il  existe toutefois
 deux fonctions `gdImageFilledRectangle` et `gdImageFilledEllipse`.
@@ -271,14 +277,18 @@ $im->string(gdMediumBoldFont,  35, 15, '02', $black);
 $im->string(gdLargeFont     , 153, 13, '03', $black);
 
 # Inline::Perl5 + GD
-$img.string(gdSmallFont     ,   5, 15, '01', $black);
+$img.string(gdSmallFont,        5, 15, '01', $black);
 $img.string(gdMediumBoldFont,  35, 15, '02', $black);
-$img.string(gdLargeFont     , 153, 13, '03', $black);
+$img.string(gdLargeFont,      153, 13, '03', $black);
 
 # GD
 
 # GD::Raw
 ```
+
+Vous noterez  dans les exemples  de `Inline::Perl5`, les  virgules qui
+suivent le nom de la police ne  sont pas alignées comme en Perl. C'est
+la syntaxe de Raku qui veut cela. Dommage.
 
 J'ai cherché la chaîne `string` avec `grep` dans les clones des dépôts
 `GD` et `GD::Raw`, je n'ai rien trouvé. Idem pour la chaîne `Font`.
