@@ -67,7 +67,7 @@ __END__
 
 =head1 NAME
 
-04-labels.pl - draw circles and rectangles
+04-labels.pl - print labels inside circles and rectangles
 
 =head1 SYNOPSIS
 
@@ -78,7 +78,8 @@ __END__
 =head1 DESCRIPTION
 
 This program  generates a  PNG file  and an HTML  file with  a picture
-showing circles and rectangles (or squares) and labels.
+showing  circles and  rectangles (or  squares) and  labels inside  the
+circles and rectangles.
 
 =head1 PARAMETERS
 

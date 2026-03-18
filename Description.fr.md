@@ -338,6 +338,36 @@ proche de l'API C, la
 [documentation de la bibliothèque C](https://libgd.github.io/pages/about.html)
 pourra suffire pour ce module Raku.
 
+INSTALLATION
+============
+
+Pour tester l'installation et la configuration de tel ou tel logiciel,
+j'ai  l'habitude  d'utiliser  une  machine virtuelle.  En  prenant  un
+instantané  avant de  commencer le  test,  cela permet  de revenir  en
+arrière facilement.
+
+Dans  le  cas  général,  je  commence  avec  une  machine  fraîchement
+installée à partir de l'image  ISO d'installation, à laquelle j'ajoute
+quelques logiciels indispensables :
+
+* curl
+
+* emacs
+
+* gcc
+
+* g++
+
+* gitk (installe implicitement git)
+
+* make
+
+Pour le  cas des modules  Raku `GD`  et `GD::Raw`, j'installe  en plus
+Raku, zef et  un clone du présent dépôt. Notamment,  je n'installe pas
+`libgd`  avant de  prendre  l'instantané. Je  l'installe  après et  je
+mentionne  cette installation  dans  la  procédure. L'installation  du
+présent dépôt permet d'avoir immédiatement des programmes de test.
+
 AUTEUR
 ======
 
