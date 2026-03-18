@@ -121,13 +121,19 @@ $image.output($png_fh, GD_PNG);
 $png_fh.close;
 
 # GD::Raw
-
+my $fh = fopen($path, "wb");
+return 0 unless $fh;
+gdImagePng($img, $fh);
+fclose($fh) if $fh;
 ```
 
 `GD` : exemple de code trouvé dans le fichier `README.md`.
 
-Je n'ai pas vu dans `GD` comment récupérer les données PNG sans passer
-par un fichier.
+`GD::Raw` :  exemples trouvés dans  `t/01-create-and-load.rakutest` et
+`xt/gdtest.rakumod`.
+
+Je  n'ai pas  vu dans  `GD` ni  dans `GD::Raw`  comment récupérer  les
+données PNG sans passer par un fichier.
 
 Traits basiques
 ---------------
@@ -176,6 +182,9 @@ gdImageLine($im, $x-from, $y-from, $x-to, $y-to, $color);
 Pour `GD::Raw`, voir le
 [fichier `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
 
+Pour `GD`,  la recherche  par `grep`  de la  chaîne `"thick"`  dans un
+clone du dépôt Github ne donne aucun résultat.
+
 Pointillés
 ----------
 
@@ -194,6 +203,9 @@ $img.line($x-from, $y-from, $x-to , $y-to , gdStyled);
 
 # GD::Raw
 ```
+
+Pour `GD` comme  pour `GD::Raw`, la recherche par `grep`  de la chaîne
+`"styled"` dans les clones des dépôts Github ne donne aucun résultat.
 
 Cercles et carrés
 -----------------
@@ -219,15 +231,29 @@ $img.filledEllipse(  70, 20,  20, 20, $red);
 $img.filledRectangle(90, 10, 110, 30, $red);
 
 # GD
+$image.rectangle(
+    location => (10, 10),
+    size     => (100, 100),
+    fill     => True,
+    color    => $red);
+$image.ellipse(
+    center => (100, 100),
+    axes   => (60, 80),   # width and height
+    fill   => False,
+    color  => $blue);
 
 # GD::Raw
 gdImageFilledEllipse($im, 50,50, 70, 90, 0x50FFFFFF);
 gdImageFilledRectangle($im, 0,0, 299,299, 0xFFFFFF);
 ```
 
-Les  exemples de  `GD::Raw` proviennent  de `bug00010.rakutest`  et de
-`bug00079.rakutest`.  Il y  en  a d'autres  dans  le répertoire  `xt`,
-inutile de tous les lister. En revanche, je n'ai trouvé aucun exemple
+Les  exemples de  `GD` proviennent  de `examples/gd.p6`.  Je n'ai  pas
+trouvé d'exemple  avec le  qualificatif _filled_. Il  existe toutefois
+deux fonctions `gdImageFilledRectangle` et `gdImageFilledEllipse`.
+
+Les exemples de `GD::Raw`  proviennent de `xt/bug00010.rakutest` et de
+`xt/bug00079.rakutest`. Il  y en a  d'autres dans le  répertoire `xt`,
+inutile de tous les lister. En  revanche, je n'ai trouvé aucun exemple
 omettant le qualificatif _filled_.
 
 Texte
@@ -252,8 +278,10 @@ $img.string(gdLargeFont     , 153, 13, '03', $black);
 # GD
 
 # GD::Raw
-
 ```
+
+J'ai cherché la chaîne `string` avec `grep` dans les clones des dépôts
+`GD` et `GD::Raw`, je n'ai rien trouvé. Idem pour la chaîne `Font`.
 
 DOCUMENTATION
 =============
