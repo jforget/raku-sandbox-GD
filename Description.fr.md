@@ -373,10 +373,36 @@ quelques logiciels indispensables :
 * make
 
 Pour le  cas des modules  Raku `GD`  et `GD::Raw`, j'installe  en plus
-Raku, zef et  un clone du présent dépôt. Notamment,  je n'installe pas
-`libgd`  avant de  prendre  l'instantané. Je  l'installe  après et  je
-mentionne  cette installation  dans  la  procédure. L'installation  du
-présent dépôt permet d'avoir immédiatement des programmes de test.
+Raku, zef et  un clone du présent dépôt. Il  était dans mes intentions
+de ne pas installer la bibliothèque  `libgd`. Or il se trouve que dans
+la distribution Devuan version 6, `libgd3` version 2.3.3 est installée
+par défaut. Peut-être n'est-ce pas le cas dans d'autres distributions.
+
+Module `GD::Raw:ver<0.4>`
+-------------------------
+
+Un simple `zef install GD::Raw` suffit, vraisemblablement parce que la
+bilbiothèque `libgd3` est installée par  défaut. Conformément à ce que
+j'ai   écrit  dans   le   recensement  des   besoins,  de   nombreuses
+fonctionnalités manquent :
+
+* la fonction [`gdImagePngPtr`](https://libgd.github.io/manuals/2.3.0/files/gd_png-c.html#gdImagePngPtr)
+permettant de récupérer les données PNG  pour les mettre dans en ligne
+dans une balise HTML `<img>`,
+
+* la fonction [`gdImageSetStyle`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageSetStyle)
+et la  pseudo couleur `gdStyled`  permettant de définir des  lignes en
+pointillés ou en tirets,
+
+* les fonctions [`gdImageEllipse`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageEllipse)
+et [`gdImageRectangle`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageRectangle)
+permettant de dessiner  des contours d'ellipses et  de rectangles sans
+remplir l'intérieur,
+
+* la fonction [`gdImageString`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageString)
+et  les   valeurs  `gdTinyFont`,   `gdSmallFont`,  `gdMediumFontBold`,
+`gdLargeFont` et  `gdGiantFont` permettant  d'afficher des  chaînes de
+caractères dans les dessins.
 
 AUTEUR
 ======
