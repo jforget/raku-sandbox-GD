@@ -378,8 +378,24 @@ de ne pas installer la bibliothèque  `libgd`. Or il se trouve que dans
 la distribution Devuan version 6, `libgd3` version 2.3.3 est installée
 par défaut. Peut-être n'est-ce pas le cas dans d'autres distributions.
 
-Module `GD::Raw:ver<0.4>`
--------------------------
+Module Raku `GD:ver<0.0.2>` sur étagère
+---------------------------------------
+
+Un  simple `zef  install GD`  suffit, vraisemblablement  parce que  la
+bilbiothèque `libgd3` est installée par  défaut. Conformément à ce que
+j'ai   écrit  dans   le   recensement  des   besoins,  de   nombreuses
+fonctionnalités manquent :
+
+* génération des données PNG sans passer par un fichier,
+
+* choix de l'épaisseur des traits
+
+* définition d'un style pointillé ou avec des tirets,
+
+* insertion de chaînes de caractères.
+
+Module `GD::Raw:ver<0.4>` sur étagère
+-------------------------------------
 
 Un simple `zef install GD::Raw` suffit, vraisemblablement parce que la
 bilbiothèque `libgd3` est installée par  défaut. Conformément à ce que
@@ -400,9 +416,13 @@ permettant de dessiner  des contours d'ellipses et  de rectangles sans
 remplir l'intérieur,
 
 * la fonction [`gdImageString`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageString)
-et  les   valeurs  `gdTinyFont`,   `gdSmallFont`,  `gdMediumFontBold`,
-`gdLargeFont` et  `gdGiantFont` permettant  d'afficher des  chaînes de
-caractères dans les dessins.
+et les valeurs
+[`gdTinyFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontt-c.html),
+[`gdSmallFont`](https://libgd.github.io/manuals/2.3.3/files/gdfonts-c.html),
+[`gdMediumFontBold`](https://libgd.github.io/manuals/2.3.3/files/gdfontmb-c.html),
+[`gdLargeFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontl-c.html)
+et [`gdGiantFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontg-c.html)
+permettant d'afficher des chaînes de caractères dans les dessins.
 
 AUTEUR
 ======
