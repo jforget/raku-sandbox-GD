@@ -340,7 +340,7 @@ comporte un
 très bref. Pour savoir comment coder  telle ou telle fonction, il faut
 piocher dans le répertoire `xt` des tests du développeur. Par exemple,
 c'est dans le
-fichier `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
+[fichier `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
 que j'ai vu que l'on pouvait choisir l'épaisseur des traits.
 
 D'un  autre côté,  la philosophie  de `GD::Raw`  étant de  rester très
@@ -362,7 +362,7 @@ quelques logiciels indispensables :
 
 * curl
 
-* emacs
+* mon éditeur de source préféré (5 lettres, commence avec un « E », mais ce n'est pas `edlin`)
 
 * gcc
 
