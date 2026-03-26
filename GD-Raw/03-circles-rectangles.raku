@@ -20,16 +20,16 @@ my $blue   = gdImageColorAllocate($im,   0,   0, 255);
 
 gdImageLine($im, 0, 10, 190, 30, $black);
 gdImageFilledEllipse(  $im, 10,  20,  20, 20, $white);
-#dImageEllipse(        $im, 10,  20,  20, 20, $blue);
+gdImageEllipse(        $im, 10,  20,  20, 20, $blue);
 gdImageFilledRectangle($im, 30,  10,  50, 30, $white);
-#dImageRectangle(      $im, 30,  10,  50, 30, $blue);
+gdImageRectangle(      $im, 30,  10,  50, 30, $blue);
 gdImageFilledEllipse(  $im, 70,  20,  20, 20, $red);
 gdImageFilledRectangle($im, 90,  10, 110, 30, $red);
 gdImageSetThickness($im, 3);
 gdImageFilledEllipse(  $im, 130,  20,  20, 20, $white);
-#dImageEllipse(        $im, 130,  20,  20, 20, $blue);
+gdImageEllipse(        $im, 130,  20,  20, 20, $blue);
 gdImageFilledRectangle($im, 150,  10, 170, 30, $white);
-#dImageRectangle(      $im, 150,  10, 170, 30, $blue);
+gdImageRectangle(      $im, 150,  10, 170, 30, $blue);
 
 my $fh = fopen("$name.png", "wb");
 return 0 unless $fh;

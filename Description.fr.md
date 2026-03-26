@@ -110,12 +110,14 @@ encodage `MIME::Base64`.
 binmode $fh;
 print $fh $im->png;
 [...]
-src => "data:image/png;base64," . MIME::Base64::encode($im->png()));
+my $src = MIME::Base64::encode($im->png);
+print "<img src='data:image/png;base64,$src'/>";
 
 # Inline::Perl5 + GD
 "test.png".IO.spurt($image.png);
 [...]
-src => "data:image/png;base64," ~ MIME::Base64.encode($image.png()));
+my $src = MIME::Base64.encode($image.png);
+print "<img src='data:image/png;base64,$src'/>";
 
 # GD
 my $png_fh = $image.open("test.png", "wb");
@@ -423,6 +425,32 @@ et les valeurs
 [`gdLargeFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontl-c.html)
 et [`gdGiantFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontg-c.html)
 permettant d'afficher des chaînes de caractères dans les dessins.
+
+Module `GD::Raw:ver<0.5>` amélioré
+----------------------------------
+
+Il faut, bien entendu, cloner ou
+[forker](https://github.com/jforget/GD-Raw)
+le [dépôt Github](https://github.com/raku-community-modules/GD-Raw)
+du module. Il faut également avoir à portée de main la
+[documentation _native call_](https://docs.raku.org/language/nativecall)
+et la
+[documentation de l'implémentation C de GD](https://libgd.github.io/manuals/2.3.3/files/preamble-txt.html).
+
+### Rectangles creux et ellipses creuses
+
+Pour cette première fonctionnalité, c'est très facile. La signature de
+[`gdImageEllipse`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageEllipse)
+est identique à celle de
+[`gdImageFilledEllipse`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledEllipse),
+il suffit donc d'un copier-coller. Idem pour
+[`gdImageRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageRectangle)
+vis-à-vis de
+[`gdImageFilledRectangle`}(https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
+C'est pour  cela que  les coordonnées du  centre s'appellent  `$cx` et
+`$cy` et  non pas `$mx`  et `$my` comme  dans la spécification  de GD.
+Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
+[documentation des appels de fonction](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
 
 AUTEUR
 ======

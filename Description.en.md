@@ -107,12 +107,14 @@ PNG blob inside an HTML `<img>` tag, with a `MIME::Base64` encoding.
 binmode $fh;
 print $fh $im->png;
 [...]
-src => "data:image/png;base64," . MIME::Base64::encode($im->png()));
+my $src = MIME::Base64::encode($im->png);
+print "<img src='data:image/png;base64,$src'/>";
 
 # Inline::Perl5 + GD
 "test.png".IO.spurt($image.png);
 [...]
-src => "data:image/png;base64," ~ MIME::Base64.encode($image.png()));
+my $src = MIME::Base64.encode($image.png);
+print "<img src='data:image/png;base64,$src'/>";
 
 # GD
 my $png_fh = $image.open("test.png", "wb");
@@ -410,6 +412,33 @@ and values
 [`gdLargeFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontl-c.html)
 and [`gdGiantFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontg-c.html)
 to print labels inside the images.
+
+Improved Raku Module `GD::Raw:ver<0.0.5>`
+-----------------------------------------
+
+The obvious first step is cloning or
+[forking](https://github.com/jforget/GD-Raw)
+the module's
+[Github repository](https://github.com/raku-community-modules/GD-Raw).
+We also need to keep an eye on the
+[_native call_ manpage](https://docs.raku.org/language/nativecall)
+and the
+[C implementation manpage](https://libgd.github.io/manuals/2.3.3/files/preamble-txt.html).
+
+### Rectangle Outlines and Ellipse Outlines
+
+For this first feature, the update was very easy. The signature of
+[`gdImageEllipse`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageEllipse)
+is the same as the signature of
+[`gdImageFilledEllipse`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledEllipse),
+so you only need to copy-paste the few lines involved. Same thing for
+[`gdImageRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageRectangle)
+with respect to
+[`gdImageFilledRectangle`}(https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
+This is why the coordinates for the ellipse center are named `$cx` and
+`$cy` instead of  `$mx` and `$my` as specified in  the C manpage. Just
+to be sure, I checked on the
+[documentation of function calls](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
 
 AUTHOR
 ======
