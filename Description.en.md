@@ -251,12 +251,13 @@ In  the  `Inline::Perl5`  examples,  you   will  note  that  the  left
 parentheses are not aligned as in  the Perl examples. This is required
 by the syntax of Raku. Too bad.
 
-The  examples for  `GD` are  extracted from  `examples/gd.p6`. I  have
-found no  examples with attribute  "filled". Yet, two  functions named
-`gdImageFilledRectangle` and `gdImageFilledEllipse` exist.
+The examples for `GD` are extracted from
+[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/master/examples/gd.p6).
 
-The examples  for `GD::Raw` are extracted  from `xt/bug00010.rakutest`
-and  `xt/bug00079.rakutest`.  Some  other  examples can  be  found  in
+The examples for `GD::Raw` are extracted from
+[`xt/bug00010.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00010.rakutest)
+and [`xt/bug00079.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00079.rakutest).
+Some other examples can be found in
 directory `xt`, but  there is no need  to list them all.  On the other
 hand, I found no examples without qualifier "filled".
 
@@ -325,7 +326,7 @@ includes a rather interesting
 On the other hand, the
 [documentation file proper](https://github.com/raku-community-modules/GD/blob/master/lib/GD.pod)
 gives no additional information.  Both files includes stale hyperlinks
-to some previous C library documettation. These links should read to
+to some previous C library documentation. These links should lead to
 [a new repository](https://bitbucket.org/libgd/gd-libgd/src/master/).
 
 Raku Module `GD::Raw`
@@ -394,7 +395,7 @@ The module is installed with just `zef install GD`, because by default
 written when listing my needs, several features are missing:
 
 * function [`gdImagePngPtr`](https://libgd.github.io/manuals/2.3.0/files/gd_png-c.html#gdImagePngPtr)
-allowing the programmer to load the  PTG blob into a program variable,
+allowing the programmer to load the  PNG blob into a program variable,
 which will be used to write an `<img>` HTML tag,
 
 * function [`gdImageSetStyle`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageSetStyle)
@@ -434,7 +435,7 @@ is the same as the signature of
 so you only need to copy-paste the few lines involved. Same thing for
 [`gdImageRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageRectangle)
 with respect to
-[`gdImageFilledRectangle`}(https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
+[`gdImageFilledRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
 This is why the coordinates for the ellipse center are named `$cx` and
 `$cy` instead of  `$mx` and `$my` as specified in  the C manpage. Just
 to be sure, I checked on the
@@ -443,7 +444,7 @@ to be sure, I checked on the
 AUTHOR
 ======
 
-Jean Forget <J2N-FORGET at orange dot fr>
+Jean Forget / J2N-FORGET at orange dot fr
 
 COPYRIGHT AND LICENSE
 =====================

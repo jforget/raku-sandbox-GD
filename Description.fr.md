@@ -255,12 +255,13 @@ Vous  noterez dans  les exemples  de `Inline::Perl5`,  les parenthèses
 ouvrantes ne sont pas alignées comme en Perl. C'est la syntaxe de Raku
 qui veut cela. Dommage.
 
-Les  exemples de  `GD` proviennent  de `examples/gd.p6`.  Je n'ai  pas
-trouvé d'exemple  avec le  qualificatif _filled_. Il  existe toutefois
-deux fonctions `gdImageFilledRectangle` et `gdImageFilledEllipse`.
+Les exemples de `GD` proviennent de
+[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/master/examples/gd.p6).
 
-Les exemples de `GD::Raw`  proviennent de `xt/bug00010.rakutest` et de
-`xt/bug00079.rakutest`. Il  y en a  d'autres dans le  répertoire `xt`,
+Les exemples de `GD::Raw` proviennent de
+[`xt/bug00010.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00010.rakutest)
+et de [`xt/bug00079.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00079.rakutest).
+Il y en a d'autres dans le répertoire `xt`,
 inutile de tous les lister. En  revanche, je n'ai trouvé aucun exemple
 omettant le qualificatif _filled_.
 
@@ -446,7 +447,7 @@ est identique à celle de
 il suffit donc d'un copier-coller. Idem pour
 [`gdImageRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageRectangle)
 vis-à-vis de
-[`gdImageFilledRectangle`}(https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
+[`gdImageFilledRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
 C'est pour  cela que  les coordonnées du  centre s'appellent  `$cx` et
 `$cy` et  non pas `$mx`  et `$my` comme  dans la spécification  de GD.
 Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
@@ -455,7 +456,7 @@ Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
 AUTEUR
 ======
 
-Jean Forget <J2N-FORGET at orange dot fr>
+Jean Forget / J2N-FORGET at orange dot fr
 
 COPYRIGHT ET LICENCE
 ====================
