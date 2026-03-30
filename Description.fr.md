@@ -406,7 +406,7 @@ j'ai   écrit  dans   le   recensement  des   besoins,  de   nombreuses
 fonctionnalités manquent :
 
 * la fonction [`gdImagePngPtr`](https://libgd.github.io/manuals/2.3.0/files/gd_png-c.html#gdImagePngPtr)
-permettant de récupérer les données PNG  pour les mettre dans en ligne
+permettant de récupérer les données PNG  pour les mettre en ligne
 dans une balise HTML `<img>`,
 
 * la fonction [`gdImageSetStyle`](https://libgd.github.io/manuals/2.3.0/files/gd-c.html#gdImageSetStyle)
@@ -452,6 +452,119 @@ C'est pour  cela que  les coordonnées du  centre s'appellent  `$cx` et
 `$cy` et  non pas `$mx`  et `$my` comme  dans la spécification  de GD.
 Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
 [documentation des appels de fonction](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
+
+### Gestion de la mémoire
+
+Lorsque j'ai découvert Perl en venant  de la programmation C, l'un des
+points qui m'ont séduit était qu'il  n'y avait plus besoin de se faire
+des nœuds au cerveau pour équilibrer les `malloc` et les `free`. Cf un
+[article de Joel Sposlky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/)
+(cherchez la  chaîne de caractères « A  lot of us thought »,  lisez le
+paragraphe  correspondant  et  la  note  marginale  qui  suit).  C'est
+toujours vrai avec la plupart des  programmes Raku, mais ce n'est plus
+tout-à-fait vrai avec les programmes utilisant `GD::Raw`.
+
+Lorsque j'ai recensé mes besoins  et que j'ai effectué une exploration
+rapide de l'existant, j'ai recopié la ligne
+
+```
+LEAVE gdImageDestroy($im) if $im;
+```
+
+parce que  mon intuition me  disait que  c'était sans doute  une ligne
+pour éviter les  fuites de mémoire. En revenant sur  le sujet avec mon
+cerveau analytique,  je m'aperçois  qu'il faut  nuancer l'explication.
+Cette ligne est adéquate dans  95% des cas (statistique pifométrique),
+mais elle ne permettra pas de  résoudre les 5% restants.
+
+Dans  l'explication qui  suit, je  suppose qu'il  existe deux  espaces
+mémoire pour stocker  les données, un espace pour les  données Raku et
+un  autre pour  les  données GD.  Les experts  et  les gourous  diront
+peut-être que c'est une simplification abusive de la situation réelle,
+mais d'un  point de vue  pédagogique, nous nous contenterons  de cette
+description.
+
+Supposons  que l'on  veuille créer  deux fichiers  graphiques avec  le
+programme suivant :
+
+```
+{
+  my $im = gdImageCreate($width, $height) or die;    # (a)
+  LEAVE gdImageDestroy($im) if $im;                  # (b)
+  my $white = gdImageColorAllocate($im, 0xff, 0xff, 0xff);
+  my $red   = gdImageColorAllocate($im, 0xff, 0, 0);
+  gdImageFilledEllipse($im, $cx, $cy, $r, $r, $red);
+  my $fh = fopen("red-button.png", "wb");
+  return 0 unless $fh;
+  gdImagePng($img, $fh);
+  flose($fh) if $fh;
+
+  $im = gdImageCreate($width, $height) or die;       # (c)
+  LEAVE gdImageDestroy($im) if $im;                  # (d)
+  $white    = gdImageColorAllocate($im, 0xff, 0xff, 0xff);
+  my $green = gdImageColorAllocate($im, 0, 0xff, 0);
+  gdImageFilledEllipse($im, $cx, $cy, $r, $r, $green);
+  $fh = fopen("green-button.png", "wb");
+  return 0 unless $fh;
+  gdImagePng($img, $fh);
+  flose($fh) if $fh;
+} # (e)
+```
+
+Vous pouvez remarquer que les  variables `$im`, `$white` et `$fh` sont
+réutilisées dans la deuxième moitié.
+
+La ligne (a)  a pour effet d'allouer une variable  `$im` dans l'espace
+Raku  et  d'allouer  suffisamment  de mémoire  pour  _n_  pixels  dans
+l'espace GD.  En outre, un test  pour vérifier que les  allocations se
+sont bien  passées. La variable `$im`  sera automatiquement désallouée
+au moment où elle quittera sa portée lexicale en (e).
+
+La ligne (b)  a pour effet, théoriquement, de prévoir  que juste avant
+la ligne  (e), il faudra  appeler la fonction  `gdImageDestroy` (après
+avoir testé que ce soit nécessaire) pour désallouer la mémoire allouée
+aux _n_ pixels dans l'espace mémoire de GD.
+
+Pourquoi « théoriquement » ?  Parce que la ligne (c)  se conduit comme
+un chien dans  un jeu de quilles. Dans l'espace  mémoire de Raku, elle
+désalloue proprement la  valeur allouée à `$im`  pour immédiatement en
+allouer une nouvelle.  Et dans l'espace mémoire de GD,  elle alloue de
+la mémoire pour  les pixels du gros bouton vert  _sans avoir désalloué
+la  mémoire des  pixels du  gros bouton  rouge_. La  mémoire Raku  est
+correctement gérée, mais il y a une fuite de mémoire du côté de GD.
+
+Et la ligne  (d) ? Comme la  ligne (b), elle est là  pour mémoriser le
+fait  qu'il faut  lancer `gdImageDestroy`  au moment  où le  programme
+abordera la ligne (e). Avec un test, bien entendu.
+
+Au  passage  à   la  ligne  (e),  nous  aurons  donc   deux  appels  à
+`gdImageDestroy` pour  désallouer l'espace  mémoire GD du  gros bouton
+vert  et aucun  pour désallouer  l'espace  mémoire GD  du gros  bouton
+rouge. Donc  dans le meilleur des  cas nous aurons juste  une fuite de
+mémoire,  dans le  pire  des  cas nous  aurons  un  plantage du  genre
+« _erreur de segmentation_ ».
+
+Pour  vérifier mes  suppositions, j'ai  écrit des  programmes de  test
+s'inspirant  des   scripts  présentés   ci-dessus.  Pour   évaluer  la
+consommation de mémoire, il existe deux modules Raku :
+
+* [`Linux::Proc::Statm`](https://raku.land/github:Skarsnik/Linux::Proc::Statm)
+qui prend en paramètre un numéro de processus Linux,
+
+* [`System::Stats::MEMUsage`](https://raku.land/github:ramiroencinas/System::Stats::MEMUsage)
+qui ne prévoit pas de paramètre d'appel.
+
+Je suppose  que le  deuxième module donne  la consommation  de mémoire
+pour la machine  hôte dans sa totalité, alors que  le premier donne la
+mémoire allouée  à un seul processus.  C'est donc `Linux::Proc::Statm`
+qui répond à mes besoins.
+
+Tels  qu'ils   sont  écrits,  les  programmes   `10-mem-leak-raku`  et
+`11-mem-leak-raku` ne provoquent pas de  plantage ni de fuite mémoire.
+Si  vous  masquez  certaines  lignes par  une  marque  de  commentaire
+(dièse),  ou si  vous en  activez d'autres  en enlevant  la marque  de
+commentaire, vous  pourrez reproduire  les problèmes. Mais  _ne faites
+pas cela sur un serveur de production !_
 
 AUTEUR
 ======

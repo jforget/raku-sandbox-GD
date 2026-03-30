@@ -441,6 +441,113 @@ This is why the coordinates for the ellipse center are named `$cx` and
 to be sure, I checked on the
 [documentation of function calls](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
 
+### Memory Management
+
+When I learnt Perl after coding  C programs, one of the features which
+impressed me most  was that I no longer had  to bother about balancing
+`malloc` calls with `free` calls. See an
+[article from Joel Sposlky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/),
+especially the paragraph  starting with "A lot of us  thought" and the
+following sidebar. This is still the case with most Raku programs, but
+this is not the case with programs using `GD::Raw`.
+
+When I listed my needs and  when I did some preliminary exploration, I
+copied the line
+
+```
+LEAVE gdImageDestroy($im) if $im;
+```
+
+because I intuitively  thought that it dealt with memory  leaks, but I
+did not activate my analytical brain and I did not dig further. Now, I
+reconsider  the  subject  and  I  think  the  full  answer  is  not  a
+straightforward and intuitive one. This code chunk will be adequate in
+95% of  the cases (guesstimate), but  it will fail with  the remaining
+5%.
+
+In the following explanations, I posit that there are two memory banks
+to store data,  one for Raku values, the other  for GD values. Experts
+and gurus  will say that the  real situation is more  complicated than
+that, but I consider that this simplified description is pedagogically
+adequate.
+
+Suppose we create two graphical files with the program below:
+
+```
+{
+  my $im = gdImageCreate($width, $height) or die;    # (a)
+  LEAVE gdImageDestroy($im) if $im;                  # (b)
+  my $white = gdImageColorAllocate($im, 0xff, 0xff, 0xff);
+  my $red   = gdImageColorAllocate($im, 0xff, 0   , 0);
+  gdImageFilledEllipse($im, $cx, $cy, $r, $r, $red);
+  my $fh = fopen("red-button.png", "wb");
+  return 0 unless $fh;
+  gdImagePng($img, $fh);
+  flose($fh) if $fh;
+
+  $im = gdImageCreate($width, $height) or die;       # (c)
+  LEAVE gdImageDestroy($im) if $im;                  # (d)
+  $white    = gdImageColorAllocate($im, 0xff, 0xff, 0xff);
+  my $green = gdImageColorAllocate($im, 0   , 0xff, 0);
+  gdImageFilledEllipse($im, $cx, $cy, $r, $r, $green);
+  $fh = fopen("green-button.png", "wb");
+  return 0 unless $fh;
+  gdImagePng($img, $fh);
+  flose($fh) if $fh;
+} # (e)
+```
+
+You may notice  that variables `$im`, `$white` and  `$fh` are declared
+in the first half and reused in the second half.
+
+Line (a) allocates a first value  in the Raku memory bank for variable
+`$im` and a second  value in the GD memory bank  for _n_ pixels. There
+is also a test to ensure  the allocations went right. The value stored
+in `$im`  will be automatically  deallocated upon reaching the  end of
+the lexical scope in line (e).
+
+Line (b)'s theoretical role is to ensure that when reaching the end of
+scope in  line (e), the  function `gdImageDestroy` will be  called and
+will deallocate the GD memory storing the pixels. And there is a check
+to ensure that this call is relevant.
+
+Why "theoretical"? Because  meanwhile, line (c) acts  like an elephant
+in  a porcelain  store. On  one side  (Raku memory  bank), it  cleanly
+deallocates the existing  `$im` value and immediately  allocates a new
+`$im` value. On the other side  (GD memory bank), it allocates some GD
+memory for the green button's  pixels _without deallocating the memory
+for  the  red  button's  pixels_.  The Raku  memory  bank  is  managed
+properly, but there is a memory leak in the GD bank.
+
+And  line   (d)?  Just  like   line  (b),   it  prepares  a   call  to
+`gdImageDestroy` when  reaching the end  of the lexical scope  in line
+(e). With a test for relevancy, of course.
+
+When reaching  line (e),  there are two  calls to  `gdImageDestroy` to
+deallocate the GD memory storing the green button's pixels and none to
+deallocate the red button's pixels. In the best case, we have a memory
+leak, in the worst case we have something nasty such as a segmentation
+fault.
+
+To check these guesses, I wrote two test programs based on the example
+above. To monitor the usage of memory, there are two Raku modules:
+
+* [`Linux::Proc::Statm`](https://raku.land/github:Skarsnik/Linux::Proc::Statm)
+which uses a process ID parameter,
+
+* [`System::Stats::MEMUsage`](https://raku.land/github:ramiroencinas/System::Stats::MEMUsage)
+with no parameter.
+
+I guess that  the second module gives the total  amount of memory used
+on the  host machine, while  the first one  gives the amout  of memory
+allocated to a single process. So I use `Linux::Proc::Statm`.
+
+As written, the programs  `10-mem-leak.raku` and `11-mem-leak.raku` do
+not leak  memory and do  not crash.  By commenting-out some  lines and
+un-commenting some  others, you will  be able to reproduce  the memory
+leak or the  segmentation fault. But _do not try  this on a production
+server!_
+
 AUTHOR
 ======
 
