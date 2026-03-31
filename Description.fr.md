@@ -3,7 +3,7 @@
 BUT
 ===
 
-Lorsque j'ai écris la première version de
+Lorsque j'ai écrit la première version de
 [mes programmes sur les graphes et les chemins hamiltoniens](https://github.com/jforget/raku-Hamilton2/blob/master/doc/Hamilton.fr.md),
 il a  fallu que je  choisisse un module  pour dessiner des  schémas. À
 cette époque, le
@@ -25,7 +25,7 @@ préparer mes tests et les exécuter.
 Assez  souvent, dans  les  projets hébergés  sur  Github, j'ajoute  un
 fichier de  documentation expliquant  la procédure  d'installation. En
 effet, si je  reviens sur le sujet après quelques  mois, je n'ai aucun
-mal à comprendre ce le code que j'ai écrit, mais j'ai beaucoup plus de
+mal à  comprendre le code que  j'ai écrit, mais j'ai  beaucoup plus de
 mal  à  retrouver toutes  les  actions  effectuées pour  installer  et
 paramétrer le logiciel. Si je suis amené à ajouter des fonctionnalités
 dans le  module `GD`  ou dans  `GD::Raw`, qui sont  des modules  de la
@@ -42,7 +42,7 @@ Création d'image
 
 Allouer la structure de données permettant de travailler sur une image
 vide au début, en ajoutant au fur et à mesure des éléments graphiques.
-Cela existe forcément dans les deux modules.
+Cela existe forcément dans tous les modules.
 
 ```
 # Perl
@@ -99,7 +99,7 @@ Génération d'image
 Une fois  que l'on  a ajouté  tous les  éléments graphiques,  créer la
 chaîne binaire encodant cette image dans le format PNG, éventuellement
 dans d'autres formats. J'ai besoin  juste du format PNG. Heureusement,
-cela existe dans les deux modules.
+cela existe dans tous les modules.
 
 D'un autre  côté, je n'ai  pas besoin  d'écrire la chaîne  binaire PNG
 dans un  fichier, je  l'insère dans  une balise  HTML `<img>`  avec un
@@ -211,6 +211,11 @@ $img.line($x-from, $y-from, $x-to , $y-to , gdStyled);
 Pour `GD` comme  pour `GD::Raw`, la recherche par `grep`  de la chaîne
 `"styled"` dans les clones des dépôts Github ne donne aucun résultat.
 
+La [documentation](https://metacpan.org/pod/GD#Drawing-Commands)
+mentionne  une commande  `dashedLine`, tout  en précisant  qu'elle est
+obsolète.  Je   ne  m'occuperai  donc   pas  de  cette   fonction,  je
+m'intéresserai uniquement à `setStyle` et `gdStyled`.
+
 Cercles et carrés
 -----------------
 
@@ -271,7 +276,7 @@ Texte
 `libgd`  permet  d'afficher du  texte  avec  une  fonte interne  à  la
 bibliothèque ou  avec une fonte  système comme « Times New  Roman » ou
 « Helvetica ». N'ayant pas de gros besoins artistiques, je me contente
-de la fonte interne.
+des fontes internes.
 
 ```
 # Perl
@@ -449,7 +454,8 @@ il suffit donc d'un copier-coller. Idem pour
 vis-à-vis de
 [`gdImageFilledRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
 C'est pour  cela que  les coordonnées du  centre s'appellent  `$cx` et
-`$cy` et  non pas `$mx`  et `$my` comme  dans la spécification  de GD.
+`$cy` et  non pas `$mx`  et `$my` comme  dans la 
+[spécification  de GD](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageEllipse).
 Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
 [documentation des appels de fonction](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
 

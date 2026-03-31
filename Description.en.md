@@ -22,7 +22,7 @@ to prepare and run my exploratory tests.
 
 Usually,  in the  projects I  publish  on Github,  I add  a text  file
 documenting the  installation process  (actually two files,  the first
-one in French,  the other one in  English). If I quit a  project for a
+one in French, the  other one in English). If I leave  a project for a
 few months and get  back to it after that, I  have no problems reading
 the  code I  wrote a  few  months ago,  but I  have more  difficulties
 remembering  all  the  actions  I   had  to  do  when  installing  and
@@ -41,7 +41,7 @@ Image Creation
 
 This task allocates a data structure representing a blank image, so we
 can after that add graphical  elements. Of course, this already exists
-in both modules.
+in all modules.
 
 ```
 # Perl
@@ -97,7 +97,8 @@ Image Generation
 
 Once all  the required  examples have  been added  to the  picture, we
 generate the blob  encoding the picture with the PNG  format (or other
-format, yet I only nee PNG). This exists in both modules.
+format, yet I only need PNG). Generating  the blob and storing it in a
+file exists in all modules.
 
 On the other  hand, I do not need  to create a PNG file.  I insert the
 PNG blob inside an HTML `<img>` tag, with a `MIME::Base64` encoding.
@@ -206,6 +207,11 @@ $img.line($x-from, $y-from, $x-to , $y-to , gdStyled);
 
 For both `GD` and `GD::Raw`, grepping `"styled"` in repos
 cloned from Github gives to results.
+
+The [documentation](https://metacpan.org/pod/GD#Drawing-Commands)
+for the Perl module mentions  a deprecated command named `dashedLine`.
+I will not bother with this function, I will deal only with `setStyle`
+and `gdStyled`.
 
 Circles and Squares
 -------------------
@@ -325,7 +331,7 @@ includes a rather interesting
 [README file](https://github.com/raku-community-modules/GD/blob/master/README.md).
 On the other hand, the
 [documentation file proper](https://github.com/raku-community-modules/GD/blob/master/lib/GD.pod)
-gives no additional information.  Both files includes stale hyperlinks
+gives no  additional information. Both files  include stale hyperlinks
 to some previous C library documentation. These links should lead to
 [a new repository](https://bitbucket.org/libgd/gd-libgd/src/master/).
 
@@ -340,7 +346,7 @@ the developper's tests directory, `xt`. For example, I had to read
 [file `bug00191.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00191.rakutest)
 in order to know how to choose the line thickness.
 
-On the other  hand, the philosophy of `GD::Raw` is  to stay wery close
+On the other  hand, the philosophy of `GD::Raw` is  to stay very close
 to the API of the C functions. So the
 [documentation of the C library](https://libgd.github.io/pages/about.html)
 should bring enough information for the Raku module.
@@ -437,8 +443,9 @@ so you only need to copy-paste the few lines involved. Same thing for
 with respect to
 [`gdImageFilledRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
 This is why the coordinates for the ellipse center are named `$cx` and
-`$cy` instead of  `$mx` and `$my` as specified in  the C manpage. Just
-to be sure, I checked on the
+`$cy` instead of `$mx` and `$my` as specified in the
+[C manpage](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageEllipse).
+Just to be sure, I checked on the
 [documentation of function calls](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
 
 ### Memory Management
