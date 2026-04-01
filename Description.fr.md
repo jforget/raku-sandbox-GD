@@ -454,7 +454,7 @@ il suffit donc d'un copier-coller. Idem pour
 vis-à-vis de
 [`gdImageFilledRectangle`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageFilledRectangle).
 C'est pour  cela que  les coordonnées du  centre s'appellent  `$cx` et
-`$cy` et  non pas `$mx`  et `$my` comme  dans la 
+`$cy` et  non pas `$mx`  et `$my` comme  dans la
 [spécification  de GD](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageEllipse).
 Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
 [documentation des appels de fonction](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Passing-and-returning-values).
@@ -464,7 +464,7 @@ Par acquit de conscience, j'ai quand même jeté un coup d'œil à la
 Lorsque j'ai découvert Perl en venant  de la programmation C, l'un des
 points qui m'ont séduit était qu'il  n'y avait plus besoin de se faire
 des nœuds au cerveau pour équilibrer les `malloc` et les `free`. Cf un
-[article de Joel Sposlky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/)
+[article de Joel Spolsky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/)
 (cherchez la  chaîne de caractères « A  lot of us thought »,  lisez le
 paragraphe  correspondant  et  la  note  marginale  qui  suit).  C'est
 toujours vrai avec la plupart des  programmes Raku, mais ce n'est plus
@@ -571,6 +571,75 @@ Si  vous  masquez  certaines  lignes par  une  marque  de  commentaire
 (dièse),  ou si  vous en  activez d'autres  en enlevant  la marque  de
 commentaire, vous  pourrez reproduire  les problèmes. Mais  _ne faites
 pas cela sur un serveur de production !_
+
+### Données PNG sans passer par un fichier
+
+Alors que  les rectangles  creux et les  ellipses creuses  étaient une
+promenade  de santé,  le  chargement  des données  en  mémoire est  un
+problème   plus  ardu,   nécessitant   le  recours   continuel  à   la
+documentation.
+
+Tout d'abord, lorsque j'ai écrit les scripts d'exemple comme
+[00-basic-lines.raku](https://github.com/jforget/raku-sandbox-GD/blob/d0c0438c6d8cb18b7c5f5df2ee580a49bebf4ca9/GD-Raw/00-basic-lines.raku)
+avec en commentaires la récupération des données PNG, je croyais que la
+[fonction `gdImagePngPtr`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImagePngPtr),
+s'utilisait comme
+[`gdImagePng`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImagePng)
+en remplaçant le pointeur vers le _filehandle_ par un pointeur sur des
+données binaires.
+
+```
+my $png-data;
+gdImagePngPtr($im, pointeur vers $png-data);
+my $src = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+```
+
+En fait,  la fonction `gdImagePng`  ne renvoie absolument  rien, alors
+que la fonction `gdImagePngPtr` renvoie, en théorie, deux valeurs : un
+pointeur  sur les  données binaires  et la  taille de  ces données  en
+octets. Conformément aux usages de  programmation en C, l'une des deux
+valeurs est transmise dans la valeur de retour de la fonction, l'autre
+est transmise par l'intermédiaire d'un pointeur sur une variable.
+
+Le principe est donc :
+
+```
+my $size;
+my $png-data = gdImagePngPtr($im, pointeur sur $size);
+my $src = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+```
+
+Le cas du paramètre `$size` est facile à régler. Dans la
+[documentation des appels de bibliothèques C](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Basic-use-of-pointers),
+il est marqué qu'il faut définir ce paramètre comme `int32 is rw` dans
+la signature de  la fonction. Pas besoin de recourir  à des références
+(au sens Raku).
+
+Le cas de `$png-data` est plus compliqué. Il faut en fait passer par un
+pointeur `$ptr` comme indiqué dans
+[ce paragraphe](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Basic-use-of-pointers)
+puis récupérer le contenu comme suggéré dans
+[cet autre paragraphe](https://docs.raku.org/language/nativecall#Buffers_and_blobs),
+ce qui nécessite le module
+[`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+
+Le principe est donc finalement :
+
+```
+my int32 $size;
+my $ptr  = gdImagePngPtr($im, $size);
+my $blob = blob-from-pointer($ptr, elems => $size, type => Blob[int8]);
+my $src  = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+gdFree($ptr);
+```
+
+Attention, il y a une
+[erreur](https://github.com/salortiz/NativeHelpers-Blob/issues)
+dans  la distribution  `NativeHelpers::Blob` version  0.1.12. Il  faut
+utiliser le paramètre `--force-test` lors de l'installation par `zef`.
 
 AUTEUR
 ======

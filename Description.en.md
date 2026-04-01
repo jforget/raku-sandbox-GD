@@ -453,7 +453,7 @@ Just to be sure, I checked on the
 When I learnt Perl after coding  C programs, one of the features which
 impressed me most  was that I no longer had  to bother about balancing
 `malloc` calls with `free` calls. See an
-[article from Joel Sposlky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/),
+[article from Joel Spolsky](https://www.joelonsoftware.com/2004/06/13/how-microsoft-lost-the-api-war/),
 especially the paragraph  starting with "A lot of us  thought" and the
 following sidebar. This is still the case with most Raku programs, but
 this is not the case with programs using `GD::Raw`.
@@ -554,6 +554,72 @@ not leak  memory and do  not crash.  By commenting-out some  lines and
 un-commenting some  others, you will  be able to reproduce  the memory
 leak or the  segmentation fault. But _do not try  this on a production
 server!_
+
+### Loading PNG Data Without Any File
+
+While the outlines of rectangles and  ellipses was a milk run, loading
+PNG data  into a Raku  blob is much trickier  and I had  to frequently
+search and read the documentation.
+
+First, when I wrote example scripts such as
+[00-basic-lines.raku](https://github.com/jforget/raku-sandbox-GD/blob/d0c0438c6d8cb18b7c5f5df2ee580a49bebf4ca9/GD-Raw/00-basic-lines.raku)
+with a commented-out  example of loading PNG data into a Raku blob, I
+thought that
+[function `gdImagePngPtr`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImagePngPtr),
+was working the same way as
+[`gdImagePng`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImagePng)
+by only replacing the pointer to  a filehandle with the pointer to the
+binary data.
+
+```
+my $png-data;
+gdImagePngPtr($im, pointer to $png-data);
+my $src = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+```
+
+Actually,  while  function  `gdImagePng` returns  absolutely  nothing,
+function `gdImagePngPtr`  theoretically returns two values:  a pointer
+to the binary data and the size (in bytes) of these binary data. As is
+the usage in C, one of these  is the return value of the function, the
+other is  transmitted by way of  a pointer. So the  actual programming
+template is:
+
+```
+my $size;
+my $png-data = gdImagePngPtr($im, pointer to $size);
+my $src = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+```
+
+Parameter `$size` was a simple matter. In the
+[documentation for C library calls](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Basic-use-of-pointers),
+I  read that  the function  signature  must define  this parameter  as
+`int32 is rw`. No need to use references (in the Raku meaning).
+
+Parameter `$png-data` is  a little more convoluted.  Actually, we must
+use a pointer `$ptr` as printed in
+[this paragraph](https://raku-knowledge-base.podlite.org/doc/language/nativecall#Basic-use-of-pointers)
+and then retrieve the contents as suggested in
+[that paragraph](https://docs.raku.org/language/nativecall#Buffers_and_blobs),
+which requires the module
+[`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+
+In the end, the template is:
+
+```
+my int32 $size;
+my $ptr  = gdImagePngPtr($im, $size);
+my $blob = blob-from-pointer($ptr, elems => $size, type => Blob[int8]);
+my $src  = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$src'/>";
+gdFree($ptr);
+```
+
+Beware, there is an
+[error](https://github.com/salortiz/NativeHelpers-Blob/issues)
+in  distribution `NativeHelpers::Blob`  version  0.1.12.  You need  to
+install it with `zef` parameter `--force-test`.
 
 AUTHOR
 ======
