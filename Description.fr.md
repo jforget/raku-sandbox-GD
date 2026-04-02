@@ -628,6 +628,12 @@ ce qui nécessite le module
 Le principe est donc finalement :
 
 ```
+use GD::Raw;
+use MIME::Base64;
+use NativeHelpers::Blob;
+
+[...]
+
 my int32 $size;
 my $ptr  = gdImagePngPtr($im, $size);
 my $blob = blob-from-pointer($ptr, elems => $size, type => Blob[int8]);
@@ -640,6 +646,23 @@ Attention, il y a une
 [erreur](https://github.com/salortiz/NativeHelpers-Blob/issues)
 dans  la distribution  `NativeHelpers::Blob` version  0.1.12. Il  faut
 utiliser le paramètre `--force-test` lors de l'installation par `zef`.
+
+Personnellement, je n'ai  besoin que du format PNG.  Mais puisque j'ai
+réussi  à  ajouter la  fonction  `gdImagePngPtr`,  autant ajouter  les
+autres fonctions `gdImageXXXPtr`,  dans la mesure où cela  ne pose pas
+de problème. Je n'ai toutefois par implémenté
+[`gdImageGd2Ptr`](https://libgd.github.io/manuals/2.3.3/files/gd_gd2-c.html#gdImageGd2Ptr)
+car je  ne comprends  pas en  quoi consistent  les paramètres  `cs` et
+`fmt`. De même, je n'ai pas implémenté
+[`gdImageHeifPtr`](https://libgd.github.io/manuals/2.3.3/files/gd_heif-c.html#gdImageHeifPtr)
+ni [`gdImageHeifPtrEx`](https://libgd.github.io/manuals/2.3.3/files/gd_heif-c.html#gdImageHeifPtrEx)
+car je ne comprend pas à  quoi correspondent les paramètres `codec` et
+`chroma`.
+
+Les tests  ont été générés  par le script  Perl `Perl/mk-test-ptr.pl`.
+Comme  la bibliothèque  `libgd` de  ma  machine a  des problèmes  pour
+générer les formats  GD, TIFF et WebP, ces formats  ne sont pas testés
+dans le programme `xt/gdimagepngptr.rakutest`.
 
 AUTEUR
 ======
