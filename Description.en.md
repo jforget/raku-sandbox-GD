@@ -555,6 +555,42 @@ un-commenting some  others, you will  be able to reproduce  the memory
 leak or the  segmentation fault. But _do not try  this on a production
 server!_
 
+### Use of Git and Github
+
+One first thing is sure, I must fork the
+[community repository](https://github.com/raku-community-modules/GD-Raw)
+into  a  [personal repo](https://github.com/jforget/GD-Raw),  work  on
+this personal  repo and send  back the  updates to the  community repo
+through
+[pull requests](https://github.com/raku-community-modules/GD-Raw/pulls).
+
+Beyond that, it is more fuzzy.  Should I work in branch `main`? Should
+I create a second branch for  developments? A single new branch or one
+per   new   feature?   At   first,    I   created   a   branch   named
+`circles-rectangles` and  I planned to  create other branches  for the
+other features.  When the first  feature was developped and  tested, I
+created a
+[first pull request](https://github.com/raku-community-modules/GD-Raw/pull/2)
+from this branch.
+
+Then I changed my mind and I opted to use the same `dev` branch for
+all new features. I renamed the current
+[branch from my personal repo](https://github.com/jforget/GD-Raw/branches)
+from  `circles-rectangles` to  `dev` and  I was  astonished that  this
+action triggered an  automatic close of the pull  request created just
+before. So I created
+[a new PR nearly identical to the prior one](https://github.com/raku-community-modules/GD-Raw/pull/3).
+
+Because  of  a  slight  problem,  the  pull  request  was  not  merged
+immediately into the community repo. During this time, I
+[wrote some documentation](https://github.com/raku-community-modules/GD-Raw/pull/3/changes/a91e977e0d7dfb64d06c2be7da9b4a81f5c7137b).
+And I was again astonished that the open PR would inherit this commit.
+There are  things in  Git and  Github that I  do not  understand quite
+well.
+
+Improved Raku Module `GD::Raw:ver<0.0.6>`
+-----------------------------------------
+
 ### Loading PNG Data Without Any File
 
 While the outlines of rectangles and  ellipses was a milk run, loading

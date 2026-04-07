@@ -572,6 +572,43 @@ Si  vous  masquez  certaines  lignes par  une  marque  de  commentaire
 commentaire, vous  pourrez reproduire  les problèmes. Mais  _ne faites
 pas cela sur un serveur de production !_
 
+### Utilisation de Git et Github
+
+Un point acquis,  c'est qu'il faut _forker_ le
+[dépôt  standard](https://github.com/raku-community-modules/GD-Raw)
+vers un
+[dépôt personnel](https://github.com/jforget/GD-Raw),
+travailler sur son dépôt personnel et transmettre les modifications au
+dépôt standard via une
+[_pull request_](https://github.com/raku-community-modules/GD-Raw/pulls).
+
+Ensuite, c'est  un peu plus  flou. Faut-il travailler dans  la branche
+`main`  ?  Ou  bien  faut-il   créer  une  nouvelle  branche  pour  le
+développement ? Ou  une branche pour chaque  fonctionnalité ajoutée ou
+modifiée ?  J'ai commencé  par créer une  branche `circles-rectangles`
+avec  l'idée  de  créer  ultérieurement  d'autres  branches  pour  les
+fonctionnalités suivantes. Et j'ai créé une
+[première _pull request_](https://github.com/raku-community-modules/GD-Raw/pull/2)
+à partir de cette branche.
+
+Puis j'ai changé d'avis et je me  suis dit que ce serait mieux d'avoir
+une seule branche  `dev` pour les nouveautés. J'ai  renommé la
+[branche de mon dépôt personnel](https://github.com/jforget/GD-Raw/branches)
+en `dev` et, à ma surprise, cela a fermé automatiquement la PR que
+j'avais créée juste avant. J'ai donc créé
+[une nouvelle PR quasiment identique à la précédente](https://github.com/raku-community-modules/GD-Raw/pull/3).
+
+En  raison   d'un  léger  problème,   la  PR  n'a  pas   été  intégrée
+immédiatement dans  le dépôt  communautaire, il s'est  écoulé quelques
+jours. Pendant ces quelques jours, j'ai
+[ajouté un peu de documentation](https://github.com/raku-community-modules/GD-Raw/pull/3/changes/a91e977e0d7dfb64d06c2be7da9b4a81f5c7137b).
+Et à ma surprise, la PR ouverte a hérité de cette modification. Il y a
+des choses que je ne comprends pas dans le fonctionnement de Git et de
+Github.
+
+Module `GD::Raw:ver<0.6>` amélioré
+----------------------------------
+
 ### Données PNG sans passer par un fichier
 
 Alors que  les rectangles  creux et les  ellipses creuses  étaient une
