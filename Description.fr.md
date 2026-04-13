@@ -701,6 +701,74 @@ Comme  la bibliothèque  `libgd` de  ma  machine a  des problèmes  pour
 générer les formats  GD, TIFF et WebP, ces formats  ne sont pas testés
 dans le programme `xt/gdimagepngptr.rakutest`.
 
+Module `GD::Raw:ver<0.7>` amélioré
+----------------------------------
+
+Le but de la version 0.7 est d'ajouter la notion de style de trait.
+Avant de commencer à coder cela dans le module Raku, j'ai quelques
+expériences à réaliser sur ce sujet.
+
+### Mémorisation du style dans un fichier `toto.gd`
+
+L'idée est de tester si un premier programme peut créer une image avec
+un style de trait, stocker cette image dans un fichier `toto.gd` et si
+un second programme peut lire ce  fichier `toto.gd` et tracer un trait
+utilisant ce style.  D'où les deux scripts  de tests `20-add-style.pl`
+et `21-use-style.pl` dans le répertoire `Perl`.
+
+L'expérience n'a pas pu avoir lieu. Alors que la
+[documentation de `GD`](https://metacpan.org/pod/GD#Image-Data-Output-Methods)
+indique qu'un objet image dispose des méthodes
+[`gd`](https://metacpan.org/pod/GD#$gddata-=-$image-%3Egd)
+et [`gd2`](https://metacpan.org/pod/GD#$gd2data-=-$image-%3Egd2),
+la [documentation de `GD::Image`](https://metacpan.org/pod/GD::Image)
+indique que les formats "Gd" et "Gd2" ne sont pas supportés.
+En revenant à la documentation de `GD`, les commentaires des méthodes
+[`newFromGd`](https://metacpan.org/pod/GD#$image-=-GD::Image-%3EnewFromGd($file)),
+[`newFromGdData`](https://metacpan.org/pod/GD#$image-=-GD::Image-%3EnewFromGdData($data)),
+[`newFromGd2`](https://metacpan.org/pod/GD#$image-=-GD::Image-%3EnewFromGd2($file))
+et [`newFromGd2Data`](https://metacpan.org/pod/GD#$image-=-GD::Image-%3EnewFromGd2Data($data))
+indiquent que les formats GD et GD2 ont été abandonnés avec la version 2.3.2 de `libgd`.
+
+D'un autre côté, si l'on consulte la
+[documentation](https://libgd.github.io/manuals/2.3.3/files/preamble-txt.html)
+de la version 2.3.3 de la bibliothèque, on trouve bien une
+[page](https://libgd.github.io/manuals/2.3.3/files/gd_gd-c.html)
+pour le format GD et une
+[autre](https://libgd.github.io/manuals/2.3.3/files/gd_gd2-c.html)
+pour le  format GD2.  Dans chacune,  il est marqué  que le  format est
+obsolète et  qu'il ne doit être  utilisé que pour du  développement et
+des tests. Ça tombe  bien, c'est justement ce que je  suis en train de
+faire.  Dommage   alors  que  Perl   ne  permette  pas  de   faire  du
+développement et des tests !
+
+### Test de capacité, avec un style très long
+
+La plupart  du temps, on utilise  des styles très courts,  pour tracer
+des pointillés  ou des  tirets. On  peut se  demander s'il  existe une
+limite implicite  et ce  qui arrive  si l'on  utilise des  styles très
+longs.
+
+Pour caser une ligne très longue dans une image, j'ai eu recours à une
+spirale. Pas  une spirale courbe,  comme d'habitude, mais  une spirale
+anguleuse, construite avec  des segments de droite  dont les longueurs
+croissent. Le style est basé sur la représentation binaire des nombres
+de 0  à 255.  Chaque chiffre  « 0  »  apparaît sous  la forme  de deux
+pixels bleus,  chaque chiffres  « 1 » apparaît sous  la forme  de deux
+pixels  rouges.  La  séparation   entre  deux  chiffres  binaires  est
+constituée de deux pixels gris clair. La séparation entre deux nombres
+(de 0 à 255)  contient un pixel noir. Avec 33  pixels par nombre, cela
+donne un style gigantesque de 8481 pixels.
+
+Le  résultat est  satisfaisant,  avec  une particularité  surprenante.
+Lorsque le programme Perl trace une  ligne de droite à gauche, on peut
+constater qu'en réalité  la bibliothèque `libgd` la trace  de gauche à
+droite. C'est  la même  chose pour  les lignes tracées  de bas  en bas
+selon le  programme Perl,  mais tracées  de haut  en bas  par `libgd`.
+Cette particularité se  manifeste aussi bien lorsque  l'on utilise des
+méthodes  `line` pour  tracer  la  spirale que  lorsque  l'on crée  un
+polygone ouvert pour dessiner la spirale.
+
 AUTEUR
 ======
 
