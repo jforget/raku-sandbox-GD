@@ -746,6 +746,20 @@ A variant, `24-rainbow.pl`,  creates a "true color" image,  that is an
 image with possibly more than 256  colours. In this program, the style
 contains 765 colors.
 
+### Implementing Styles
+
+A  style is  an array  of colours.  Each colour  is implemented  as an
+0-to-255 numeric index when dealing with a palette-type image, or as a
+integer  encoding the  RGB triplet  when dealing  with a  "True Color"
+image. But the array is not a plain Raku array. According to
+[the documentation](https://docs.raku.org/language/nativecall#Arrays),
+we  must instantiate  a  `CArray[int32]`  object and  bind  it to  the
+variable name with "`:=`" instead of "`=`".
+
+The pseudo-colours  `gdStyled` and `gdTransparent` are  defined in the
+same area  of file `gd.c`  as symbol  `gdAntiAliased`. So in  the Raku
+module, I define them in the same place as `gdAntiAliased`.
+
 AUTHOR
 ======
 

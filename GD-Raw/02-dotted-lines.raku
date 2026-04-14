@@ -7,6 +7,7 @@
 
 use GD::Raw;
 use MIME::Base64;
+use NativeCall;
 use NativeHelpers::Blob;
 
 my $name   = '02-dotted-lines';
@@ -19,9 +20,20 @@ my $black  = gdImageColorAllocate($im,   0,   0,   0);
 my $red    = gdImageColorAllocate($im, 255,   0,   0);
 my $blue   = gdImageColorAllocate($im,   0,   0, 255);
 
-gdImageSetStyle($im, $red, $red, gdTransparent, gdTransparent, 4);
+my @style-r = ($red, $red, gdTransparent, gdTransparent);
+my @style-c := CArray[int32].new;
+for @style-r.keys -> $i {
+  @style-c[$i] = @style-r[$i];
+}
+gdImageSetStyle($im, @style-c, @style-r.elems);
 gdImageLine($im, 10, 10, 100, 10, gdStyled);
-gdImageSetStyle($im, $blue, $blue, $blue, $blue, $blue, $blue, gdTransparent, gdTransparent, gdTransparent, gdTransparent, gdTransparent, gdTransparent, 12);
+
+@style-r = ($blue, $blue, $blue, $blue, $blue, $blue, gdTransparent, gdTransparent, gdTransparent, gdTransparent, gdTransparent, gdTransparent);
+@style-c := CArray[int32].new;
+for @style-r.keys -> $i {
+  @style-c[$i] = @style-r[$i];
+}
+gdImageSetStyle($im, @style-c, @style-r.elems);
 gdImageLine($im, 10, 20, 100, 20, gdStyled);
 gdImageLine($im, 10, 30, 100, 40, gdStyled);
 

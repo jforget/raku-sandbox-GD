@@ -6,6 +6,7 @@
 #
 
 use GD::Raw;
+use NativeCall;
 
 my $name   = '24-rainbow';
 my $size   = 150;
@@ -25,7 +26,11 @@ for (0..254) -> $n {
 for (0..254) -> $n {
   push @style, gdImageColorAllocate($im, $n, 0, 255 - $n);
 }
-###$im->setStyle(@style);
+my @style-c := CArray[int32].new;
+for @style.keys -> $i {
+  @style-c[$i] = @style[$i];
+}
+gdImageSetStyle($im, @style-c, @style.elems);
 say "size ", 0 + @style;
 
 my Int $x  = ($size / 2).Int;
@@ -35,7 +40,7 @@ my Int $vy = 0;
 
 my Int $l = 1;
 while $l < $size {
-  gdImageLine($im, $x, $y, $x + $vx × $l, $y + $vy × $l, $red);
+  gdImageLine($im, $x, $y, $x + $vx × $l, $y + $vy × $l, gdStyled);
   $x += $vx × $l;
   $y += $vy × $l;
   ($vx, $vy) = ($vy, -$vx);

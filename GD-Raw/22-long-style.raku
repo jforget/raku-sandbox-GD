@@ -6,6 +6,7 @@
 #
 
 use GD::Raw;
+use NativeCall;
 
 my $name   = '22-long-style';
 my $size   = 150;
@@ -19,7 +20,7 @@ my $black  = gdImageColorAllocate($im,   0,   0,   0);
 
 my @style = ();
 for (0..255) -> $n {
-  my Str $x = sprintf('%08x', $n);
+  my Str $x = sprintf('%08b', $n);
   for (0..7) -> $pos {
     given substr($x, $pos, 1) {
       when '0' { push @style, $grey, $blue, $blue, $grey; }
@@ -28,7 +29,11 @@ for (0..255) -> $n {
   }
   push @style, $black;
 }
-###$im->setStyle(@style);
+my @style-c := CArray[int32].new;
+for @style.keys -> $i {
+  @style-c[$i] = @style[$i];
+}
+gdImageSetStyle($im, @style-c, @style.elems);
 say "size ", 0 + @style;
 
 my Int $x  = ($size / 2).Int;
@@ -38,7 +43,7 @@ my Int $vy = 0;
 
 my Int $l = 1;
 while $l < $size {
-  gdImageLine($im, $x, $y, $x + $vx × $l, $y + $vy × $l, $red);
+  gdImageLine($im, $x, $y, $x + $vx × $l, $y + $vy × $l, gdStyled);
   $x += $vx × $l;
   $y += $vy × $l;
   ($vx, $vy) = ($vy, -$vx);

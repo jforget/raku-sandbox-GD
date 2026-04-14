@@ -774,6 +774,20 @@ Une dernière variante, `24-rainbow.pl`, génère une image _True Color_,
 c'est-à-dire une image contenant potentiellement plus de 256 couleurs.
 Dans cet exemple, le style contient 765 couleurs.
 
+### L'implémentation des styles
+
+Un style  est un tableau  de couleurs. Chaque couleur  est représentée
+par un indice  de 0 à 255 (cas  des images de type palette)  ou par un
+entier encodant le triplet RGB (cas  des images de type _True Color_).
+Mais le tableau n'est pas un tableau Raku ordinaire. Selon
+[la documentation](https://docs.raku.org/language/nativecall#Arrays),
+il faut  créer un  objet `CArray[int32]` et  l'associer à  la variable
+avec « `:=` » et non pas « `=` ».
+
+Quant  aux  pseudo-couleurs  `gdStyled` et  `gdTransparent`,  dans  la
+version C  elles sont définies  avec le symbole  `gdAntiAliased`. Donc
+dans la version Raku, je les définis au même endroit que ce symbole.
+
 AUTEUR
 ======
 
