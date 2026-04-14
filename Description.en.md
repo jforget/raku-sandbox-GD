@@ -739,7 +739,12 @@ The  result is  fine, with  a small  misleading particularity.  When I
 request that a line is drawn from  right to left, it is actually drawn
 left to  right. Same problem with  vertical lines bottom to  top. This
 peculiarity shows both for a  spiral drawn with several `line` methods
-and a spiral drawn using a single open polygon.
+(`22-long-style.pl`) and a spiral drawn using a single open polygon
+(`23-style-polygon.pl`).
+
+A variant, `24-rainbow.pl`,  creates a "true color" image,  that is an
+image with possibly more than 256  colours. In this program, the style
+contains 765 colors.
 
 AUTHOR
 ======

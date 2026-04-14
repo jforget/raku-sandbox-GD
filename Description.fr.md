@@ -766,8 +766,13 @@ constater qu'en réalité  la bibliothèque `libgd` la trace  de gauche à
 droite. C'est  la même  chose pour  les lignes tracées  de bas  en bas
 selon le  programme Perl,  mais tracées  de haut  en bas  par `libgd`.
 Cette particularité se  manifeste aussi bien lorsque  l'on utilise des
-méthodes  `line` pour  tracer  la  spirale que  lorsque  l'on crée  un
-polygone ouvert pour dessiner la spirale.
+méthodes  `line`  pour  tracer  la  spirale  (`22-long-style.pl`)  que
+lorsque  l'on  crée  un  polygone  ouvert  pour  dessiner  la  spirale
+(`23-style-polygon.pl`).
+
+Une dernière variante, `24-rainbow.pl`, génère une image _True Color_,
+c'est-à-dire une image contenant potentiellement plus de 256 couleurs.
+Dans cet exemple, le style contient 765 couleurs.
 
 AUTEUR
 ======
