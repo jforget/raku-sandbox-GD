@@ -1,11 +1,12 @@
 #/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
-# Recherche de fuite mémoire dans un cas évolué d'utilisation de GD::Raw
-# Looking for memory leaks in an advanced use case of GD::Raw
+# Recherche de fuite mémoire dans le cas simple d'utilisation
+# Looking for memory leaks in the simple use case
 #
 
 use GD::Raw;
+use NativeCall;
 use Linux::Proc::Statm;
 
 my $width  = 200;
@@ -13,21 +14,33 @@ my $height = 200;
 
 my $resident1;
 for 1..10 -> $i {
-  for 1..300 -> $j {
+  for 1..100 -> $j {
     my $im     = gdImageCreate($width, $height);
-    #LEAVE gdImageDestroy($im) if $im;
+    LEAVE gdImageDestroy($im) if $im;
     my $white  = gdImageColorAllocate($im, 255, 255, 255);
     my $black  = gdImageColorAllocate($im,   0,   0,   0);
     my $red    = gdImageColorAllocate($im, 255,   0,   0);
+    my $green  = gdImageColorAllocate($im,   0, 255,   0);
     my $blue   = gdImageColorAllocate($im,   0,   0, 255);
-    gdImageDestroy($im) if $im;
+    my $grey   = gdImageColorAllocate($im, 240, 240, 240);
 
-    $im     = gdImageCreate($width, $height);
-    #LEAVE gdImageDestroy($im) if $im;
-    $white  = gdImageColorAllocate($im, 255, 255, 255);
-    $black  = gdImageColorAllocate($im,   0,   0,   0);
-    $red    = gdImageColorAllocate($im, 255,   0,   0);
-    $blue   = gdImageColorAllocate($im,   0,   0, 255);
+    my @style = ();
+    for (0..255) -> $n {
+      my Str $x = sprintf('%08b', $n);
+      for (0..7) -> $pos {
+        given substr($x, $pos, 1) {
+          when '0' { push @style, $grey, $blue, $blue, $grey; }
+          when '1' { push @style, $grey, $red , $red , $grey; }
+        }
+      }
+      push @style, $black;
+    }
+
+    my @style-c := CArray[int32].new;
+    for @style.keys -> $i {
+      @style-c[$i] = @style[$i];
+    }
+    gdImageSetStyle($im, @style-c, @style.elems);
 
     if $j == 1 {
       say get-statm.raku;
@@ -35,7 +48,6 @@ for 1..10 -> $i {
         $resident1 = get-statm<resident>;
       }
     }
-    gdImageDestroy($im) if $im;
   }
 }
 my $resident2 = get-statm<resident>;
@@ -45,11 +57,11 @@ say $resident2 - $resident1;
 
 =head1 NAME
 
-11-mem-leak.raku - Looking for memory leaks
+25-mem-leak.raku - Looking for memory leaks when using styles with GD::Raw
 
 =head1 SYNOPSIS
 
-  raku 11-mem-leak.raku
+  raku 25-mem-leak.raku
 
 =head1 DESCRIPTION
 
@@ -59,12 +71,8 @@ memory usage of the process.
 The result  of the  program is  not reproductible.  You should  run it
 several times and average out the results.
 
-By  reactivating the  commented-out  C<LEAVE> lines,  you can  trigger
-segmentation faults. FOR  TESTS ONLY, DO NOT TRY THIS  ON A PRODUCTION
-SERVER.
-
-By commenting out  the C<gdImageDestroy> lines, you  can create memory
-leaks. FOR TESTS ONLY, DO NOT TRY THIS ON A PRODUCTION SERVER.
+By commenting out the C<LEAVE> line, you can create a memory leak. FOR
+TESTS ONLY, DO NOT TRY THIS ON A PRODUCTION SERVER.
 
 =head1 PARAMETERS
 

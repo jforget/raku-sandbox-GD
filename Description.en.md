@@ -555,6 +555,12 @@ un-commenting some  others, you will  be able to reproduce  the memory
 leak or the  segmentation fault. But _do not try  this on a production
 server!_
 
+For the memory size, the programs  use a reference value which will be
+compared with the  final value. This reference value  is not extracted
+at the  beginning of the program,  but after the first  image has been
+built, because at this point, the  buffers required by the Raku module
+and by the C library has already been allocated.
+
 ### Use of Git and Github
 
 One first thing is sure, I must fork the
@@ -759,6 +765,14 @@ variable name with "`:=`" instead of "`=`".
 The pseudo-colours  `gdStyled` and `gdTransparent` are  defined in the
 same area  of file `gd.c`  as symbol  `gdAntiAliased`. So in  the Raku
 module, I define them in the same place as `gdAntiAliased`.
+
+Program  `25-mem-leak.raku` is  the combination  of `10-mem-leak.raku`
+and `22-long-style.raku`. Its purpose is  finding if the use of styles
+generate memory  leaks. The results  seem to  show that there  is some
+leaking of memory. I do not know how  to fix it. On the other hand, we
+must  remember that  `25-mem-leak.raku` uses  a very  long style  with
+several  thousand elements,  while ordinary  programs will  use styles
+with a much smaller size.
 
 AUTHOR
 ======

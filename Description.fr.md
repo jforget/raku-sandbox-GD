@@ -572,6 +572,11 @@ Si  vous  masquez  certaines  lignes par  une  marque  de  commentaire
 commentaire, vous  pourrez reproduire  les problèmes. Mais  _ne faites
 pas cela sur un serveur de production !_
 
+L'état  de  référence de  la  mémoire  n'est  pas déterminé  avant  de
+construire  la première  image, mais  après la  construction de  cette
+première  image,  une fois  que  la  partie Raku  et  la  partie C  du
+programme ont alloué leurs tampons respectifs.
+
 ### Utilisation de Git et Github
 
 Un point acquis,  c'est qu'il faut _forker_ le
@@ -787,6 +792,16 @@ avec « `:=` » et non pas « `=` ».
 Quant  aux  pseudo-couleurs  `gdStyled` et  `gdTransparent`,  dans  la
 version C  elles sont définies  avec le symbole  `gdAntiAliased`. Donc
 dans la version Raku, je les définis au même endroit que ce symbole.
+
+Le programme `25-mem-leak.raku` est  un amalgame de `10-mem-leak.raku`
+et  de  `22-long-style.raku`. Son  but  est  d'évaluer les  pertes  de
+mémoire lorsque l'on utilise des styles. Force est de constater que la
+mémoire  est moins  bien  gérée  dans ce  nouveau  programme que  dans
+`10-mem-leak.raku`.  Je ne  sais pas  comment remédier  à cet  état de
+fait.  D'un   autre  côté,  gardons   à  l'esprit  que   le  programme
+`25-mem-leak.raku` utilise un style  de plusieurs milliers d'éléments,
+tandis  que les  programmes ordinaires  utilisent des  styles avec  un
+nombre nettement réduit de pixels.
 
 AUTEUR
 ======
