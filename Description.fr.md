@@ -356,6 +356,20 @@ proche de l'API C, la
 [documentation de la bibliothèque C](https://libgd.github.io/pages/about.html)
 pourra suffire pour ce module Raku.
 
+Autre
+-----
+
+Comme cela sera rappelé dans quelques paragraphes, il faut disposer de la
+[documentation _native call_](https://docs.raku.org/language/nativecall)
+pour Raku.
+
+Une méthode en vogue depuis quelques  années consiste à demander à une
+intelligence  artificielle de  faire  les  recherches documentaires  à
+notre place  et de nous expliquer  tout cela. Voire, d'écrire  à notre
+place les lignes de code  nécessaires. Je n'utilise pas cette méthode,
+je préfère lire et comprendre par moi-même la documentation.
+
+
 INSTALLATION
 ============
 

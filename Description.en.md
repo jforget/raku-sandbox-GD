@@ -351,6 +351,19 @@ to the API of the C functions. So the
 [documentation of the C library](https://libgd.github.io/pages/about.html)
 should bring enough information for the Raku module.
 
+Other
+-----
+
+As is mentioned a few paragraphs below, we need the
+[_native call_ manpage](https://docs.raku.org/language/nativecall)
+for Raku.
+
+A commonly  used method  which appeared  a few  years ago  consists in
+opening  an  AI  session,  asking   the  AI  to  search  the  existing
+documentation  and  to   summarise  it,  and  even   to  generate  the
+corresponding  lines of  code.  I do  not use  this  method. I  prefer
+reading on my own the existing documentation and understanding it.
+
 INSTALLATION
 ============
 
