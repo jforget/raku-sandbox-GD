@@ -720,14 +720,11 @@ Comme  la bibliothèque  `libgd` de  ma  machine a  des problèmes  pour
 générer les formats  GD, TIFF et WebP, ces formats  ne sont pas testés
 dans le programme `xt/gdimagepngptr.rakutest`.
 
-Module `GD::Raw:ver<0.7>` amélioré
-----------------------------------
+### Mémorisation du style dans un fichier `toto.gd`
 
-Le but de la version 0.7 est d'ajouter la notion de style de trait.
+Un autre but de la version 0.6 est d'ajouter la notion de style de trait.
 Avant de commencer à coder cela dans le module Raku, j'ai quelques
 expériences à réaliser sur ce sujet.
-
-### Mémorisation du style dans un fichier `toto.gd`
 
 L'idée est de tester si un premier programme peut créer une image avec
 un style de trait, stocker cette image dans un fichier `toto.gd` et si
@@ -811,11 +808,25 @@ Le programme `25-mem-leak.raku` est  un amalgame de `10-mem-leak.raku`
 et  de  `22-long-style.raku`. Son  but  est  d'évaluer les  pertes  de
 mémoire lorsque l'on utilise des styles. Force est de constater que la
 mémoire  est moins  bien  gérée  dans ce  nouveau  programme que  dans
-`10-mem-leak.raku`.  Je ne  sais pas  comment remédier  à cet  état de
-fait.  D'un   autre  côté,  gardons   à  l'esprit  que   le  programme
-`25-mem-leak.raku` utilise un style  de plusieurs milliers d'éléments,
-tandis  que les  programmes ordinaires  utilisent des  styles avec  un
-nombre nettement réduit de pixels.
+`10-mem-leak.raku`.   Cela  dit,   lorsque   je   masque  l'appel   de
+`gdImageSetStyle` avec un dièse, ou  lorsque je masque cet appel ainsi
+que  la   construction  du  `CArray`,  j'obtiens   le  même  résultat.
+L'augmentation  progressive  de  la  mémoire utilisée  est  donc  due,
+vraisemblablement à la construction du tableau Raku `@style`, pas à la
+construction du tableau C `@style-c`.
+
+Cette supposition est confirmée  avec le programme `26-mem-leak.raku`,
+qui construit le  tableau Raku `@style` en dehors de  la double boucle
+et  qui conserve  à  l'intérieur  de la  double  boucle uniquement  la
+construction  du   tableau  C  `@style-c`  et   son  utilisation  dans
+`gdImageSetStyle`. La  quantité de  mémoire utilisée  augmente encore,
+mais de  façon beaucoup  plus modérée.  Je suppose  donc que  c'est le
+fonctionnement  normal de  l'interpréteur  `raku` et  pas le  symptôme
+d'une fuite de mémoire.
+
+Si l'on  sort de la  double boucle  la construction de  `@style-c`, la
+consommation  de  mémoire  augmente encore  plus  lentement,  quelques
+octets à chaque affichage.
 
 AUTEUR
 ======
