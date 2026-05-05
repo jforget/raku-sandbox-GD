@@ -824,9 +824,9 @@ mais de  façon beaucoup  plus modérée.  Je suppose  donc que  c'est le
 fonctionnement  normal de  l'interpréteur  `raku` et  pas le  symptôme
 d'une fuite de mémoire.
 
-Si l'on  sort de la  double boucle  la construction de  `@style-c`, la
-consommation  de  mémoire  augmente encore  plus  lentement,  quelques
-octets à chaque affichage.
+Si l'on extrait la construction de `@style-c` de la double boucle pour
+la placer juste avant, la consommation de mémoire augmente encore plus
+lentement, quelques octets à chaque affichage.
 
 AUTEUR
 ======

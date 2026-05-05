@@ -57,16 +57,16 @@ say $resident2 - $resident1;
 
 =head1 NAME
 
-25-mem-leak.raku - Looking for memory leaks when using styles with GD::Raw
+26-mem-leak.raku - Looking for memory leaks when using styles with GD::Raw
 
 =head1 SYNOPSIS
 
-  raku 25-mem-leak.raku
+  raku 26-mem-leak.raku
 
 =head1 DESCRIPTION
 
-This  program creates  several dummy  GD images  while monitoring  the
-memory usage of the process.
+This program creates  a dummy GD image and repeatedly  chooses a style
+while monitoring the memory usage of the process.
 
 The result  of the  program is  not reproductible.  You should  run it
 several times and average out the results.
