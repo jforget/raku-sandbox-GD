@@ -881,7 +881,7 @@ the same  name as  on my computer  and storing the  same files  as the
 directory  on my  machine. And  if a  contributor works  on a  Windows
 computer...
 
-The [`GD.pm` documentation](https://metacpan.org/pod/GD]
+The [`GD.pm` documentation](https://metacpan.org/pod/GD)
 mentions a
 [`stringFTCircle` method](https://metacpan.org/pod/GD#$result-=-$image-%3EstringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)).
 The [`libgd` documentation](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html)

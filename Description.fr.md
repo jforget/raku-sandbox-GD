@@ -912,10 +912,10 @@ même  répertoire existe  et contient  les  mêmes fichiers  que sur  ma
 machine  personnelle.  Quant  aux contributeurs  travaillant  sur  une
 machine Windows...
 
-La [documentation de`GD.pm`](https://metacpan.org/pod/GD]
+La [documentation de `GD.pm`](https://metacpan.org/pod/GD)
 mentionne une
 [méthode `stringFTCircle`](https://metacpan.org/pod/GD#$result-=-$image-%3EstringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)).
-La [documentation `libgd`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html)
+La [documentation de `libgd`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html)
 ne  décrit  pas  de  fonction  similaire.  Et  de  toutes  façons,  la
 documentation Perl  précise que  la fonction C  ne fonctionne  pas. Je
 fais l'impasse sur  cette fonction dans les modules Raku.  Le test est
