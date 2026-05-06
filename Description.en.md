@@ -798,6 +798,98 @@ If we do  a further experiment by removing the  building of `@style-c`
 from the double loop, the memory  usage still increases, but very very
 slowly, a few bytes at a time.
 
+Improved Raku Module `GD::Raw:ver<0.7>`
+---------------------------------------
+
+### Character Strings
+
+My needs when drawing graphs are very  small. I only have to write the
+codes identifying the vertices of the graph. These are codes, not full
+designations.  Therefore,  they  are  strings of  7-bit  ASCII  chars,
+without  any  diacritics. The  only  advanced  functionality would  be
+displaying  a  string  vertically  for  the  map  scale,  with  method
+`stringUp`. Up to now, I did  not use this functionality because I did
+not  read   the  full  `GD.pm`  documentation   until  recently.  When
+overhauling   the  graph   drawing   program  to   use  `GD::Raw`   or
+`GD.rakumod`, I will use this method.
+
+For  the character  font,  I  chose the  easiest  and  fastest way,  I
+selected   an  internal   font  among   `gdGiantFont`,  `gdLargeFont`,
+`gdMediumBoldFont`, `gdSmallFont` and `gdTinyFont`  and I did not look
+beyond.
+
+I  have  used the  `string`  method  with  only 7-bit  ASCII  strings.
+Actually,  this method  uses a  8-bit  encoding, ISO-8859-2.  So if  I
+invoke method `string` with a UTF-8  string containing "é", I will not
+get the usual _mojibake_ "Ã©", but the new _mojibake_ "ĂŠ".
+
+In the
+[recap](http://paris.mongueurs.net/meetings/2004/0211.html)
+of a  Paris.pm meeting, I  added two pictures generated  with `GD.pm`,
+including a few  legends such as "Étudiantes  diplômées". Actually, at
+first,  I invoked  the `string`  method with  a diacritic-less  label,
+"Etudiantes  diplomees" and  then  I drew  acute  accents with  method
+`line`. And  I gave  up drawing  the circumflex  accents. In  a second
+time, I invoked method `stringFT`, described below.
+
+We can use other character fonts with method `string`. As written in the
+[`GD.pm` documentation](https://metacpan.org/pod/GD#Character-and-String-Drawing),
+you can  take a  `xxx.bdf` font, convert  it with  utility `bdf2gd.pl`
+into `xxx.fnt` and  use it in a  GD picture. For the  module writer or
+mainainer, this requires coding a
+[`gdFont` structure](https://libgd.github.io/manuals/2.3.3/files/gd-h.html#gdFontPtr).
+I will not use this in Raku  modules `GD` and `GD::Raw`. Or maybe in a
+remote future version, do not hold your breath.
+
+The  `libgd` documentation  allows us  to use  strings with  a 16-char
+encoding. See functions
+[`gdImageString16`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageString16)
+and [`gdImageStringUp16`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageStringUp16).
+These functions were not ported  to the Perl module `GD.pm`. Moreover,
+the `libgd` website does not provide examples of character fonts using
+a  16-char encoding.  Experimenting with  this functionality  would be
+time consuming  for a small benefit.  I will not take  these functions
+into account in the Raku modules `GD` and `GD::Raw`.
+
+Note that in the `GD.pm` documentation the conversion utility is named
+`bdf2gd.pl`,  but in  the directory  `/usr/bin` on  my computer  it is
+named    `bdf2gdfont`,    generated    at   installation    time    by
+`bdf2gdfont_pl.PL`. And the
+[`bdf_scripts` subdirectory](https://github.com/lstein/Perl-GD/tree/master/bdf_scripts)
+of the [Github repository](https://github.com/lstein/Perl-GD/tree/master)
+contains a older and simpler version `bdftogd`.
+
+According to the `libgd` documentation, a further step is using
+[_Free Type_ fonts](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html)
+with functions
+[`gdImageStringFT`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT)
+and [`gdImageStringFTEx`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFTEx).
+The `GD.pm` documentation mentions using
+[_True Type_ fonts](https://metacpan.org/pod/GD#Character-and-String-Drawing)
+with method `stringFT`. I suppose that "True Type" and "Free Type" are
+the same, or  at least compatible. If  implementing this functionality
+is simple, I  will implement this in Raku modules  `GD` and `GD::Raw`.
+If the implementation  requires extensive work (defining  a new class,
+describing a  C structure  in Raku),  I will leave  the hot  potato to
+another person.
+
+Yet, this  functionality requires  a system font,  stored in  a system
+directory. Therefore,  I will not  provide a test  `t/xxx.rakutest` or
+even a  test `xt/xxx.rakutest`, because I  cannot be sure that  on the
+Unix machines of the next contributors, there will be a directory with
+the same  name as  on my computer  and storing the  same files  as the
+directory  on my  machine. And  if a  contributor works  on a  Windows
+computer...
+
+The [`GD.pm` documentation](https://metacpan.org/pod/GD]
+mentions a
+[`stringFTCircle` method](https://metacpan.org/pod/GD#$result-=-$image-%3EstringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)).
+The [`libgd` documentation](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html)
+does  not   describe  a  similar   function.  And  anyway,   the  Perl
+documentation states that the method does not work. I will ignore this
+in the Raku  modules. There is a  test in the `Perl`  directory of the
+sandbox and you can see by yourselves the result.
+
 AUTHOR
 ======
 

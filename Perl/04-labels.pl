@@ -12,8 +12,8 @@ use GD;
 use MIME::Base64;
 
 my $name   = '04-labels';
-my $width  = 200;
-my $height =  50;
+my $width  = 220;
+my $height = 100;
 my $im     = GD::Image->new($width, $height);
 my $white  = $im->colorAllocate(255, 255, 255);
 my $black  = $im->colorAllocate(  0,   0,   0);
@@ -35,6 +35,7 @@ $im->rectangle      (150, 10, 170, 30, $blue);
 $im->string(gdSmallFont     ,   5, 15, '01', $black);
 $im->string(gdMediumBoldFont,  35, 15, '02', $black);
 $im->string(gdLargeFont     , 153, 13, '03', $black);
+$im->stringUp(gdLargeFont   , 200, 70, 'GOING UP', $black);
 
 open my $fh, '>', "$name.png"
     or die "opening PNG file: $!";
