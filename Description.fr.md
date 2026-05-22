@@ -446,6 +446,9 @@ et les valeurs
 et [`gdGiantFont`](https://libgd.github.io/manuals/2.3.3/files/gdfontg-c.html)
 permettant d'afficher des chaînes de caractères dans les dessins.
 
+AMÉLIORATIONS DES MODULES
+=========================
+
 Module `GD::Raw:ver<0.5>` amélioré
 ----------------------------------
 
@@ -691,10 +694,10 @@ use NativeHelpers::Blob;
 [...]
 
 my int32 $size;
-my $ptr  = gdImagePngPtr($im, $size);
-my $blob = blob-from-pointer($ptr, elems => $size, type => Blob[int8]);
-my $src  = MIME::Base64.encode($png-data);
-print "<img src='data:image/png;base64,$src'/>";
+my $ptr       = gdImagePngPtr($im, $size);
+my $png-data  = blob-from-pointer($ptr, elems => $size, type => Blob[int8]);
+my $mime-data = MIME::Base64.encode($png-data);
+print "<img src='data:image/png;base64,$mime-data'/>";
 gdFree($ptr);
 ```
 
@@ -720,7 +723,7 @@ Comme  la bibliothèque  `libgd` de  ma  machine a  des problèmes  pour
 générer les formats  GD, TIFF et WebP, ces formats  ne sont pas testés
 dans le programme `xt/gdimagepngptr.rakutest`.
 
-### Mémorisation du style dans un fichier `toto.gd`
+### Essai de mémorisation du style dans un fichier `toto.gd`
 
 Un autre but de la version 0.6 est d'ajouter la notion de style de trait.
 Avant de commencer à coder cela dans le module Raku, j'ai quelques
@@ -770,7 +773,7 @@ spirale. Pas  une spirale courbe,  comme d'habitude, mais  une spirale
 anguleuse, construite avec  des segments de droite  dont les longueurs
 croissent. Le style est basé sur la représentation binaire des nombres
 de 0  à 255.  Chaque chiffre  « 0  »  apparaît sous  la forme  de deux
-pixels bleus,  chaque chiffres  « 1 » apparaît sous  la forme  de deux
+pixels  bleus, chaque  chiffre « 1 »  apparaît sous  la forme  de deux
 pixels  rouges.  La  séparation   entre  deux  chiffres  binaires  est
 constituée de deux pixels gris clair. La séparation entre deux nombres
 (de 0 à 255)  contient un pixel noir. Avec 33  pixels par nombre, cela
@@ -779,7 +782,7 @@ donne un style gigantesque de 8481 pixels.
 Le  résultat est  satisfaisant,  avec  une particularité  surprenante.
 Lorsque le programme Perl trace une  ligne de droite à gauche, on peut
 constater qu'en réalité  la bibliothèque `libgd` la trace  de gauche à
-droite. C'est  la même  chose pour  les lignes tracées  de bas  en bas
+droite. C'est  la même chose  pour les lignes  tracées de bas  en haut
 selon le  programme Perl,  mais tracées  de haut  en bas  par `libgd`.
 Cette particularité se  manifeste aussi bien lorsque  l'on utilise des
 méthodes  `line`  pour  tracer  la  spirale  (`22-long-style.pl`)  que
