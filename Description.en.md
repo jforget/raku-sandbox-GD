@@ -893,6 +893,30 @@ documentation states that the method does not work. I will ignore this
 in the Raku  modules. There is a  test in the `Perl`  directory of the
 sandbox and you can see by yourselves the result.
 
+### Character Strings in Hindsight
+
+For the internal fonts such as `gdGiantFont`, the
+[Perl module `GD.pm`](https://metacpan.org/pod/GD#Character-and-String-Drawing)
+requires a `GD::Font` object. I have looked for `GD::Font` in the Perl
+source files  for `GD` and I  have not found the  declaration for this
+class. Maybe this class is defined only in the
+[XS file](https://github.com/lstein/Perl-GD/blob/master/GD.xs).
+The problem is that I do not know how XS works... As for the
+[`libgd` documentation](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageString),
+it seems to say that I have to use a
+[`gdFontPtr` pointer](https://libgd.github.io/manuals/2.3.3/files/gd-h.html#gdFontPtr)
+and a `gdFont`  struct. Instead of declaring this C  structure, I used
+an `OpaquePointer`.
+
+The
+[`NativeCall` documentation](https://docs.raku.org/language/nativecall#Passing_and_returning_values),
+shows that  when a function receives  a string parameter or  returns a
+string result,  we can specify the  encoding of this string.  The only
+example given  is `is  encoded('utf8')`. I have  tried to  use another
+encoding scheme with  `is encoded('iso-8859-2')` but it  fails. I have
+tried variants  (with or without  dashes) and  it still fails.  So the
+string is declared without any encoding.
+
 AUTHOR
 ======
 

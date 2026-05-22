@@ -31,9 +31,9 @@ gdImageFilledEllipse(  $im, 130,  20,  20, 20, $white);
 gdImageEllipse(        $im, 130,  20,  20, 20, $blue);
 gdImageFilledRectangle($im, 150,  10, 170, 30, $white);
 gdImageRectangle(      $im, 150,  10, 170, 30, $blue);
-#gdImageString($im, gdSmallFont,        5, 15, '01', $black);
-#gdImageString($im, gdMediumBoldFont,  35, 15, '02', $black);
-#gdImageString($im, gdLargeFont,      153, 13, '03', $black);
+gdImageString($im, gdSmallFont,        5, 15, '01', $black);
+gdImageString($im, gdMediumBoldFont,  35, 15, '02', $black);
+gdImageString($im, gdLargeFont,      153, 13, '03', $black);
 
 my $fh = fopen("$name.png", "wb");
 return 0 unless $fh;
@@ -68,7 +68,7 @@ EOF
 
   raku    04-labels.raku
   display 04-labels.png
-  #firefox 04-labels.html
+  firefox 04-labels.html
 
 =head1 DESCRIPTION
 

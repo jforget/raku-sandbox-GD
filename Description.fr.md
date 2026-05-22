@@ -925,6 +925,33 @@ fais l'impasse sur  cette fonction dans les modules Raku.  Le test est
 fait dans  le dossier  `Perl` du bac  à sable et  vous pouvez  voir le
 résultat par vous-mêmes.
 
+### Après l'ajout des chaînes de caractères
+
+Pour les fontes internes `gdGiantFont` et similaires, le
+[module Perl `GD.pm`](https://metacpan.org/pod/GD#Character-and-String-Drawing)
+indique  qu'il  faut  utiliser  un  objet  de  classe  `GD::Font`.  En
+cherchant  dans les  fichiers  sources  Perl, je  n'ai  pas trouvé  la
+définition de cette classe. Peut-être est-elle définie uniquement dans
+[le fichier XS](https://github.com/lstein/Perl-GD/blob/master/GD.xs),
+mais  encore faudrait-il  que  je comprenne  comment fonctionne  XS...
+Quant à regarder dans la
+[documentation de `libgd`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageString),
+je constate qu'il faut passer par un
+[pointeur `gdFontPtr`](https://libgd.github.io/manuals/2.3.3/files/gd-h.html#gdFontPtr)
+pointant  vers une  structure `gdFont`.  J'ai  utilisé à  la place  un
+`OpaquePointer`, sans décrire la structure sous-jacente.
+
+Dans la
+[documentation de `NativeCall`](https://docs.raku.org/language/nativecall#Passing_and_returning_values),
+il est marqué que l'on peut préciser l'encodage d'une chaîne transmise
+en paramètre à une fonction ainsi que pour une chaîne renvoyée par une
+fonction. Le seul encodage donné  en exemple est `is encoded('utf8')`.
+J'ai essayé  de spécifier un encodage  `is encoded('iso-8859-2')` pour
+les  chaînes en  paramètres de  `gdImageString` et  `gdImageStringUp`,
+mais cela ne  fonctionne pas. J'ai essayé quelques  variantes (avec ou
+sans tirets),  je n'ai pas plus  réussi. Le paramètre chaîne  est donc
+déclaré sans encodage.
+
 AUTEUR
 ======
 
