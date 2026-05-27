@@ -952,6 +952,30 @@ mais cela ne  fonctionne pas. J'ai essayé quelques  variantes (avec ou
 sans tirets),  je n'ai pas plus  réussi. Le paramètre chaîne  est donc
 déclaré sans encodage.
 
+Omettre les tests de
+[`gdImageStringFT`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT),
+est malvenu.  Parce que la fonction  n'est pas testée, bien  sûr, mais
+aussi parce les utilisateurs du module ne disposeront pas d'un exemple
+concret d'utilisation de  cette fonction. J'ai écrit plus  haut que je
+n'écrirais pas de  script de test car je n'avais  aucune certitude sur
+les  fichiers   TTF  disponibles   sur  les  machines   des  prochains
+contributeurs.  Heureusement,  j'ai trouvé  la  solution.  En plus  du
+fichier PNG  attendu, le répertoire  de test doit contenir  un fichier
+TTF contenant  la fonte à  utiliser. Nouveau problème, où  trouver une
+fonte  TTF que  je puisse  dupliquer et  diffuser sans  enfreindre les
+conditions  d'utilisation  ? Solution  :  ne  pas utiliser  une  fonte
+existante, mais en créer une à partir de rien. J'ai donc installé
+[Font Forge](https://fontforge.org/en-US/)
+et j'ai créé une  fonte de toutes pièces. J'ai fait  au plus vite sans
+me soucier d'esthétique. En m'inspirant du
+[code Morse](https://www.dcode.fr/code-morse),
+j'ai  pu créer  des glyphes  contenant uniquement  des points  (ovales
+plutôt  que circulaires)  et des  traits (verticaux  pour un  problème
+d'encombrement). Les dimensions  des divers traits et  points et leurs
+emplacements  respectifs  ne sont  pas  harmonisés.  Les glyphes  sont
+définis  uniquement  pour l'espace  et  les  7  lettres de  la  chaîne
+« `Hello world` ».
+
 AUTEUR
 ======
 
@@ -962,8 +986,8 @@ COPYRIGHT ET LICENCE
 
 Copyright (c) 2026 Jean Forget, tous droits réservés.
 
-Les programmes sont diffusés avec la licence **Artistic License 2.0**.
-Voir le texte (en anglais) dans `LICENSE`.
+Les  programmes et  fontes sont  diffusés avec  la licence  **Artistic
+License 2.0**. Voir le texte (en anglais) dans `LICENSE`.
 
 Les divers textes  et images de ce dépôt sont  publiés avec la licence
 Creative Commons : Attribution - Partage dans les Mêmes Conditions (CC

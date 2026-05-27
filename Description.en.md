@@ -917,6 +917,31 @@ encoding scheme with  `is encoded('iso-8859-2')` but it  fails. I have
 tried variants  (with or without  dashes) and  it still fails.  So the
 string is declared without any encoding.
 
+Porting function
+[`gdImageStringFT`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT),
+without providing a  test file is not advisable. The  first problem is
+that the  function is not  tested. The  second problem is  that casual
+module users will not benefit of  a script showing how the function is
+called. Above,  I have written  that I would  not write a  test script
+because  the TTF  fonts I  would  use might  not be  installed on  the
+machines of the next contributors. Fortunately, I found a solution. In
+addition  to  the expected  PNG  file,  the test  subdirectory  should
+contain the TTF font  used for the test. The new problem  is to find a
+TTF font  with a  compatible license.  New solution: I  do not  use an
+existing font, I create  a new one and I choose  the proper license. I
+installed
+[Font Forge](https://fontforge.org/en-US/)
+and I created a font from  scratch. I took a quick-and-dirty approach,
+without bothering with aesthetics. Starting from
+[Morse code](https://morsecode.world/international/translator.html),
+I created  glyphs built from  dots and  dashes (vertical dashes  for a
+manageable length).  The dots  are oval rather  than circular  and the
+radii vary from one dot to  the next, the dashes have differing widths
+and heights.  Glyphs are defined  only for the  space and the  7 chars
+from `"Hello world"`.  My aim was creating a font  file which would be
+useful for the tests, nothing more.
+
+
 AUTHOR
 ======
 
@@ -927,8 +952,8 @@ COPYRIGHT AND LICENSE
 
 Copyright (c) 2026 Jean Forget, all rights reserved
 
-The programs  are published  under the Artistic  License 2.0.  See the
-text in LICENSE-ARTISTIC-2.0.
+The programs and  fonts are published under the  Artistic License 2.0.
+See the text in LICENSE-ARTISTIC-2.0.
 
 The various texts  of this repository are licensed under  the terms of
 Creative Commons, with attribution and share-alike (CC-BY-SA).
