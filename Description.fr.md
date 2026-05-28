@@ -976,6 +976,111 @@ emplacements  respectifs  ne sont  pas  harmonisés.  Les glyphes  sont
 définis  uniquement  pour l'espace  et  les  7  lettres de  la  chaîne
 « `Hello world` ».
 
+Quand je consulte la
+[documentation](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT)
+de la fonction C `gdImageStringFT`, je lis ceci :
+
+```
+char * gdImageStringFT (        gdImagePtr  im,
+                                int        *brect,
+                                int         fg,
+                        const   char       *fontlist,
+                                double      ptsize,
+                                double      angle,
+                                int         x,
+                                int         y,
+                        const   char       *string  )
+```
+
+> `brect` The  bounding rectangle  as array of  8 integers  where each
+> pair  represents the  x- and  y-coordinate  of a  point. The  points
+> specify  the lower  left, lower  right, upper  right and  upper left
+> corner.
+
+Traduction
+
+> `brect`  le  rectangle délimitant  la  chaîne,  sous la  forme  d'un
+> tableau  de   8  entiers;  Chaque  paire   d'entiers  représente  la
+> coordonnée  x puis  la coordonnée  y d'un  sommet du  rectangle. Ces
+> sommets  sont,  dans l'ordre,  le  coin  inférieur gauche,  le  coin
+> inférieur  droit,  le coin  supérieur  droit  et le  coin  supérieur
+> gauche.
+
+Et quand je lis la
+[documentation](https://metacpan.org/pod/GD#@bounds-=-$image-%3EstringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string))
+de la méthode correspondante dans le module Perl, je lis :
+
+```
+@bounds = $image->stringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string)
+```
+
+Où est passé le paramètre `brect` ? Jetons maintenant un coup d'œil au
+[fichier source `GD.xs`](https://github.com/lstein/Perl-GD/blob/master/GD.xs).
+Hormis  l'appel de  la fonction  `gdImageStringFT` et  de la  fonction
+`gdImageStringFTEX`, la seule fois où la variable `brect` est utilisée
+se situe dans ce pavé de code :
+
+```
+        if (err) {
+          errormsg = perl_get_sv("@",0);
+          if (errormsg != NULL)
+            sv_setpv(errormsg,err);
+          XSRETURN_EMPTY;
+        } else {
+          EXTEND(sp,8);
+          for (i=0; i<8; i++) {
+            mPUSHi(brect[i]);
+          }
+        }
+```
+
+Je ne suis pas un expert en langage  XS, mais je devine ce dont il est
+question. Il s'agit  d'alimenter les valeurs renvoyées  par la méthode
+`stringFT` au programme  Perl appelant. Donc le  tableau `brect` n'est
+pas un paramètre  d'appel de `gdImageStringFT`, mais  le pointeur vers
+des valeurs renvoyées  par cette fonction. Il est  possible de manquer
+cette interprétation avec une lecture  rapide de la documentation C et
+de la documentation Perl.
+
+En  fait,  j'aurais pu  lire  plus  attentivement  le module  Perl  et
+remarquer le début de la ligne d'appel :
+
+```
+@bounds = ...
+```
+
+Ainsi qu'il est expliqué dans la
+[documentation de native call](https://docs.raku.org/language/nativecall#Arrays),
+il faut allouer de la place  pour 8 entiers. Le paramètre `brect` sera
+donc déclaré ainsi :
+
+```
+my @brect := CArray[int32].new;
+@brect[7] = 0; # to allocate room for 8 integers
+```
+
+Pour tester la  fonction `gdImageStringFT`, j'ai écrit  un script Perl
+`mk-test-ttf.pl` pour construire  le fichier PNG attendu.  Or, le test
+`xt/gdimagestringft.rakutest` détecte de nombreux pixels de différence
+entre le fichier attendu et  l'image obtenue. Or lorsque l'on consulte
+les fichiers  graphiques, on constate qu'ils  se ressemblent beaucoup.
+J'ai donc décidé  d'utiliser le fichier obtenu avec le  script Raku en
+tant que fichier attendu.
+
+Voici les fonctions qui n'ont pas été adaptées pour Raku :
+
+* `gdImageChar`  et  `gdImageCharUp`,  parce  que  `gdImageString`  et
+  `gdImageStringUp` font l'affaire.
+
+* `gdImageString16`  et `gdImageStringUp16`,  parce  que  je n'ai  pas
+  d'exemple de fichier fonte avec un encodage sur 16 bits et parce que
+  `gdImageStringFT`  permet d'accéder  à  la  totalité des  caractères
+  Unicode au lieu de seulement 65536 caractères.
+
+* `gdImageStringFTEx`   parce  qu'il   faut   décrire  une   structure
+  `gdFTStringExtra`  dans le  module Raku  et que  je préfère  laisser
+  cette tâche à un successeur.
+
 AUTEUR
 ======
 

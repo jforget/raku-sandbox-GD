@@ -2,7 +2,7 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Dessin avec du texte utilisant Free Type
-# Drawing circles and rectangles with labels
+# Drawing text using Free Type fonts
 #
 
 use v5.10;
@@ -23,12 +23,13 @@ my $fontpath = "/usr/share/fonts/truetype/freefont/FreeSans.ttf";
 my $fontalt  = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
 my $fontsize = 10;
 my $pi       = 4 * atan2(1, 1);
+my @result;
 
-$im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 10, 110, "Vertical climb");
-$im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 20, 120, "Zoom climb");
-$im->stringFT($black, $fontpath, $fontsize,   0      , 30, 130, "Level flight");
-$im->stringFT($black, $fontpath, $fontsize, - $pi / 4, 20, 140, "Steep dive");
-$im->stringFT($black, $fontpath, $fontsize, - $pi / 2, 10, 150, "Vertical dive");
+@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 10, 110, "Vertical climb"); dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 20, 120, "Zoom climb");     dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize,   0      , 30, 130, "Level flight");   dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 4, 20, 140, "Steep dive");     dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 2, 10, 150, "Vertical dive");  dump_res(@result);
 
 $im->stringFTCircle(300, 130, 100, 20, 0.7, $fontpath, 10, "wingover", "resource", $black);
 
@@ -41,11 +42,11 @@ Pfffff ! Lorsque le souffle du vent
 fléchit dans le fjord, il est en effet
 difficile de se faufiler.
 EOF
-$im->stringFT($blue, $fontalt , $fontsize, 0,  10, 250, $str1);
-$im->stringFT($blue, $fontalt , $fontsize, 0,  10, 280, $str1, { linespacing => 0.8 });
-$im->stringFT($blue, $fontalt , $fontsize, 0,  10, 310, $str1, { linespacing => 1.3 });
-$im->stringFT($red , $fontalt , $fontsize, 0, 270, 250, $str2, { kerning => 0 });
-$im->stringFT($red , $fontalt , $fontsize, 0, 270, 310, $str2, { kerning => 1 });
+@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 250, $str1);                         dump_res(@result);
+@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 280, $str1, { linespacing => 0.8 }); dump_res(@result);
+@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 310, $str1, { linespacing => 1.3 }); dump_res(@result);
+@result = $im->stringFT($red , $fontalt , $fontsize, 0, 270, 250, $str2, { kerning => 0 });       dump_res(@result);
+@result = $im->stringFT($red , $fontalt , $fontsize, 0, 270, 310, $str2, { kerning => 1 });       dump_res(@result);
 
 open my $fh, '>', "$name.png"
     or die "opening PNG file: $!";
@@ -71,6 +72,10 @@ EOF
 close $fh
     or die "closing HTML file: $!";
 
+sub dump_res {
+  my @res = map { sprintf('%3d', $_) } @_;
+  print join ' ', @res, "\n";
+}
 
 __END__
 
@@ -78,7 +83,7 @@ __END__
 
 =head1 NAME
 
-05-free-type.pl - print labels inside circles and rectangles
+05-free-type.pl - drawing text using Free Type fonts
 
 =head1 SYNOPSIS
 
@@ -89,8 +94,7 @@ __END__
 =head1 DESCRIPTION
 
 This program  generates a  PNG file  and an HTML  file with  a picture
-showing  circles and  rectangles (or  squares) and  labels inside  the
-circles and rectangles.
+showing  various texts using Free Type (or True Type) fonts.
 
 =head1 PARAMETERS
 
