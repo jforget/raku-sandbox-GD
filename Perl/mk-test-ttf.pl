@@ -19,7 +19,8 @@ my $black  = $im->colorAllocate(  0,   0,   0);
 my $fontpath = "./testing-gd-raw.ttf";
 my $fontsize = 30;
 
-$im->stringFT($black, $fontpath, $fontsize, 0, 10, 40, "Hello world");
+# a negative colour parameter means that anti-aliasing is disabled
+$im->stringFT(- $black, $fontpath, $fontsize, 0, 10, 40, "Hello world");
 
 open my $fh, '>', "$name.png"
     or die "opening PNG file: $!";

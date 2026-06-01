@@ -1,8 +1,8 @@
 #/usr/bin/env perl
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
-# Dessin avec du texte utilisant Free Type
-# Drawing text using Free Type fonts
+# Dessin avec du texte utilisant Free Type, variante avec une erreur volontaire
+# Drawing text using Free Type fonts, variant with a deliberate error
 #
 
 use v5.10;
@@ -19,8 +19,8 @@ my $white  = $im->colorAllocate(255, 255, 255);
 my $black  = $im->colorAllocate(  0,   0,   0);
 my $red    = $im->colorAllocate(255,   0,   0);
 my $blue   = $im->colorAllocate(  0,   0, 255);
-my $fontpath = "/usr/share/fonts/truetype/freefont/FreeSans.ttf";
-my $fontalt  = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+my $fontpath = "/this/directory/does/not/exist/and/will/never/exist/FreeSans.ttf";
+my $fontalt  = "/this/directory/does/not/exist/and/will/never/exist/FreeSerif.ttf";
 my $fontsize = 10;
 my $pi       = 4 * atan2(1, 1);
 my @result;

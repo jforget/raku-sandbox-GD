@@ -1059,13 +1059,23 @@ my @brect := CArray[int32].new;
 @brect[7] = 0; # to allocate room for 8 integers
 ```
 
+Également, la gestion des erreurs  est essentielle. Il est tout-à-fait
+possible que l'utilisateur fasse une faute  de frappe en tapant le nom
+ou le  répertoire de la  fonte qu'il demande.  Dans ce cas,  le module
+doit lui transmettre l'erreur détectée par `libgd`.
+
 Pour tester la  fonction `gdImageStringFT`, j'ai écrit  un script Perl
 `mk-test-ttf.pl` pour construire  le fichier PNG attendu.  Or, le test
 `xt/gdimagestringft.rakutest` détecte de nombreux pixels de différence
 entre le fichier attendu et  l'image obtenue. Or lorsque l'on consulte
 les fichiers  graphiques, on constate qu'ils  se ressemblent beaucoup.
-J'ai donc décidé  d'utiliser le fichier obtenu avec le  script Raku en
-tant que fichier attendu.
+Dans un  premier temps j'ai utilisé  le fichier obtenu avec  le script
+Raku  en  tant que  fichier  attendu.  Dans  un deuxième  temps,  j'ai
+découvert que l'on pouvait désactiver l'anti-aliasing en attribuant un
+signe "moins" au  numéro de couleur. J'ai  désactivé l'anti-aliasing à
+la fois dans `mk-test-ttf.pl` et dans `xt/gdimagestringft.rakutest` et
+cela   fonctionne   bien   en   utilisant  le   fichier   généré   par
+`mk-test-ttf.pl`.
 
 Voici les fonctions qui n'ont pas été adaptées pour Raku :
 
