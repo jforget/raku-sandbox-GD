@@ -10,7 +10,7 @@ use MIME::Base64;
 use NativeCall;
 use NativeHelpers::Blob;
 
-my $name   = '05-free-type';
+my $name   = '07-free-type-generic';
 my $width  = 500;
 my $height = 350;
 my $im     = gdImageCreate($width, $height);
@@ -20,19 +20,18 @@ my $black  = gdImageColorAllocate($im,   0,   0,   0);
 my $red    = gdImageColorAllocate($im, 255,   0,   0);
 my $blue   = gdImageColorAllocate($im,   0,   0, 255);
 
-my $fontpath = "/usr/share/fonts/truetype/freefont/FreeSans.ttf";
-my $fontalt  = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+my $fontpath = "Sans";
+my $fontalt  = "Serif";
 my $fontsize = 10e0;
 
 my $rc = gdFontCacheSetup();
 LEAVE gdFontCacheShutdown();
-# zero : do not use generic font names
-my $config = gdFTUseFontConfig(0);
+# 1: use generic font names
+my $config = gdFTUseFontConfig(1);
 
 my @bound-rect := CArray[int32].new;
 @bound-rect[7] = 0; # to allocate room for 8 integers
 
-my $err;
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  π/2, 10, 110, "Vertical climb"); dump-res($err, @bound-rect);
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  π/4, 20, 120, "Zoom climb"    ); dump-res($err, @bound-rect);
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  0e0, 30, 130, "Level flight"  ); dump-res($err, @bound-rect);
@@ -88,13 +87,13 @@ sub dump-res($msg, @bound-rect) {
 
 =head1 NAME
 
-05-free-type.raku - drawing text using Free Type fonts
+07-free-type-generic.raku - drawing text using Free Type fonts
 
 =head1 SYNOPSIS
 
-  raku    05-free-type.raku
-  display 05-free-type.png
-  firefox 05-free-type.html
+  raku    07-free-type-generic.raku
+  display 07-free-type-generic.png
+  firefox 07-free-type-generic.html
 
 =head1 DESCRIPTION
 

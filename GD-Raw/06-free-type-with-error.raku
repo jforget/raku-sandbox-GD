@@ -1,8 +1,8 @@
 #/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
-# Dessin avec du texte utilisant Free Type
-# Drawing text using Free Type fonts
+# Dessin avec du texte utilisant Free Type, variante avec une erreur volontaire
+# Drawing text using Free Type fonts, variant with a deliberate error
 #
 
 use GD::Raw;
@@ -10,7 +10,7 @@ use MIME::Base64;
 use NativeCall;
 use NativeHelpers::Blob;
 
-my $name   = '05-free-type';
+my $name   = '06-free-type-with-error';
 my $width  = 500;
 my $height = 350;
 my $im     = gdImageCreate($width, $height);
@@ -26,7 +26,7 @@ my $fontsize = 10e0;
 
 my $rc = gdFontCacheSetup();
 LEAVE gdFontCacheShutdown();
-# zero : do not use generic font names
+# zero: do not use generic font names
 my $config = gdFTUseFontConfig(0);
 
 my @bound-rect := CArray[int32].new;
@@ -88,13 +88,13 @@ sub dump-res($msg, @bound-rect) {
 
 =head1 NAME
 
-05-free-type.raku - drawing text using Free Type fonts
+06-free-type-with-error.raku - attempting to draw strings with Free Type fonts, but failing
 
 =head1 SYNOPSIS
 
-  raku    05-free-type.raku
-  display 05-free-type.png
-  firefox 05-free-type.html
+  raku    06-free-type-with-error.raku
+  display 06-free-type-with-error.png
+  firefox 06-free-type-with-error.html
 
 =head1 DESCRIPTION
 

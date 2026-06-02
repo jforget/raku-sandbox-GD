@@ -11,7 +11,7 @@ use warnings;
 use GD;
 use MIME::Base64;
 
-my $name   = '05-free-type';
+my $name   = '06-free-type-with-error';
 my $width  = 500;
 my $height = 350;
 my $im     = GD::Image->new($width, $height);
@@ -24,6 +24,9 @@ my $fontalt  = "/this/directory/does/not/exist/and/will/never/exist/FreeSerif.tt
 my $fontsize = 10;
 my $pi       = 4 * atan2(1, 1);
 my @result;
+
+# zero: do not use generic font names
+my $config = $im->useFontConfig(0);
 
 @result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 10, 110, "Vertical climb"); dump_res(@result);
 @result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 20, 120, "Zoom climb");     dump_res(@result);
@@ -88,13 +91,13 @@ __END__
 
 =head1 NAME
 
-05-free-type.pl - drawing text using Free Type fonts
+06-free-type-with-error.pl - attempting to draw strings with Free Type fonts, but failing
 
 =head1 SYNOPSIS
 
-  perl    05-free-type.pl
-  display 05-free-type.png
-  firefox 05-free-type.html
+  perl    06-free-type-with-error.pl
+  display 06-free-type-with-error.png
+  firefox 06-free-type-with-error.html
 
 =head1 DESCRIPTION
 

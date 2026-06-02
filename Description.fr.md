@@ -1077,6 +1077,18 @@ la fois dans `mk-test-ttf.pl` et dans `xt/gdimagestringft.rakutest` et
 cela   fonctionne   bien   en   utilisant  le   fichier   généré   par
 `mk-test-ttf.pl`.
 
+J'ai également porté les fonctions traitant le cache pour les fontes,
+[`gdFontCacheSetup`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheSetup)
+et [`gdFontCacheShutdown`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheShutdown).
+À vrai dire, je ne suis pas sûr  de la façon dont il faut utiliser ces
+fonctions. Pour
+[`gdImageDestroy`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageDestroy)
+et [`gdFree`](https://libgd.github.io/manuals/2.3.3/files/gdhelpers-c.html),
+il  s'agit de  désallouer  des  tampons dont  on  n'a clairement  plus
+besoin. Ici, il s'agit d'un cache mémorisant les fontes qui pourraient
+être  réutilisées.  Néanmoins, j'estime  qu'il  faut  les porter  dans
+`GD::Raw` si la fonction `gdImageStringFT` est portée.
+
 Voici les fonctions qui n'ont pas été adaptées pour Raku :
 
 * `gdImageChar`  et  `gdImageCharUp`,  parce  que  `gdImageString`  et
@@ -1090,6 +1102,9 @@ Voici les fonctions qui n'ont pas été adaptées pour Raku :
 * `gdImageStringFTEx`   parce  qu'il   faut   décrire  une   structure
   `gdFTStringExtra`  dans le  module Raku  et que  je préfère  laisser
   cette tâche à un successeur.
+
+* `gdFreeFontCache`   parce  que   c'est  seulement   un  alias   pour
+  `gdFontCacheShutdown`.
 
 AUTEUR
 ======

@@ -11,7 +11,7 @@ use warnings;
 use GD;
 use MIME::Base64;
 
-my $name   = '05-free-type';
+my $name   = '07-free-type-generic';
 my $width  = 500;
 my $height = 350;
 my $im     = GD::Image->new($width, $height);
@@ -19,14 +19,14 @@ my $white  = $im->colorAllocate(255, 255, 255);
 my $black  = $im->colorAllocate(  0,   0,   0);
 my $red    = $im->colorAllocate(255,   0,   0);
 my $blue   = $im->colorAllocate(  0,   0, 255);
-my $fontpath = "/usr/share/fonts/truetype/freefont/FreeSans.ttf";
-my $fontalt  = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+my $fontpath = "Sans";
+my $fontalt  = "Serif";
 my $fontsize = 10;
 my $pi       = 4 * atan2(1, 1);
 my @result;
 
-# zero: do not use generic font names
-my $config = $im->useFontConfig(0);
+# 1: use generic font names
+$im->useFontConfig(1);
 
 @result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 10, 110, "Vertical climb"); dump_res(@result);
 @result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 20, 120, "Zoom climb");     dump_res(@result);
@@ -91,13 +91,13 @@ __END__
 
 =head1 NAME
 
-05-free-type.pl - drawing text using Free Type fonts
+07-free-type-generic.pl - drawing text using Free Type fonts
 
 =head1 SYNOPSIS
 
-  perl    05-free-type.pl
-  display 05-free-type.png
-  firefox 05-free-type.html
+  perl    07-free-type-generic.pl
+  display 07-free-type-generic.png
+  firefox 07-free-type-generic.html
 
 =head1 DESCRIPTION
 
