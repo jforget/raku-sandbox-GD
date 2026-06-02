@@ -32,6 +32,7 @@ my $config = gdFTUseFontConfig(1);
 my @bound-rect := CArray[int32].new;
 @bound-rect[7] = 0; # to allocate room for 8 integers
 
+my $err;
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  π/2, 10, 110, "Vertical climb"); dump-res($err, @bound-rect);
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  π/4, 20, 120, "Zoom climb"    ); dump-res($err, @bound-rect);
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize,  0e0, 30, 130, "Level flight"  ); dump-res($err, @bound-rect);
