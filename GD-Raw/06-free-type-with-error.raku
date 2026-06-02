@@ -20,8 +20,8 @@ my $black  = gdImageColorAllocate($im,   0,   0,   0);
 my $red    = gdImageColorAllocate($im, 255,   0,   0);
 my $blue   = gdImageColorAllocate($im,   0,   0, 255);
 
-my $fontpath = "/usr/share/fonts/truetype/freefont/FreeSans.ttf";
-my $fontalt  = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+my $fontpath = "/this/directory/does/not/exist/and/will/never/exist/FreeSans.ttf";
+my $fontalt  = "/this/directory/does/not/exist/and/will/never/exist/FreeSerif.ttf";
 my $fontsize = 10e0;
 
 my $rc = gdFontCacheSetup();
