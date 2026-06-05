@@ -610,6 +610,11 @@ And I was again astonished that the open PR would inherit this commit.
 There are  things in  Git and  Github that I  do not  understand quite
 well.
 
+When  working on  `GD::Raw`,  I did  not  log the  commands  I ran  to
+initialise the development environment. I  fixed that when I worked on
+`GD`. See the
+corresponding paragraph.
+
 Improved Raku Module `GD::Raw:ver<0.6>`
 ---------------------------------------
 
@@ -1061,6 +1066,41 @@ Here are the functions which have not been implemented:
 
 * `gdFreeFontCache`  because it  is  nothing more  than  an alias  for
   `gdFontCacheShutdown`.
+
+Improved Raku Module `GD:ver<0.0.3>`
+------------------------------------
+
+### Usage of Git and Github (second take)
+
+We begin with forking the
+[community GD repository](https://github.com/raku-community-modules/GD)
+by cliking  on the button  with a branch  symbol and the  word "Fork".
+Then we fill all the fields that  have to be filled and we confirm the
+action.
+
+I created a branch while browsing
+[my Github repository](https://github.com/jforget/GD/):
+
+* click on the button with a branch symbol and the name of the current
+  branch (`master`)
+
+* type the name of  the new branch, `dev`, in the  search field with a
+  magnifier symbol and the mention "Find or create a new branch...".
+
+Then on a command-line window on my PC:
+
+```
+git clone https://github.com/jforget/GD.git
+cd GD
+git branch -a
+git checkout dev
+```
+
+and later:
+
+```
+git push -u --tags origin dev
+```
 
 AUTHOR
 ======

@@ -77,7 +77,7 @@ EOF
 
 sub dump-res($msg, @bound-rect) {
   if $msg {
-    print "*** $msg";
+    print "*** $msg\n";
   }
   else {
     print join(' ', |@bound-rect.map({ sprintf '%3d', $_ }), "\n");

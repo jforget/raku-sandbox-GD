@@ -628,6 +628,11 @@ Et à ma surprise, la PR ouverte a hérité de cette modification. Il y a
 des choses que je ne comprends pas dans le fonctionnement de Git et de
 Github.
 
+Lors de  mon travail sur `GD::Raw`,  je n'ai pas noté  les commandes à
+passer pour  initialiser l'environnement de développement.  Je me suis
+rattrapé lors de mon travail sur `GD`. Voir le
+paragraphe correspondant.
+
 Module `GD::Raw:ver<0.6>` amélioré
 ----------------------------------
 
@@ -1105,6 +1110,42 @@ Voici les fonctions qui n'ont pas été adaptées pour Raku :
 
 * `gdFreeFontCache`   parce  que   c'est  seulement   un  alias   pour
   `gdFontCacheShutdown`.
+
+Module `GD:ver<0.0.3>` amélioré
+-------------------------------
+
+### Utilisation de Git et Github (bis)
+
+Commencer par « forker » le
+[répertoire communautaire](https://github.com/raku-community-modules/GD)
+en  cliquant sur  le bouton  comportant un  symbole de  branche et  la
+mention  `Fork`.  Puis renseigner  tout  ce  qu'il faut  et  confirmer
+l'opération.
+
+Pour créer une branche, je l'ai fait sur
+[mon dossier Github](https://github.com/jforget/GD/) :
+
+* cliquer sur le bouton comportant un symbole de branche, ainsi que le
+  nom de la branche courante `master`
+
+* taper  le nom  de la  nouvelle branche  « `dev` » dans  le champ  de
+  recherche  (symbole  de  loupe,  mention  « Find  or  create  a  new
+  branch... »).
+
+Puis les lignes de commande suivantes en local :
+
+```
+git clone https://github.com/jforget/GD.git
+cd GD
+git branch -a
+git checkout dev
+```
+
+et à l'avenir
+
+```
+git push -u --tags origin dev
+```
 
 AUTEUR
 ======
