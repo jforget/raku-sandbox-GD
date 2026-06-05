@@ -1082,6 +1082,15 @@ la fois dans `mk-test-ttf.pl` et dans `xt/gdimagestringft.rakutest` et
 cela   fonctionne   bien   en   utilisant  le   fichier   généré   par
 `mk-test-ttf.pl`.
 
+Ces précautions n'ont pas été suffisantes pour faire passer la
+[_pull request_](https://github.com/raku-community-modules/GD-Raw/pull/6).
+du  4 juin.  En raison  de minimes  différences de  positionnement des
+caractères, certains  pixels sont blancs  dans une version  du fichier
+graphique et noirs dans l'autre version. J'ai donc adapté le script de
+test `gdimagestringft.rakutest` pour admettre  qu'un pixel à la limite
+entre une  zone blanche et  une zone noire  puisse être blanc  dans un
+fichier et noir dans l'autre.
+
 J'ai également porté les fonctions traitant le cache pour les fontes,
 [`gdFontCacheSetup`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheSetup)
 et [`gdFontCacheShutdown`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheShutdown).
