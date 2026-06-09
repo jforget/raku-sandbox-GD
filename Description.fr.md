@@ -1156,6 +1156,40 @@ et à l'avenir
 git push -u --tags origin dev
 ```
 
+### Remise à neuf
+
+Évidemment, il faut commencer par  incrémenter le numéro de version de
+`0.0.2` à `0.0.3`.
+
+Je profite de ce changement de version pour éliminer les extensions de
+fichier  rappelant Perl  :  `.pm`,  `.pl`, `.pod`  et  `.t`, pour  les
+remplacer par les extensions spécifiques à Raku : `.rakumod`, `.raku`,
+`.rakudoc` et `.rakutest`. Également, la mention de la licence ne doit
+plus faire référence  à Perl, mais à la licence  artistique. Cela dit,
+je n'ai pas osé la mention de Perl 6 dans le fichier `META6.json`.
+
+Plus quelques opérations disparates, remplacer les tabulations par des
+espaces et  enlever les  espaces en  fin de ligne.  Ce n'est  pas fait
+partout, mais c'est déjà un début.
+
+### Données PNG (ou autres) sans passer par un fichier
+
+Avant mon intervention, le module `GD` faisait appel au module
+[`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array).
+Lorsque j'ai adapté `GD::Raw`, j'ai ajouté le module
+[`NativeHelpers::Blob`](https://raku.land/github:salortiz/NativeHelpers::Blob)
+car la
+[documentation de native call](https://docs.raku.org/language/nativecall#Arrays)
+pointait  vers  cet autre  module.  Y  aurait-il eu  moyen  d'utiliser
+`NativeHelpers::Array` à la place ? J'ai essayé et je n'ai pas réussi.
+Donc `GD` devra utiliser les deux modules.
+
+En version  0.0.2, les types  de fichier disponibles pour  stocker une
+image étaient GIF, JPEG et PNG.  Dans `GD::Raw`, j'ai prévu de générer
+des blobs  pour ces trois  formats, plus BMP,  GD, TIFF et  WEBP. J'ai
+repris tous  ces formats pour la  génération de blobs dans  la version
+0.0.3 de `GD`.
+
 AUTEUR
 ======
 
