@@ -613,7 +613,7 @@ well.
 When  working on  `GD::Raw`,  I did  not  log the  commands  I ran  to
 initialise the development environment. I  fixed that when I worked on
 `GD`. See the
-corresponding paragraph.
+[corresponding paragraph](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.en.md#usage-of-git-and-github-second-take).
 
 Improved Raku Module `GD::Raw:ver<0.6>`
 ---------------------------------------
@@ -1082,7 +1082,7 @@ Improved Raku Module `GD:ver<0.0.3>`
 
 We begin with forking the
 [community GD repository](https://github.com/raku-community-modules/GD)
-by cliking  on the button  with a branch  symbol and the  word "Fork".
+by clicking  on the button with  a branch symbol and  the word "Fork".
 Then we fill all the fields that  have to be filled and we confirm the
 action.
 
@@ -1135,7 +1135,7 @@ module contained module
 When I updated `GD::Raw`, I used
 [`NativeHelpers::Blob`](https://raku.land/github:salortiz/NativeHelpers::Blob)
 because the
-[documentation for native call](https://docs.raku.org/language/nativecall#Arrays)
+[documentation for native call](https://docs.raku.org/language/nativecall#Buffers_and_blobs)
 was  referring to  it. Is  it possible  to use  `NativeHelpers::Array`
 instead?  I  tried and  I  failed.  Therefore, the  prerequisites  for
 version 0.0.3 of `GD` contains both `NativeHelpers::xxx` modules.
@@ -1144,6 +1144,39 @@ When storing a picture in version  0.0.2, the only file types are GIF,
 JPEG  and PNG.  When I  worked in  `GD::Raw`, I  implemented the  blob
 generation for these three formats and  for BMP, GD, TIFF and WEBP. So
 for `GD` version 0.0.3, I have implemented all these 7 formats.
+
+### Documentation
+
+Admittedly, I  do not grasp what  the Raku community wants  to achieve
+with the module documentation.
+
+There is no problem with the separation between the module code within
+the `.pm`  or `.rakumod`  file and the  module documentation  within a
+`.pod` or `.rakudoc` file. This fine with me.
+
+On  the  other hand,  there  is  a problem  with  the  content of  the
+documentation. Except  for the synopsis, the  documentation is nothing
+more than a list of methods, with no additional informations about the
+usage of the methods or their  parameters. Therefore, I have added the
+names of the methods I have implemented, and nothing more. This is not
+gratifying, but it is consistent with the current documentation.
+
+Another problem is file `TODO`. Despite  its name, this file lists all
+functions from `libgd`  that have *already* been included  in the Raku
+module. This file  includes a legend giving codes  to indicate whether
+an entry has been implemented, documented, tested or illustrated by an
+example.  I do  not  understand why  a `libgd`  function  needs to  be
+documented, since  this is a  low-level function. Anyhow, as  with the
+POD  documentation,  I have  added  to  the  `TODO` file  the  `libgd`
+functions  I have  declared in  the module.  Once again,  this is  not
+gratifying, but this is consistent.
+
+Another way to document a module  is giving examples of use. There are
+tests scripts  in subdirectory  `t` and there  are example  scripts in
+subdirectory `examples`. This is a good idea. Some time in the future,
+I will  copy examples from  this sandbox repository to  the `examples`
+subdirectory of the module repository. In addition, there are advanced
+tests scripts in a new `xt` subdirectory.
 
 AUTHOR
 ======

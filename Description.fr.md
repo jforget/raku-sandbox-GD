@@ -631,7 +631,7 @@ Github.
 Lors de  mon travail sur `GD::Raw`,  je n'ai pas noté  les commandes à
 passer pour  initialiser l'environnement de développement.  Je me suis
 rattrapé lors de mon travail sur `GD`. Voir le
-paragraphe correspondant.
+[paragraphe correspondant](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#utilisation-de-git-et-github-bis).
 
 Module `GD::Raw:ver<0.6>` amélioré
 ----------------------------------
@@ -1179,7 +1179,7 @@ Avant mon intervention, le module `GD` faisait appel au module
 Lorsque j'ai adapté `GD::Raw`, j'ai ajouté le module
 [`NativeHelpers::Blob`](https://raku.land/github:salortiz/NativeHelpers::Blob)
 car la
-[documentation de native call](https://docs.raku.org/language/nativecall#Arrays)
+[documentation de native call](https://docs.raku.org/language/nativecall#Buffers_and_blobs)
 pointait  vers  cet autre  module.  Y  aurait-il eu  moyen  d'utiliser
 `NativeHelpers::Array` à la place ? J'ai essayé et je n'ai pas réussi.
 Donc `GD` devra utiliser les deux modules.
@@ -1189,6 +1189,41 @@ image étaient GIF, JPEG et PNG.  Dans `GD::Raw`, j'ai prévu de générer
 des blobs  pour ces trois  formats, plus BMP,  GD, TIFF et  WEBP. J'ai
 repris tous  ces formats pour la  génération de blobs dans  la version
 0.0.3 de `GD`.
+
+### Documentation
+
+J'avoue que je ne comprends pas très bien comment la communauté Raku a
+organisé la documentation du module.
+
+Je ne suis pas  dérangé par le fait que la  documentation soit dans un
+fichier `.pod` ou `.rakudoc` séparé du source du module (fichier `.pm`
+ou `.rakumod`). Ce n'est pas un problème.
+
+En  revanche, il  y a  un problème  dans la  mesure où,  en dehors  du
+synopsis, cette documentation se contente de lister les méthodes, sans
+aucune précision  sur l'utilité de  la méthode ou sur  ses paramètres.
+J'ai donc  ajouté le nom  des méthodes que  j'ai codées, avec  le même
+laconisme.  Ce  n'est  pas  satisfaisant,  mais  c'est  cohérent  avec
+l'existant.
+
+Un autre problème,  c'est le fichier `TODO`. Contrairement  à son nom,
+ce  fichier  énumère les  fonctions  de  `libgd`  qui ont  *déjà*  été
+reprises dans le module Raku. Ce fichier comporte une légende avec des
+codes  indiquant  si  telle  ou  telle  entrée  est  implémentée,  est
+documentée, dispose d'un test ou dispose d'un exemple. Je ne comprends
+pas pourquoi  les fonctions de `libgd`  nécessitent une documentation,
+étant donné qu'elles sont nécessairement  des fonctions de bas niveau,
+Toujours est-il que, comme pour la documentation POD, j'ai complété le
+fichier  à  l'identique  avec  les   fonctions  de  `libgd`  que  j'ai
+utilisées.  Encore une  fois, ce  n'est pas  satisfaisant, mais  c'est
+cohérent.
+
+Une autre façon de documenter un  module, c'est de donner des exemples
+d'utilisation. Il y a les scripts de tests dans le sous-répertoire `t`
+et il  y a des  scripts d'exemple dans le  sous-répertoire `examples`.
+C'est une bonne idée. En temps utile, je recopierai les exemples de ce
+dépôt dans le sous-répertoire `examples` de ce module. Également, j'ai
+ajouté un sous-répertoire `xt` pour les tests avancés.
 
 AUTEUR
 ======
