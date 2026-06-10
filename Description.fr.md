@@ -1225,6 +1225,22 @@ C'est une bonne idée. En temps utile, je recopierai les exemples de ce
 dépôt dans le sous-répertoire `examples` de ce module. Également, j'ai
 ajouté un sous-répertoire `xt` pour les tests avancés.
 
+### Épaisseur
+
+Lors de la  rédaction des tests pour la méthode  `setThickness`, je me
+suis aperçu d'un problème lors  du dessin des rectangles. Le paramètre
+`size`,  contrairement à  son nom,  contient les  coordonnées du  coin
+inférieur  droit du  rectangle.  Ce  problème a  déjà  été constaté  à
+l'occasion du
+[problème 14](https://github.com/raku-community-modules/GD/issues/14).
+Donc  je  corrige  ce  problème  14 en  même  temps  que  j'implémente
+l'épaisseur des traits. J'ai fait d'une pierre deux coups.
+
+J'aurais pu  supprimer le  paramètre `size` pour  le remplacer  par un
+paramètre `alt-location` permettant de donner le coin inférieur droit.
+J'ai   préféré   conserver  le   mot-clé   `size`   et  restaurer   sa
+signification.
+
 AUTEUR
 ======
 

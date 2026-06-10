@@ -18,9 +18,9 @@ my $red    = $im.colorAllocate(red => 255, green =>   0, blue =>   0);
 my $blue   = $im.colorAllocate(red =>   0, green =>   0, blue => 255);
 
 $im.line(start => (10, 10), end => (100, 10), color => $red);
-#$im.setThickness(thickness => 2);
+$im.setThickness(2);
 $im.line(start => (10, 20), end => (100, 20), color => $blue);
-#$im.setThickness(thickness => 3);
+$im.setThickness(3);
 $im.line(start => (10, 30), end => (100, 40), color => $black);
 
 my $png_fh = $im.open("$name.png", "wb");

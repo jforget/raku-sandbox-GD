@@ -1178,6 +1178,20 @@ I will  copy examples from  this sandbox repository to  the `examples`
 subdirectory of the module repository. In addition, there are advanced
 tests scripts in a new `xt` subdirectory.
 
+### Thickness
+
+When I wrote a test script for method `setThickness`, I found that the
+rectangles are not drawn in the proper way. The parameter named `size`
+contains the coordinates of the  lower-right corner, despite its name.
+This problem has already been hinted at in
+[issue 14](https://github.com/raku-community-modules/GD/issues/14).
+So I  fix issue  14 while implementing  thickness. Striking  two birds
+with a single stone.
+
+I could have  removed parameter `size` and replaced  it with parameter
+`alt-location` to describe the lower-right corner. I preferred to keep
+the parameter name `size` and use it according to its name.
+
 AUTHOR
 ======
 
