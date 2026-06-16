@@ -1178,7 +1178,10 @@ I will  copy examples from  this sandbox repository to  the `examples`
 subdirectory of the module repository. In addition, there are advanced
 tests scripts in a new `xt` subdirectory.
 
-### Thickness
+### Rectangle
+
+After the `png` and similar methods,  the next feature I wanted to add
+was the choice of the line thicknesses, method `setThickness`.
 
 When I wrote a test script for method `setThickness`, I found that the
 rectangles are not drawn in the proper way. The parameter named `size`
@@ -1190,7 +1193,92 @@ with a single stone.
 
 I could have  removed parameter `size` and replaced  it with parameter
 `alt-location` to describe the lower-right corner. I preferred to keep
-the parameter name `size` and use it according to its name.
+the parameter  name `size` and  use it according  to its name.  Then I
+partially  changed my  mind.  Now,  the user  is  free  to choose  the
+parameter  `size` or  the parameter  `alt-location` when  invoking the
+method `rectangle`.
+
+As  the  saying  goes,  there  are  three  big  problems  in  computer
+programming:
+
+* character encodings,
+* cache invalidation,
+* naming things,
+* off-by-one errors.
+
+And there  was an  off-by-one error when  I implemented  the parameter
+`size` for the method `rectangle`.
+
+If a user  asks for a rectangle located  in `x1 = 10, y1 =  10` with a
+size  `(20, 10)`,  the  first version  I wrote  for  the method  would
+compute the opposite  angle at location `x2 = 30,  y2 = 20`. Actually,
+this  gives a  rectangle with  width 21  and height  11. On  one hand,
+geometric points are dimension-less objects, on the other hand, pixels
+have an actual width and an actual height. From x1 = 10 until x2 = 30,
+there are 21 pixels, not 20. Similarly from  y1 = 10 to y2 = 20, there
+are 11 pixels, not 10.
+
+Since I  am dealing  with rectangles,  I add a  third idiom  to create
+rectangles, by  specifying the center  of the rectangle instead  of an
+angle.  To this  `center` parameter,  I add  a `half-size`  parameter,
+similar to the `axes` parameter of ellipses. I have two reasons to use
+a `half-size` parameter instead of  `size`. First, there is no problem
+with even / odd lengths, second it eases the multi-method dispatching,
+because the `size`  parameter is used in only one  method (as with the
+`half-size` parameter and the `alt-location` parameter).
+
+Some more explanations about the even / odd lengths. If we ask
+
+```
+$im.rectangle( center    => (20, 15)
+             , half-size => (10, 5)
+             );
+```
+
+there is no  problem to understand that the x-interval  will be 10..30
+for a 21-pixel width and the  y-interval will be 10..20 for a 11-pixel
+height. In other words, this statement is equivalent to each following
+statements:
+
+```
+$im.rectangle( location     => (10, 10)
+             , alt-location => (30, 20)
+             );
+$im.rectangle( location => (10, 10)
+             , size     => (21, 11)
+             );
+```
+
+and to the discarded syntax:
+
+```
+$im.rectangle( center => (20, 15)
+             , size   => (21, 11)
+             );
+```
+
+But suppose we have used a `size` parameter with `center` and suppose
+we have given it even values:
+
+```
+$im.rectangle( center => (20, 15)
+             , size   => (20, 10)
+             );
+```
+
+after we  have put aside one  pixel for the center  (both horizontally
+and vertically), how  should we split the remaining odd  width and the
+remaining odd height? Among the two statements below, which one should
+be adopted?
+
+```
+$im.rectangle( location     => (10, 10)
+             , alt-location => (29, 19)
+             );
+$im.rectangle( location     => (11, 11)
+             , alt-location => (30, 20)
+             );
+```
 
 AUTHOR
 ======

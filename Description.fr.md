@@ -1225,7 +1225,11 @@ C'est une bonne idée. En temps utile, je recopierai les exemples de ce
 dépôt dans le sous-répertoire `examples` de ce module. Également, j'ai
 ajouté un sous-répertoire `xt` pour les tests avancés.
 
-### Épaisseur
+### Rectangle
+
+Après les méthode `png` et  similaires, la nouvelle fonctionnalité que
+je  voulais  ajouter, c'était  le  choix  de l'épaisseur  des  traits,
+mathode `setThickness`.
 
 Lors de la  rédaction des tests pour la méthode  `setThickness`, je me
 suis aperçu d'un problème lors  du dessin des rectangles. Le paramètre
@@ -1239,7 +1243,94 @@ l'épaisseur des traits. J'ai fait d'une pierre deux coups.
 J'aurais pu  supprimer le  paramètre `size` pour  le remplacer  par un
 paramètre `alt-location` permettant de donner le coin inférieur droit.
 J'ai   préféré   conserver  le   mot-clé   `size`   et  restaurer   sa
-signification.
+signification.  Puis  j'ai  partiellement  changé  d'avis.  Je  laisse
+choisir l'utilisateur pour adopter le paramètre `size` ou le paramètre
+`alt-location`,  selon   son  humeur   du  moment.  C'est   bien,  les
+multi-méthodes !
+
+Comme dit le proverbe, il y a trois gros problèmes en programmation :
+
+* l'encodage des caractères,
+* l'invalidation des données en cache,
+* les règles de nommage,
+* les décalage de 1.
+
+Et un  décalage de 1  s'est glissé dans l'implémentation  du paramètre
+`size` de la méthode `rectangle`.
+
+Si un utilisateur demande un rectangle situé  en `x1 = 10, y1 = 10` et
+de taille `(20, 10)`, alors dans  la première version que j'ai écrite,
+la méthode détermine que le coin  opposé du rectangle se trouve en `x2
+= 30, y2 = 20`. Et cela fait  un rectangle de largeur 21 et de hauteur
+11.  En   effet,  si  les   points  géométriques  sont   des  « objets
+géométriques  sans dimension »,  les  pixels ont  une  largeur et  une
+hauteur. De x1 =  10 jusqu'à x2 = 30, on compte donc  21 pixels et non
+pas 20.  Idem en  hauteur, de y1  = 10  jusqu'à y2 =  20 on  compte 11
+pixels et non pas 10.
+
+Tant que  j'y suis, j'ajoute  une troisième variante pour  dessiner un
+rectangle, en positionnant  le centre du rectangle au  lieu d'un coin.
+Au lieu d'un paramètre `size` pour préciser la taille du rectangle, je
+donne  un  paramètre `half-size`,  analogue  aux  rayons des  ellipses
+(paramètre `axes`  pour le  grand axe et  le petit axe).  Il y  a deux
+raisons pour le choix du mot-clé `half-size`. D'une part, il n'y a pas
+de problème de  reste de division par 2, d'autre  part, cela simplifie
+l'aiguillage des multi-méthodes, le paramètre `size` étant utilisédans
+une seule méthode (tout comme `half-size` et `alt-location`).
+
+Un peu plus de  détails sur le problème de la division  par 2. Si l'on
+demande
+
+```
+$im.rectangle( center    => (20, 15)
+             , half-size => (10, 5)
+             );
+```
+
+il n'y a aucune ambiguïté  pour deviner que l'intervalle des abscisses
+sera 10..30 pour  une largeur de 21 et que  l'intervalle des ordonnées
+sera  10..20  pour  une  hauteur  de 11.  En  d'autres  termes,  c'est
+équivalent à l'un des deux appels
+
+```
+$im.rectangle( location     => (10, 10)
+             , alt-location => (30, 20)
+             );
+$im.rectangle( location => (10, 10)
+             , size     => (21, 11)
+             );
+```
+
+et à la solution qui n'a pas été retenue :
+
+```
+$im.rectangle( center => (20, 15)
+             , size   => (21, 11)
+             );
+```
+
+Mais  si l'on  avait utilisé  le  paramètre `size`  avec le  paramètre
+`center` et que l'on avait indiqué des tailles paires, comme :
+
+```
+$im.rectangle( center => (20, 15)
+             , size   => (20, 10)
+             );
+```
+
+après avoir  mis de côté le  pixel pour le centre  (horizontalement et
+verticalement),  comment  faudrait-il  répartir  en  deux  moitiés  la
+largeur impaire restante  et la hauteur impaire restante  ? Lequel des
+deux appels ci-dessous faudrait-il privilégier ?
+
+```
+$im.rectangle( location     => (10, 10)
+             , alt-location => (29, 19)
+             );
+$im.rectangle( location     => (11, 11)
+             , alt-location => (30, 20)
+             );
+```
 
 AUTEUR
 ======

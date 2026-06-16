@@ -18,11 +18,11 @@ my $red    = $im.colorAllocate(red => 255, green =>   0, blue =>   0);
 my $blue   = $im.colorAllocate(red =>   0, green =>   0, blue => 255);
 
 $im.line(start => (10, 10), end => (100, 10), color => $red);
-$im.setThickness(thickness => 2);
+$im.setThickness(2);
 $im.line(start => (10, 20), end => (100, 20), color => $blue);
-$im.setThickness(thickness => 3);
+$im.setThickness(3);
 $im.line(start => (10, 30), end => (100, 40), color => $black);
-$im.setThickness(thickness => 1);
+$im.setThickness(1);
 
 $im.line(start => (0, 110), end => (190, 130), color => $black);
 $im.ellipse(  center   => ( 10, 120), axes => (20, 20), fill => True , color => $white);
@@ -31,7 +31,7 @@ $im.rectangle(location => ( 30, 110), size => (20, 20), fill => True , color => 
 $im.rectangle(location => ( 30, 110), size => (20, 20), fill => False, color => $blue);
 $im.ellipse(  center   => ( 70, 120), axes => (20, 20), fill => True , color => $red);
 $im.rectangle(location => ( 90, 110), size => (20, 30), fill => True , color => $red);
-$im.setThickness(thickness => 3);
+$im.setThickness(3);
 $im.ellipse(  center   => (130, 120), axes => (20, 20), fill => True , color => $white);
 $im.ellipse(  center   => (130, 120), axes => (20, 20), fill => False, color => $blue);
 $im.rectangle(location => (150, 110), size => (20, 20), fill => True , color => $white);
