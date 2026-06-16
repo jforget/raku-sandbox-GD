@@ -1271,8 +1271,7 @@ pixels et non pas 10.
 Tant que  j'y suis, j'ajoute  une troisième variante pour  dessiner un
 rectangle, en positionnant  le centre du rectangle au  lieu d'un coin.
 Au lieu d'un paramètre `size` pour préciser la taille du rectangle, je
-donne  un  paramètre `half-size`,  analogue  aux  rayons des  ellipses
-(paramètre `axes`  pour le  grand axe et  le petit axe).  Il y  a deux
+donne  un  paramètre `half-size`.  Il y  a deux
 raisons pour le choix du mot-clé `half-size`. D'une part, il n'y a pas
 de problème de  reste de division par 2, d'autre  part, cela simplifie
 l'aiguillage des multi-méthodes, le paramètre `size` étant utilisédans

@@ -1220,8 +1220,8 @@ are 11 pixels, not 10.
 
 Since I  am dealing  with rectangles,  I add a  third idiom  to create
 rectangles, by  specifying the center  of the rectangle instead  of an
-angle.  To this  `center` parameter,  I add  a `half-size`  parameter,
-similar to the `axes` parameter of ellipses. I have two reasons to use
+angle.  To this  `center` parameter,  I add  a `half-size`  parameter.
+I have two reasons to use
 a `half-size` parameter instead of  `size`. First, there is no problem
 with even / odd lengths, second it eases the multi-method dispatching,
 because the `size`  parameter is used in only one  method (as with the

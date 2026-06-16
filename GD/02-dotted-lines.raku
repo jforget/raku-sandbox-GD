@@ -40,6 +40,8 @@ my $png =  MIME::Base64.encode($im.png);
 </html>
 EOF
 
+$im.destroy;
+
 =begin POD
 
 =head1 NAME
