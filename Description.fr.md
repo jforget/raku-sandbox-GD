@@ -301,6 +301,79 @@ la syntaxe de Raku qui veut cela. Dommage.
 J'ai cherché la chaîne `string` avec `grep` dans les clones des dépôts
 `GD` et `GD::Raw`, je n'ai rien trouvé. Idem pour la chaîne `Font`.
 
+Lecture d'une image existante
+-----------------------------
+
+Outre mon
+[projet sur les graphes et les chemins hamiltoniens](https://github.com/jforget/raku-Hamilton2/blob/master/doc/Hamilton.fr.md),
+j'ai utilisé GD pour un
+[projet de reconnaissance de caractères](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/description/description.md).
+Le projet n'est plus actif, mais j'y pense quand même.
+
+Dans ce projet,  certaines images sont générées,  mais d'autres images
+sont analysées.  Il faut  donc charger  un objet  image à  partir d'un
+fichier PNG ou d'un blob PNG.
+
+```
+# Perl
+my $image = GD::Image->newFromPng($fichier);
+[...]
+my $im_cel = GD::Image->newFromPngData(decode_base64($cel->{data}));
+
+# Inline::Perl5 + GD
+my $image = GD::Image.newFromPng($fichier);
+[...]
+my $im_cel = GD::Image.newFromPngData(MIME::Base64.decode($cel<data>));
+
+# GD
+
+# GD::Raw
+my $fh = fopen("my-image.png", "rb");
+my $img = gdImageCreateFromPng($fh);
+```
+
+Exemples Perl tirés du
+[programme `calibrage`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/calibrage)
+et du [programme `appli.pl`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/appli/appli.pl)
+du projet de reconnaissance de caractères.
+
+Exemples `Inline::Perl5`  reconstitués à partir des  exemples Perl, je
+ne les ai pas testés.
+
+Exemple `GD::Raw` tiré de la documentation POD du module. Je n'ai rien
+trouvé pour la création à partir d'un blob.
+
+Pour `GD`, je n'ai rien trouvé.
+
+Traitement pixel par pixel
+--------------------------
+
+Pour  ce projet  de  reconnaissance de  caractères,  il faut  analyser
+certaines images  pixel par  pixel et connaître  la couleur  de chaque
+pixel.
+
+```
+# Perl
+my $index  = $image->getPixel($l1, $c1);
+
+# Inline::Perl5 + GD
+my $index  = $image.getPixel($l1, $c1);
+
+# GD
+
+# GD::Raw
+my int32 $p = gdImageGetPixel($im, $x, $y);
+
+```
+
+Exemple Perl tiré du
+[projet de reconnaissance de caractères](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/calibrage).
+
+Exemple `GD::Raw` tiré de
+[`xt/gdimagepixelate.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/gdimagepixelate.rakutest).
+
+Pour `GD`, je n'ai rien trouvé.
+
 DOCUMENTATION
 =============
 

@@ -299,6 +299,80 @@ I have  grepped the  keyword `string`  in the clones  of the  `GD` and
 `GD::Raw`  repositories  and I  have  found  nothing. Same  thing  for
 substring `Font`.
 
+Reading an Existing Image
+-------------------------
+
+Beside my
+[project about graphs and Hamiltonian paths](https://github.com/jforget/raku-Hamilton2/blob/master/doc/Hamilton.en.md),
+I used GD for a
+[char recognition project](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/description/description.en.md).
+The project is inactive, but I still remember it.
+
+In this  project, some images are  generated, but others are  read and
+analysed. We need to create an image  object from a PNG file or from a
+PNG blob.
+
+```
+# Perl
+my $image = GD::Image->newFromPng($file);
+[...]
+my $im_cel = GD::Image->newFromPngData(decode_base64($cel->{data}));
+
+# Inline::Perl5 + GD
+my $image = GD::Image.newFromPng($file);
+[...]
+my $im_cel = GD::Image.newFromPngData(MIME::Base64.decode($cel<data>));
+
+# GD
+
+# GD::Raw
+my $fh = fopen("my-image.png", "rb");
+my $img = gdImageCreateFromPng($fh);
+```
+
+The Perl examples come from
+[program `calibrage`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/calibrage)
+and from
+[program `appli.pl`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/appli/appli.pl)
+from the char recognition project.
+
+The `Inline::Perl5` examples  are built from the Perl  examples, but I
+have not tested them.
+
+The `GD::Raw` example comes from the POD documentation of this module.
+I have found nothing about creating an image from a blob.
+
+For `GD`, I found nothing.
+
+Pixel-Wise Processing
+---------------------
+
+For  the char  recognition project,  we  must analyse  some images  by
+examining each pixel in turn.
+
+```
+# Perl
+my $index  = $image->getPixel($l1, $c1);
+
+# Inline::Perl5 + GD
+my $index  = $image.getPixel($l1, $c1);
+
+# GD
+
+# GD::Raw
+my int32 $p = gdImageGetPixel($im, $x, $y);
+
+```
+
+Perl example from the
+[char recognition project](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/calibrage).
+
+The example fror `GD::Raw` comes from
+[`xt/gdimagepixelate.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/gdimagepixelate.rakutest).
+
+For `GD`, I found nothing.
+
+
 DOCUMENTATION
 =============
 
