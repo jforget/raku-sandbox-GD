@@ -9,6 +9,7 @@ use v5.10;
 use strict;
 use warnings;
 use GD;
+use MIME::Base64;
 
 my $name   = 'gdimagetext';
 my $width  = 100;
@@ -28,6 +29,22 @@ print $fh $im->png;
 close $fh
     or die "closing PNG file: $!";
 
+my $png = MIME::Base64::encode($im->png);
+#$png =~ s/\n\z//;      # because in this case the Raku module adds a newline at the end of the last line
+
+open $fh, '>', "$name.html"
+    or die "opening HTML file: $!";
+print $fh <<"EOF";
+<html>
+<head><title>Strings</title></head>
+<body>
+<h1>Embedded PNG data</h1>
+<img src='data:image/png;base64,$png'>
+</body>
+</html>
+EOF
+close $fh
+    or die "closing HTML file: $!";
 
 __END__
 

@@ -29,9 +29,9 @@ $im.ellipse(  center   => (130, 20), axes => (20, 20), fill => True , color => $
 $im.ellipse(  center   => (130, 20), axes => (20, 20), fill => False, color => $blue);
 $im.rectangle(location => (150, 10), size => (21, 21), fill => True , color => $white);
 $im.rectangle(location => (150, 10), size => (21, 21), fill => False, color => $blue);
-#$im.string(font => GD::gdSmallFont,      location => (  5, 15), text => '01', color => $black);
-#$im.string(font => GD::gdMediumBoldFont, location => ( 35, 15), text => '02', color => $black);
-#$im.string(font => GD::gdLargeFont,      location => (153, 13), text => '03', color => $black);
+$im.string(font => GDSmallFont,      location => (  5, 15), text => '01', color => $black);
+$im.string(font => GDMediumBoldFont, location => ( 35, 15), text => '02', color => $black);
+$im.string(font => GDLargeFont,      location => (153, 13), text => '03', color => $black);
 
 my $png_fh = $im.open("$name.png", "wb");
 $im.output($png_fh, GD_PNG);
