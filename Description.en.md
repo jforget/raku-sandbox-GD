@@ -1354,6 +1354,18 @@ $im.rectangle( location     => (11, 11)
              );
 ```
 
+Improved Raku Module `GD:ver<0.0.3>`
+------------------------------------
+
+### Inserting Char Strings
+
+For  the five  internal GD  fonts,  I wanted  to use  methods such  as
+`GD::giant-font`. I attempted a few modifications, including upgrading
+`GD` from a  `module` to a `class`.  I did not succeed.  So I declared
+these fonts  as functions. I used  kebab case rather than  camel case,
+`GD-small-font` rather than `GDSmallFont`.
+
+
 AUTHOR
 ======
 

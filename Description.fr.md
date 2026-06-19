@@ -951,7 +951,7 @@ requiert la définition d'une classe représentant la
 Dans un  premier temps, je n'en  tiendrai pas compte pour  les modules
 Raku `GD` et `GD::Raw`.
 
-Nous  pouvons remarquer  que  dans la  documnetation  de `GD.pm`,  cet
+Nous  pouvons remarquer  que  dans la  documentation  de `GD.pm`,  cet
 utilitaire  de conversion  s'appelle  `bdf2gd.pl`, tandis  que sur  ma
 machine, le répertoire `/usr/bin` contient un utilitaire `bdf2gdfont`,
 généré   par  l'utilitaire   de  configuration   `bdf2gdfont_pl.PL`  à
@@ -1326,7 +1326,7 @@ Comme dit le proverbe, il y a trois gros problèmes en programmation :
 * l'encodage des caractères,
 * l'invalidation des données en cache,
 * les règles de nommage,
-* les décalage de 1.
+* les décalages de 1.
 
 Et un  décalage de 1  s'est glissé dans l'implémentation  du paramètre
 `size` de la méthode `rectangle`.
@@ -1347,7 +1347,7 @@ Au lieu d'un paramètre `size` pour préciser la taille du rectangle, je
 donne  un  paramètre `half-size`.  Il y  a deux
 raisons pour le choix du mot-clé `half-size`. D'une part, il n'y a pas
 de problème de  reste de division par 2, d'autre  part, cela simplifie
-l'aiguillage des multi-méthodes, le paramètre `size` étant utilisédans
+l'aiguillage des multi-méthodes, le paramètre `size` étant utilisé dans
 une seule méthode (tout comme `half-size` et `alt-location`).
 
 Un peu plus de  détails sur le problème de la division  par 2. Si l'on
@@ -1403,6 +1403,18 @@ $im.rectangle( location     => (11, 11)
              , alt-location => (30, 20)
              );
 ```
+
+Module `GD:ver<0.0.4>` amélioré
+-------------------------------
+
+### Insertion de chaînes de caractères
+
+Pour les  cinq fontes  internes GD, je  voulais utiliser  des méthodes
+`GD::giant-font`.   J'ai  fait   quelques  tentatives,   notamment  en
+déclarant que `GD`  n'est pas un `module`, mais une  `class`. Cela n'a
+pas réussi. J'ai  donc déclaré ces cinq fontes en  tant que fonctions.
+J'ai  priviligié  le   _kebab  case_  plutôt  que   le  _camel  case_,
+`GD-small-font` plutôt que `GDSmallFont`.
 
 AUTEUR
 ======
