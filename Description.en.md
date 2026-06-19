@@ -1354,8 +1354,72 @@ $im.rectangle( location     => (11, 11)
              );
 ```
 
-Improved Raku Module `GD:ver<0.0.3>`
+Improved Raku Module `GD:ver<0.0.5>`
 ------------------------------------
+
+### Usage of Git and Github (third take)
+
+I did  not write version 0.0.4  of `GD`, the "Raku  community" (mainly
+Liz) wrote it. So the new version I am working on is version 0.0.5.
+
+While I did a modest overhaul  in version 0.0.3 (new file extensions),
+version  0.0.4 has  included a  much  bigger overhaul,  with some  new
+subdirectories, some  new files, the  removal of some  obsolete files.
+Yet, I had  already started working on the use  of char strings inside
+the  images.  Any  attempts  to merge  the  "Raku  Community  modules"
+repository into mine  would trigger many merge  conflicts. I preferred
+working on a new branch `dev1`.
+
+While in [my Github repository](https://github.com/jforget/GD/):
+
+* select branch `master`
+
+* click on button "Sync fork", then on "update branch"
+
+* click on the button with a branch symbol and the name of the current
+  branch (`master`)
+
+* type the name of  the new branch, `dev1`, in the  search field with a
+  magnifier symbol and the mention "Find or create a new branch...".
+
+Then on a command-line window on my PC:
+
+```
+cd GD
+git checkout dev
+cd ..
+mv GD GD-dev
+git clone https://github.com/jforget/GD.git
+cd GD
+git branch -a
+git checkout dev
+```
+
+In this  way, I  have two  parallel directories,  the first  one named
+`GD-dev` with the work already done  on char strings within images and
+the second one named `GD` where I  will do all the necessary work from
+now on and from which I will submit a new pull request.
+
+I just have to remember that now I should type:
+
+```
+git push -u --tags origin dev1
+```
+
+After the 0.0.4  overhaul, some CI/CD actions appeared  in Github. The
+main effect of  these actions is sending me many  messages each time I
+run a  `git push`, to warn  me that the  new version does not  work on
+Macos or on  Windows. Since I cannot do anything  about that and since
+these messages clog up my mailbox,  I deactivate them. This is done on
+Github:
+
+* On the line "Code Pull Requests ... Settings", click on "Settings"
+
+* On the left side menu, click on "Actions" → "General"
+
+* Click on "Disable actions"
+
+* Click on "Save"
 
 ### Inserting Char Strings
 

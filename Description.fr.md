@@ -1404,8 +1404,76 @@ $im.rectangle( location     => (11, 11)
              );
 ```
 
-Module `GD:ver<0.0.4>` amélioré
+Module `GD:ver<0.0.5>` amélioré
 -------------------------------
+
+### Utilisation de Git et Github (ter)
+
+Ce  n'est  pas moi  qui  ai  écrit la  version  0.0.4,  mais c'est  la
+« communauté Raku » (en fait, Liz).  Donc, la version que je développe
+est la version 0.0.5.
+
+Si j'ai fait une légère remise à neuf en version 0.0.3 (changement des
+extensions  de fichiers),  la  version 0.0.4  a  été l'occasion  d'une
+grosse  remise à  neuf avec  de  nouveaux répertoires  et de  nouveaux
+fichiers, plus  la suppression  de quelques fichiers  périmés. J'avais
+déjà commencé à  travailler sur l'ajout de chaînes  de caractères dans
+les images.  Si je tentais  de fusionner  la branche `master`  avec ma
+branche `dev`, il risquerait d'y avoir un nombre important de conflits
+de fusion. J'ai donc préféré créer une nouvelle branche `dev1`.
+
+Sur [mon dossier Github](https://github.com/jforget/GD/) :
+
+* sélectionner la branche `master`
+
+* cliquer sur le bouton _sync fork_ puis sur _update branch_.
+
+* cliquer sur le bouton comportant un symbole de branche, ainsi que le
+  nom de la branche courante `master`
+
+* taper le  nom de  la nouvelle  branche « `dev1` »  dans le  champ de
+  recherche  (symbole  de  loupe,  mention  « Find  or  create  a  new
+  branch... »).
+
+Puis les lignes de commande suivantes en local :
+
+```
+cd GD
+git checkout dev
+cd ..
+mv GD GD-dev
+git clone https://github.com/jforget/GD.git
+cd GD
+git branch -a
+git checkout dev1
+```
+
+De la sorte, j'ai en parallèle  un premier répertoire `GD-dev` avec le
+travail que j'ai  déjà fait sur l'ajout de chaînes  de caractères dans
+les images et un second répertoire `GD` où je travaillerai et à partir
+duquel je pourrai soumettre une nouvelle _pull request_.
+
+Il faut juste que je pense dorénavant à taper :
+
+```
+git push -u --tags origin dev1
+```
+
+Avec la refonte, sont apparus  quelques actions de CI/CD. Le principal
+effet de ces actions est de  m'envoyer tout plein de messages à chaque
+`push`, pour  m'indiquer que cela ne  fonctionne pas sur Macos  et sur
+Windows.  Comme je  ne  peux rien  faire  sur le  sujet  et comme  ces
+messages encombrent ma boîte de  messagerie, je les désactive. Cela se
+fait sur Github :
+
+* Sur la  ligne _Code  - Pull  Requests -  ... Settings_,  cliquer sur
+  _Settings_.
+
+* Sur le menu de gauche, cliquer sur _Actions → General_
+
+* Cliquer sur _Disable actions_
+
+* Cliquer sur _Save_
 
 ### Insertion de chaînes de caractères
 
@@ -1431,5 +1499,5 @@ License 2.0**. Voir le texte (en anglais) dans `LICENSE`.
 
 Les divers textes  et images de ce dépôt sont  publiés avec la licence
 Creative Commons : Attribution - Partage dans les Mêmes Conditions (CC
-BY-SA ).
+-SA ).
 
