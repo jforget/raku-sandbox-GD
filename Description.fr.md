@@ -1475,6 +1475,43 @@ fait sur Github :
 
 * Cliquer sur _Save_
 
+### Prérequis
+
+La refonte  du module  `GD` a  entraîné une révision  de la  liste des
+pré-requis.  Cela a  entraîné une  révision  de la  liste des  modules
+installés sur la machine virtuelle qui me sert pour les développements
+de `GD::Raw` et de `GD`.
+
+Voici la liste  initiale des modules que j'avais  installés par `zef`,
+pour le développement de `GD` version  0.0.3. J'ai enlevé ceux qui ont
+été installés  automatiquement parce que c'étaient  des prérequis pour
+d'autres :
+
+* LibraryCheck:ver<0.0.11>:auth<zef:jonathanstowe>:api<1.0>
+* Linux::Proc::Statm
+* MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>
+* NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>
+* NativeHelpers::Blob:ver<0.1.12>:auth<github:salortiz>
+
+Et  voici  maintenant  la  liste   des  modules  nécessaires  pour  le
+développement de `GD` version 0.0.5 :
+
+* LibraryCheck:ver<0.0.12>:auth<zef:jonathanstowe>:api<1.0>
+* Linux::Proc::Statm
+* MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>
+* NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>
+* NativeHelpers::Blob:ver<0.1.12>:auth<zef:raku-community-modules>
+* Test::Coverage:ver<0.0.8>:auth<zef:lizmat>
+
+Ainsi   que   vous  pouvez   le   constater,   il  a   fallu   ajouter
+`Test::Coverage`  (et  ses  nombreux   prérequis).  Et  si  vous  êtes
+attentifs, vous  avez constaté  qu'il a  fallu en  plus _désinstaller_
+`LibraryCheck` et  `NativeHelpers::Blob` pour réinstaller  la dernière
+version de ces deux modules. Comme signalé
+[plus haut](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#donn%C3%A9es-png-sans-passer-par-un-fichier);
+il faut ajouter le paramètre  `--force-test` lors de l'installation de
+`NativeHelpers::Blob`.
+
 ### Insertion de chaînes de caractères
 
 Pour les  cinq fontes  internes GD, je  voulais utiliser  des méthodes
