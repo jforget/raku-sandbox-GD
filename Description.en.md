@@ -1119,6 +1119,35 @@ file.  I fixed  the  test script  `gdimagestringft.rakutest` to  allow
 situations where  a pixel  at the  border between a  white area  and a
 black area is white in the first file and black in the other file.
 
+Explanation. Let us compare the two pixelated images below
+
+```
+         Before                    After                   Difference
+ 0....+....1....+....2     0....+....1....+....2     0....+....1....+....2
+0............XXXXX....    0...........XXXXX.....    0...........+....*....
+1...........XXXXX.....    1..........XXXXX......    1..........+....*.....
+2..........XXXX.......    2.........XXXX........    2.........+...*.......
+3.........XXXX........    3........XXX..........    3........+..**........
+4........XXXX.........    4.......XXX...........    4.......+..**.........
+5.....................    5.....................    5.....................
+```
+
+Some pixels shift from white to black:
+
+(11, 0), (10, 1), (9, 2), (8, 3) and (7, 4).
+
+Other pixels shift from black to white:
+
+(16, 0), (15, 1), (13, 2), (11, 3), (12, 3), (10, 4) and (11, 4).
+
+All these  pixels, except (11, 4),  have at least one  black neighbour
+and one  white neighbour in  both images,  so they are  border pixels,
+their modifications are considered as  minor modifications and they do
+not  cause the  test to  fail. On  the other  hand, pixel  (11, 4)  is
+surrounder by  4 white  pixels in  the right image.  This is  an inner
+pixel, its change of colour is  a major modification, the pictures are
+considered much different and the comparison test fails.
+
 I also ported the functions dealing with the font cache,
 [`gdFontCacheSetup`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheSetup)
 and [`gdFontCacheShutdown`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheShutdown).
@@ -1463,6 +1492,8 @@ For  the five  internal GD  fonts,  I wanted  to use  methods such  as
 these fonts  as functions. I used  kebab case rather than  camel case,
 `GD-small-font` rather than `GDSmallFont`.
 
+As a  result, I regret  having created a method  named `setThickness`,
+which would be much more readable if named `set-thickness`.
 
 AUTHOR
 ======

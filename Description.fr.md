@@ -1164,6 +1164,36 @@ test `gdimagestringft.rakutest` pour admettre  qu'un pixel à la limite
 entre une  zone blanche et  une zone noire  puisse être blanc  dans un
 fichier et noir dans l'autre.
 
+Explication : comment comparer les deux desssins pixellisés ci-dessous :
+
+```
+         Avant                     Après                   Différence
+ 0....+....1....+....2     0....+....1....+....2     0....+....1....+....2
+0............XXXXX....    0...........XXXXX.....    0...........+....*....
+1...........XXXXX.....    1..........XXXXX......    1..........+....*.....
+2..........XXXX.......    2.........XXXX........    2.........+...*.......
+3.........XXXX........    3........XXX..........    3........+..**........
+4........XXXX.........    4.......XXX...........    4.......+..**.........
+5.....................    5.....................    5.....................
+```
+
+Les pixels passant de blanc à noir :
+
+(11, 0), (10, 1), (9, 2), (8, 3) et (7, 4).
+
+Les pixels passant de noir à blanc :
+
+(16, 0), (15, 1), (13, 2), (11, 3), (12, 3), (10, 4) et (11, 4).
+
+Tous ces pixels sauf (11, 4) ont  au moins un voisin noir et un voisin
+blanc dans  les deux images, donc  ce sont des pixels  de frontière et
+les modifications  associées sont considérées comme  des modifications
+mineures ne faisant  pas échouer le test de  comparaison. En revanche,
+le pixel  (11, 4)  est entouré de  4 pixels blancs  dans le  dessin de
+droite. C'est  un pixel intérieur,  donc le changement de  couleur est
+majeur, les dessins sont considérés  comme différents à grande échelle
+et le test de comparaison échoue.
+
 J'ai également porté les fonctions traitant le cache pour les fontes,
 [`gdFontCacheSetup`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheSetup)
 et [`gdFontCacheShutdown`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdFontCacheShutdown).
@@ -1520,6 +1550,9 @@ déclarant que `GD`  n'est pas un `module`, mais une  `class`. Cela n'a
 pas réussi. J'ai  donc déclaré ces cinq fontes en  tant que fonctions.
 J'ai  priviligié  le   _kebab  case_  plutôt  que   le  _camel  case_,
 `GD-small-font` plutôt que `GDSmallFont`.
+
+Du coup, je  regrette d'avoir créé une  méthode nommée `setThickness`,
+qui serait plus agréable à lire avec le nom `set-thickness`.
 
 AUTEUR
 ======
