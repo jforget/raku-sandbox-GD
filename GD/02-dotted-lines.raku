@@ -17,11 +17,11 @@ my $black  = $im.colorAllocate(red =>   0, green =>   0, blue =>   0);
 my $red    = $im.colorAllocate(red => 255, green =>   0, blue =>   0);
 my $blue   = $im.colorAllocate(red =>   0, green =>   0, blue => 255);
 
-$im.setStyle(style => [$red, $red, GD::gdTransparent, GD::gdTransparent]);
-$im.line(start => (10, 10), end => (100, 10), color => GD::gdStyled);
-$im.setStyle(style => [$blue, $blue, $blue, $blue, $blue, $blue, GD::gdTransparent, GD::gdTransparent, GD::gdTransparent, GD::gdTransparent, GD::gdTransparent, GD::gdTransparent]);
-$im.line(start => (10, 20), end => (100, 20), color => GD::gdStyled);
-$im.line(start => (10, 30), end => (100, 40), color => GD::gdStyled);
+$im.set-style( [$red, $red, GD-transparent, GD-transparent]);
+$im.line(start => (10, 10), end => (100, 10), color => GD-styled);
+$im.set-style( ( |($blue xx 6), |(GD-transparent xx 6) ) );
+$im.line(start => (10, 20), end => (100, 20), color => GD-styled);
+$im.line(start => (10, 30), end => (100, 40), color => GD-styled);
 
 my $png_fh = $im.open("$name.png", "wb");
 $im.output($png_fh, GD_PNG);

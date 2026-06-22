@@ -1548,11 +1548,20 @@ Pour les  cinq fontes  internes GD, je  voulais utiliser  des méthodes
 `GD::giant-font`.   J'ai  fait   quelques  tentatives,   notamment  en
 déclarant que `GD`  n'est pas un `module`, mais une  `class`. Cela n'a
 pas réussi. J'ai  donc déclaré ces cinq fontes en  tant que fonctions.
-J'ai  priviligié  le   _kebab  case_  plutôt  que   le  _camel  case_,
+J'ai  privilégié  le   _kebab  case_  plutôt  que   le  _camel  case_,
 `GD-small-font` plutôt que `GDSmallFont`.
 
 Du coup, je  regrette d'avoir créé une  méthode nommée `setThickness`,
 qui serait plus agréable à lire avec le nom `set-thickness`.
+
+### Styles
+
+Pas  de  problème  pour   créer  les  constantes  `GD-transparent`  et
+`GD-styled` et la méthode `set-style`. En revanche, il y a un problème
+pour utiliser  `GD-styled` dans la  méthode `line`. En effet,  le code
+couleur est de type `UInt` (entier sans signe), alors que la constante
+`GD-styled` est un entier négatif.  Il faut donc corriger la signature
+de la méthode `line`.
 
 AUTEUR
 ======

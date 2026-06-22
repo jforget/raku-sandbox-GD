@@ -1495,6 +1495,15 @@ these fonts  as functions. I used  kebab case rather than  camel case,
 As a  result, I regret  having created a method  named `setThickness`,
 which would be much more readable if named `set-thickness`.
 
+### Styles
+
+No worries when creating constants `GD-transparent` and `GD-styled` or
+when creating  method `set-style`. On  the other hand, there  was some
+trouble  when invoking  method `line`  with argument  `GD-styled`. The
+`color`  parameter  is declared  as  `UInt`  (unsigned integer)  while
+constant `GD-styled` is a negative  integer. We must fix the signature
+of method `line`.
+
 AUTHOR
 ======
 
