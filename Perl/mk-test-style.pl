@@ -13,7 +13,7 @@ use MIME::Base64;
 
 my $name = '060-styled';
 my $width  = 120;
-my $height =  50;
+my $height = 100;
 my $im     = GD::Image->new($width, $height);
 my $white  = $im->colorAllocate(255, 255, 255);
 my $black  = $im->colorAllocate(  0,   0,   0);
@@ -21,10 +21,19 @@ my $red    = $im->colorAllocate(255,   0,   0);
 my $blue   = $im->colorAllocate(  0,   0, 255);
 
 $im->setStyle($red, $red, gdTransparent, gdTransparent);
-$im->line(10, 10, 100, 10, gdStyled);
+$im->line(     10, 10, 100, 10, gdStyled);
+$im->rectangle(60, 50, 100, 60, gdStyled);
 $im->setStyle(($blue) x 6, (gdTransparent) x 6);
-$im->line(10, 20, 100, 20, gdStyled);
-$im->line(10, 30, 100, 40, gdStyled);
+$im->line(     10, 20, 100, 20, gdStyled);
+$im->line(     10, 30, 100, 40, gdStyled);
+$im->rectangle(10, 50,  50, 60, gdStyled);
+
+my $poly = GD::Polygon->new;
+$poly->addPt( 60, 70);
+$poly->addPt(110, 80);
+$poly->addPt( 60, 90);
+$poly->addPt( 10, 80);
+$im->openPolygon($poly, gdStyled);
 
 my $png =  MIME::Base64::encode($im->png);
 $png =~ s/\n\Z//;

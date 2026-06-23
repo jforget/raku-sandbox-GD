@@ -1504,6 +1504,27 @@ trouble  when invoking  method `line`  with argument  `GD-styled`. The
 constant `GD-styled` is a negative  integer. We must fix the signature
 of method `line`.
 
+We must  fix in the  same way the  signature of method  `rectangle` (a
+multi-method, actually) and the signature of method `polygon`, because
+they should  accept pseudo-color `GD-styled`,  as `line` does.  On the
+other hand, I do not allow `GD-styled` in methods `ellipse` and `arc`,
+because I tried to draw dotted ellipses and arcs in a Perl program and
+it did not work. I think that the bug is in the C library `libgd`, not
+in the Perl module.
+
+Remark: in  the case of `rectangle`  and `polygon` (as well  as in the
+case of `ellipse` and `arc` when the bug is fixed), parameter `fill =>
+True`  should  reject  pseudo-colour  `GD-styled`.  And  when  another
+contributor  implements   brushes  (pseudo-colours   `GD-brushed`  and
+`GD-styled-brushed`) and tiles (pseudo-colour `GD-tiled`), the methods
+will have to run the full checks:
+
+* `fill  =>   True`  accepts   `GD-tiled`  and   rejects  `GD-styled`,
+ `GD-brushed` and `GD-styled-brushed`.
+
+* `fill    =>   False`    accepts   `GD-styled`,    `GD-brushed`   and
+ `GD-styled-brushed` and rejects `GD-tiled`.
+
 AUTHOR
 ======
 

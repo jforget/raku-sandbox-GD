@@ -1563,6 +1563,27 @@ couleur est de type `UInt` (entier sans signe), alors que la constante
 `GD-styled` est un entier négatif.  Il faut donc corriger la signature
 de la méthode `line`.
 
+Il  faut aussi  ajuster la  signature de  la méthode  `rectangle` (une
+multi-méthode, en fait)  et la signature de la  méthode `polygon`, qui
+doivent  accepter  elles  aussi   la  pseudo-couleur  `GD-styled`.  En
+revanche, je  ne le fais  pas pour `ellipse`  ni pour `arc`,  car j'ai
+essayé  de dessiner  des ellipses  et des  arcs en  pointillé dans  un
+programme Perl  et cela ne fonctionne  pas. À mon avis,  cela ne vient
+pas du module Perl, mais de la bibliothèque C `libgd`.
+
+Remarque :  dans le cas de  `rectangle` et de `polygon`  (ainsi que de
+`ellipse` quand  le bug  de `libgd` sera  corrigé), l'option  `fill =>
+True`  doit refuser  la  pseudo-couleur  `GD-styled`. Quand  quelqu'un
+d'autre aura implémenté les  pinceaux (pseudo-couleurs `GD-brushed` et
+`GD-styled-brushed`)  et  les  motifs de  remplissage  (pseudo-couleur
+`GD-tiled`), il faudra faire le contrôle complet :
+
+* `fill   =>  True`   accepte  `GD-tiled`   et  rejette   `GD-styled`,
+ `GD-brushed` et `GD-styled-brushed`.
+
+* `fill    =>   False`    accepte    `GD-styled`,   `GD-brushed`    et
+ `GD-styled-brushed` et rejette `GD-tiled`.
+
 AUTEUR
 ======
 
