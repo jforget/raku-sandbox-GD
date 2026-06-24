@@ -1525,6 +1525,17 @@ will have to run the full checks:
 * `fill    =>   False`    accepts   `GD-styled`,    `GD-brushed`   and
  `GD-styled-brushed` and rejects `GD-tiled`.
 
+Actually, I defined the  symbols `GD-brushed`, `GD-styled-brushed` and
+`GD-tiled`, and I  wrote the compatibility checks, even  if they apply
+to a  not yet implemented  feature. For the moment,  the compatibility
+checks  are commented-out  and  they should  be  reactivated when  the
+feature  is   implemented.  The   file  `xt/070-fatal-styled.rakutest`
+contains also commented-out lines which should be reactivated when the
+feature  is  available. In  addition,  in  function `check-compat`  of
+`GD.rakumod` there are a few checks  to warn the module user that such
+or such feature is still missing.  These checks should be removed when
+the feature is implemented.
+
 AUTHOR
 ======
 

@@ -1584,6 +1584,17 @@ d'autre aura implémenté les  pinceaux (pseudo-couleurs `GD-brushed` et
 * `fill    =>   False`    accepte    `GD-styled`,   `GD-brushed`    et
  `GD-styled-brushed` et rejette `GD-tiled`.
 
+En fait, j'ai anticipé sur  les développements ultérieurs et j'ai créé
+les  symboles `GD-brushed`,  `GD-styled-brushed`  et `GD-tiled`,  j'ai
+codé tous les contrôles de  compatibilité, certaines lignes étant pour
+l'instant  désactivées par  une marque  de commentaire.  Également, le
+fichier `xt/070-fatal-styled.rakutest` contient des lignes désactivées
+et à réactiver  lorsque telle ou telle  fonctionnalité est disponible.
+Et j'ai ajouté dans la fonction `check-compat` quelques contrôles pour
+signaler  que les  fonctionnalités  ne sont  pas encore  implémentées.
+Évidemment,  il faudra  supprimer ces  derniers contrôles  lorsque les
+fonctionnalités apparaîtront.
+
 AUTEUR
 ======
 
