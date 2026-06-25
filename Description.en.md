@@ -1495,6 +1495,19 @@ these fonts  as functions. I used  kebab case rather than  camel case,
 As a  result, I regret  having created a method  named `setThickness`,
 which would be much more readable if named `set-thickness`.
 
+When I worked on `GD::Raw:ver<0.7>`,  I added Unicode strings and Free
+Type fonts, because I thought it  would be fast and easy. Implementing
+this was  indeed fast  and easy,  but there were  a few  problems when
+writing tests. I had to write  a test script which loads the reference
+image  into an  image  object  and which  tests  each  pixel in  turn.
+Fortunately,
+[`gdImageCreateFromPng`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImageCreateFromPng)
+and [`gdImageGetPixel`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageGetPixel)
+were  already  implemented in  `GD::Raw`.  On  the other  hand,  these
+features are  not implemented in `GD`.  So, because I could  not write
+test scripts with  a minimum fuss and a minimum  delay, I dropped Free
+Type fonts from `GD:ver<0.0.5>`.
+
 ### Styles
 
 No worries when creating constants `GD-transparent` and `GD-styled` or

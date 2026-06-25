@@ -1554,6 +1554,20 @@ J'ai  privilégié  le   _kebab  case_  plutôt  que   le  _camel  case_,
 Du coup, je  regrette d'avoir créé une  méthode nommée `setThickness`,
 qui serait plus agréable à lire avec le nom `set-thickness`.
 
+Lorsque  j'ai   travaillé  sur  `GD::Raw:ver<0.7>`,  j'ai   ajouté  le
+traitement des chaînes  Unicode et des polices _Free  Type_, parce que
+cela serait simple et rapide. Certes, l'implémentation a été simple et
+rapide, mais  l'écriture des tests  a été un  peu plus délicate.  Il a
+fallu  écrire  un script  de  test  chargeant  en mémoire  l'image  de
+référence et testant les pixels un par un. Heureusement, les fonctions
+[`gdImageCreateFromPng`](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImageCreateFromPng)
+et [`gdImageGetPixel`](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageGetPixel)
+étaient  déjà  implémentées  dans  `GD::Raw`. En  revanche,  ces  deux
+fonctionnalités n'existent  pas pour l'instant dans  `GD`. Donc, faute
+de pouvoir rapidement écrire des  scripts de tests, je n'implémenterai
+pas   les  chaînes   Unicode   et  les   polices   _Free  Type_   dans
+`GD:ver<0.0.5>`.
+
 ### Styles
 
 Pas  de  problème  pour   créer  les  constantes  `GD-transparent`  et
