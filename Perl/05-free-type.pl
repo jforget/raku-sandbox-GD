@@ -13,7 +13,7 @@ use MIME::Base64;
 
 my $name   = '05-free-type';
 my $width  = 500;
-my $height = 350;
+my $height = 420;
 my $im     = GD::Image->new($width, $height);
 my $white  = $im->colorAllocate(255, 255, 255);
 my $black  = $im->colorAllocate(  0,   0,   0);
@@ -28,16 +28,15 @@ my @result;
 # zero: do not use generic font names
 my $config = $im->useFontConfig(0);
 
-@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 10, 110, "Vertical climb"); dump_res(@result);
-@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 20, 120, "Zoom climb");     dump_res(@result);
-@result = $im->stringFT($black, $fontpath, $fontsize,   0      , 30, 130, "Level flight");   dump_res(@result);
-@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 4, 20, 140, "Steep dive");     dump_res(@result);
-@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 2, 10, 150, "Vertical dive");  dump_res(@result);
-
-$im->stringFTCircle(300, 130, 100, 20, 0.7, $fontpath, 10, "wingover", "resource", $black);
+@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 2, 20, 110, "Vertical climb"); dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize,   $pi / 4, 30, 120, "Zoom climb");     dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize,   0      , 40, 130, "Level flight");   dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 4, 30, 140, "Steep dive");     dump_res(@result);
+@result = $im->stringFT($black, $fontpath, $fontsize, - $pi / 2, 20, 150, "Vertical dive");  dump_res(@result);
 
 my $str1 = <<'EOF';
-Vous êtes à côté de l'abîme où des pâtres naïfs
+À l'Haÿ-les-Roses, rue Valentin Haüy,
+vous êtes à côté de l'abîme où des pâtres naïfs
 brûlèrent çà et là des œufs de Pâques à Noël.
 EOF
 my $str2 = <<'EOF';
@@ -46,8 +45,8 @@ fléchit dans le fjord, il est en effet
 difficile de se faufiler.
 EOF
 @result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 250, $str1);                         dump_res(@result);
-@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 280, $str1, { linespacing => 0.8 }); dump_res(@result);
-@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 310, $str1, { linespacing => 1.3 }); dump_res(@result);
+@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 310, $str1, { linespacing => 0.8 }); dump_res(@result);
+@result = $im->stringFT($blue, $fontalt , $fontsize, 0,  10, 360, $str1, { linespacing => 1.3 }); dump_res(@result);
 @result = $im->stringFT($red , $fontalt , $fontsize, 0, 270, 250, $str2, { kerning => 0 });       dump_res(@result);
 @result = $im->stringFT($red , $fontalt , $fontsize, 0, 270, 310, $str2, { kerning => 1 });       dump_res(@result);
 

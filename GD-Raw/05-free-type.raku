@@ -12,7 +12,7 @@ use NativeHelpers::Blob;
 
 my $name   = '05-free-type';
 my $width  = 500;
-my $height = 350;
+my $height = 450;
 my $im     = gdImageCreate($width, $height);
 LEAVE gdImageDestroy($im) if $im;
 my $white  = gdImageColorAllocate($im, 255, 255, 255);
@@ -40,7 +40,8 @@ $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize, -π/4, 20
 $err = gdImageStringFT($im, @bound-rect, $black, $fontpath, $fontsize, -π/2, 10, 150, "Vertical dive" ); dump-res($err, @bound-rect);
 
 my $str1 = q :to<EOF>;
-Vous êtes à côté de l'abîme où des pâtres naïfs
+À l'Haÿ-les-Roses, rue Valentin Haüy,
+vous êtes à côté de l'abîme où des pâtres naïfs
 brûlèrent çà et là des œufs de Pâques à Noël.
 EOF
 my $str2 = q :to<EOF>;
@@ -50,7 +51,7 @@ difficile de se faufiler.
 EOF
 
 $err = gdImageStringFT($im, @bound-rect, $blue, $fontalt, $fontsize, 0e0, 10, 250, $str1); dump-res($err, @bound-rect);
-$err = gdImageStringFT($im, @bound-rect, $red , $fontalt, $fontsize, 0e0, 10, 280, $str2); dump-res($err, @bound-rect);
+$err = gdImageStringFT($im, @bound-rect, $red , $fontalt, $fontsize, 0e0, 10, 300, $str2); dump-res($err, @bound-rect);
 
 my $fh = fopen("$name.png", "wb");
 return 0 unless $fh;
