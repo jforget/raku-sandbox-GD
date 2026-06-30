@@ -473,6 +473,33 @@ de ne pas installer la bibliothèque  `libgd`. Or il se trouve que dans
 la distribution Devuan version 6, `libgd3` version 2.3.3 est installée
 par défaut. Peut-être n'est-ce pas le cas dans d'autres distributions.
 
+Module Raku `Inline::Perl5` et module Perl `GD`
+-----------------------------------------------
+
+Comme la  machine virtuelle  que j'utilise  est une  machine Devuan-6,
+j'utilise Synaptic  pour installer les  paquets. Pour le  cas présent,
+j'installe :
+
+* `raku` (qui installe plusieurs autres paquets, dont `raku-zef`)
+
+* `libgd-perl`
+
+* `libperl-dev`
+
+Puis, j'utilise `zef` pour installer
+[`Inline::Perl5`](https://raku.land/cpan:NINE/Inline::Perl5)
+(et
+[`MIME::Base64`](https://raku.land/zef:raku-community-modules/MIME::Base64)
+pour les scripts servant d'exemples).
+
+Remarque. Ainsi qu'il est marqué dans la
+[documentation de `Inline::Perl5`](https://raku.land/cpan:NINE/Inline::Perl5#building),
+le paquet à installer pour Perl  en tant que bibliothèque ne s'appelle
+pas forcément `libperl-dev`, mais  `perl-libs` ou `perl`. En revanche,
+je n'ai pas suivi le  reste du paragraphe, certaines lignes concernent
+des outils que je n'ai pas  utilisés dans ce projet, comme `perlbrew`,
+`plenv` et `rakubrew`.
+
 Module Raku `GD:ver<0.0.2>` sur étagère
 ---------------------------------------
 
