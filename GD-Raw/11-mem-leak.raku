@@ -1,4 +1,4 @@
-#/usr/bin/env raku
+#!/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Recherche de fuite mémoire dans un cas évolué d'utilisation de GD::Raw

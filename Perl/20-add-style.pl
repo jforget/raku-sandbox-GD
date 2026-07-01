@@ -1,4 +1,4 @@
-#/usr/bin/env perl
+#!/usr/bin/env perl
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Dessin avec une ligne en pointillés, première étape

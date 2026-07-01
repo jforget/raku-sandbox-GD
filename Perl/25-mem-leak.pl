@@ -1,4 +1,4 @@
-#/usr/bin/env perl
+#!/usr/bin/env perl
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Recherche de fuite mémoire dans le cas simple d'utilisation

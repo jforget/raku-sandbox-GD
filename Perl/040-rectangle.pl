@@ -1,4 +1,4 @@
-#/usr/bin/env perl
+#!/usr/bin/env perl
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Fichier de test avec un rectangle

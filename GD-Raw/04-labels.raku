@@ -1,4 +1,4 @@
-#/usr/bin/env raku
+#!/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Dessin avec des cercles et des rectangles plus du texte

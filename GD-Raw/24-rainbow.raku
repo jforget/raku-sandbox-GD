@@ -1,4 +1,4 @@
-#/usr/bin/env raku
+#!/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
 # Dessiner une spirale arc-en-ciel avec un style très long
