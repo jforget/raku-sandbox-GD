@@ -500,6 +500,69 @@ je n'ai pas suivi le  reste du paragraphe, certaines lignes concernent
 des outils que je n'ai pas  utilisés dans ce projet, comme `perlbrew`,
 `plenv` et `rakubrew`.
 
+### Problèmes avec `Inline::Perl5`
+
+Le premier problème  s'est produit lors de mon projet  sur les graphes
+et   les  chemins   hamiltoniens.  Il   ne  s'est   pas  produit   sur
+`Inline::Perl5`  + `GD.pm`,  mais  sur  `Inline::Perl5` +  `Graph.pm`.
+Voici l'historique approximatif du problème.
+
+1.  Pour  dessiner un  graphe,  je  crée un  module  `map-gd.rakumod`,
+faisant appel à  `Inline::Perl5` + `GD.pm`, plus un  module faisant la
+mise en page du fichier HTML.
+
+2. Pour  divers autres dessins,  par un  heureux hasard, je  décide de
+créer d'autres modules formattant le  HTML, mais faisant tous appel au
+même module déjà existant `map-gd.rakumod`.
+
+3.   Pour   un    sujet   annexe,   je   crée    un   nouveau   module
+`shortest-path-stat.rakumod`   faisant  appel   à  `Inline::Perl5`   +
+`Graph.pm`.
+
+4.  Encore pour  un  nouveau sujet  annexe, je  crée  un autre  module
+`Hamilton-stat.rakumod` faisant appel à `Inline::Perl5` + `Graph.pm`.
+
+5. Et le programme `website.raku`  a commencé à planter. Au lancement,
+il s'arrêtait souvent sur une  erreur de segmentation. Après plusieurs
+tentatives de lancement, il parvenait à fonctionner correctement. Mais
+il fallait  parfois faire des  dizaines de tentatives pour  obtenir un
+fonctionnement sans plantage.
+
+6. En raison d'une intuition erronée,  j'ai cru que le problème venait
+de `Bailador` dans  le programme `website.raku`. J'ai  donc commencé à
+écrire un programme `website1.raku`, faisant appel à `Cro`.
+
+7. Tout s'est  bien passé, jusqu'au moment où le  programme a appelé à
+la fois  `shortest-path-stat.rakumod` et  `Hamilton-stat.rakumod`. Par
+transitivité, le  programme `website1.raku` faisait appel  deux fois à
+`use Graph:from<Perl5>;` et il s'est  mis à planter comme le programme
+basé sur `Bailador`.
+
+J'ai donc  compris que  les plantages ne  devaient rien  à `Bailador`,
+mais qu'ils  étaient provoqués par une  configuration particulière des
+appels à `Inline::Perl5`. J'ai donc  abandonné `Graph.pm` au profit de
+`Graph.rakumod`   et    les   deux   programmes    `website.raku`   et
+`website1.raku` se sont remis à fonctionner correctement.
+
+Un autre problème, ou une  autre manifestation du même problème, s'est
+révélé  lors  de  mon  travail sur  l'amélioration  des  modules  Raku
+`GD::Raw` et `GD`. J'ai écrit  des programmes cherchant à détecter des
+fuites de mémoire pour ces deux  modules. Par acquit de conscience, je
+les ai adaptés pour `Inline::Perl5` + `GD.pm`.
+
+Prenons `26-mem-leak.raku`.  Le programme crée une  image, alloue cinq
+couleurs et  crée un tableau de  8448 entrées avec ces  cinq couleurs.
+Puis,  au cours  de 1000  itérations,  le programme  déclare un  style
+correspondant  à  ce tableau.  Lors  des  itérations  1, 101,  201  et
+suivantes,  il affiche  sur  la sortie  standard  l'utilisation de  la
+mémoire par le processus.
+
+Et   que  se   passe-t-il   pour  ce   programme,  lorsqu'il   appelle
+`Inline::Perl5` et  `GD.pm` ?  Si la  ligne `setStyle`  est désactivée
+avec un  dièse, aucun problème.  Si cette  ligne est active,  alors on
+constate une fuite  d'environ 4 Ko entre l'itération  1 et l'itération
+101, puis le processus se plante avant l'itération 201.
+
 Module Raku `GD:ver<0.0.2>` sur étagère
 ---------------------------------------
 

@@ -491,6 +491,63 @@ other hand, the paragraph gives instructions  for some tools I did not
 use, such as  `perlbrew`, `plenv` and `rakubrew`. I did  not use these
 instructions.
 
+### Problems with `Inline::Perl5`
+
+I had  a first problem when  working on graphs and  Hamiltonian paths.
+Oddly,  it did  not hapen  with  `Inline::Perl5` +  `GD.pm`, but  with
+`Inline::Perl5`  + `Graph.pm`.  Here is  an approximate  recap of  the
+problem.
+
+1.  To draw  a graph,  I  created module  `map-gd.rakumod` which  uses
+`Inline::Perl5` + `GD.pm`,  plus another module which  deals with HTML
+formatting.
+
+2.  For  the other  pictures,  I  created  new  modules for  the  HTML
+formatting,  but I  serendipitously  reused  `map-gd.rakumod` for  the
+pictures.
+
+3.    For     another    topic,    I    created     a    new    module
+`shortest-path-stat.rakumod` which used `Inline::Perl5` + `Graph.pm`.
+
+4.   For    still   another   topic,   I    created   another   module
+`Hamilton-stat.rakumod` using `Inline::Perl5` + `Graph.pm`.
+
+5. And the  program `website.raku` began misbehaving.  When I launched
+it, it  would nearly always crash  with a segmentation fault  and yet,
+one time out of 20 or 30, it would run fine.
+
+6. A  misleading intuition  made me  believe that  the problem  was in
+`Bailador`. I began writing a new program `website1.raku`, using `Cro`
+instead of `Bailador`.
+
+7.  Everything   went  fine,   up  to  the   time  when   the  program
+`website1.raku`   invoked    both   `shortest-path-stat.rakumod`   and
+`Hamilton-stat.rakumod`, transitively loading `use Graph:from<Perl5>;`
+twice. Then, the `Cro`-base  program `website1.raku` began crashing in
+the same way as the `Bailador`-based program `website.raku`
+
+So I  figured that `Bailador` was  innocent and that the  crashes were
+triggered by  a peculiar  combination of  calls to  `Inline::Perl5`. I
+gave up `Graph.pm` and I  adopted instead `Graph.rakumod`. After that,
+both `website.raku` and `website1.raku` ran without problems.
+
+Another problem, or another symptom of the same problem, appeared when
+I was working with the improvement of Raku modules `GD::Raw` and `GD`.
+I  wrote a  few  test  programs to  find  possible  memory leaks.  For
+completeness' sake, I wrote a version for `Inline::Perl5` + `GD.pm`.
+
+Let  us consider  `26-mem-leak.raku`.  The program  creates an  image,
+allocates five colours and creates  a 8448-entry array with these five
+colours. Then, in  a 1000-iteration loop, the program  assigns a style
+to  the image,  using the  array. During  iterations 1,  101, 201  and
+following, the program prints on  standard output the stats for memory
+consumption.
+
+What happens  within the `Inline::Perl5`  and `GD.pm` version?  If the
+`setStyle` line  is commented-out  with a hash  sign, no  problems. If
+this line is  activated, then we notice a 4K  leak between iteration 1
+and iteration 101, then the process crashes before iteration 201.
+
 Off-The-Shelf Raku Module `GD:ver<0.0.2>`
 -----------------------------------------
 
