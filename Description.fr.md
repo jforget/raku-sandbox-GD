@@ -261,7 +261,7 @@ ouvrantes ne sont pas alignées comme en Perl. C'est la syntaxe de Raku
 qui veut cela. Dommage.
 
 Les exemples de `GD` proviennent de
-[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/master/examples/gd.p6).
+[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/v0.0.2/examples/gd.p6).
 
 Les exemples de `GD::Raw` proviennent de
 [`xt/bug00010.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00010.rakutest)
@@ -406,11 +406,11 @@ Le [dépôt Github](https://github.com/raku-community-modules/GD)
 comporte un
 [fichier README](https://github.com/raku-community-modules/GD/blob/master/README.md)
 assez intéressant. En revanche, le
-[fichier de documentation](https://github.com/raku-community-modules/GD/blob/master/lib/GD.pod)
+[fichier de documentation](https://github.com/raku-community-modules/GD/blob/v0.0.2/lib/GD.pod)
 n'apporte rien de plus. D'autre part, ces deux fichiers comportent des
 liens  vers  la bibliothèque  C,  mais  ces  liens sont  périmés,  ils
 devraient pointer vers
-[un nouveau dépôt](https://bitbucket.org/libgd/gd-libgd/src/master/).
+[un nouveau dépôt](https://github.com/libgd/libgd/tree/master)
 
 Module Raku `GD::Raw`
 ---------------------
@@ -1075,7 +1075,8 @@ avec les fonctions
 et [`gdImageStringFTEx`](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFTEx).
 La documentation de `GD.pm` prévoit quant à elle l'utilisation de
 [fontes _True Type_](https://metacpan.org/pod/GD#Character-and-String-Drawing)
-avec la méthode `stringFT`. Je suppose  qu'il s'agit de la même chose.
+avec la méthode  `stringFT`. Je suppose que  l'appellation _Free Type_
+et l'appellation _True Type_ désignent la même chose.
 Si la mise en œuvre de cette fonctionnalité est simple, je l'ajouterai
 aux  modules Raku  `GD`  et  `GD::Raw`. Si  cette  mise  en œuvre  est
 compliquée  (ajout d'une  nouvelle classe,  description en  Raku d'une
@@ -1372,12 +1373,17 @@ Plus quelques opérations disparates, remplacer les tabulations par des
 espaces et  enlever les  espaces en  fin de ligne.  Ce n'est  pas fait
 partout, mais c'est déjà un début.
 
+Notons que  la communauté Raku  a contribué à  la remise à  neuf, avec
+notamment la scission du répertoire `lib` et du répertoire `doc`, avec
+l'ajout du script `run-tests` et  avec l'actualisation de la liste des
+prérequis.
+
 ### Données PNG (ou autres) sans passer par un fichier
 
 Avant mon intervention, le module `GD` faisait appel au module
 [`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array).
 Lorsque j'ai adapté `GD::Raw`, j'ai ajouté le module
-[`NativeHelpers::Blob`](https://raku.land/github:salortiz/NativeHelpers::Blob)
+[`NativeHelpers::Blob`](https://raku.land/zef:raku-community-modules/NativeHelpers::Blob)
 car la
 [documentation de native call](https://docs.raku.org/language/nativecall#Buffers_and_blobs)
 pointait  vers  cet autre  module.  Y  aurait-il eu  moyen  d'utiliser
@@ -1635,7 +1641,7 @@ Ainsi   que   vous  pouvez   le   constater,   il  a   fallu   ajouter
 attentifs, vous  avez constaté  qu'il a  fallu en  plus _désinstaller_
 `LibraryCheck` et  `NativeHelpers::Blob` pour réinstaller  la dernière
 version de ces deux modules. Comme signalé
-[plus haut](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#donn%C3%A9es-png-sans-passer-par-un-fichier);
+[plus haut](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#donn%C3%A9es-png-sans-passer-par-un-fichier),
 il faut ajouter le paramètre  `--force-test` lors de l'installation de
 `NativeHelpers::Blob`.
 
@@ -1778,7 +1784,7 @@ Le seul bénéfice de `GD` par rapport à `GD::Raw` est qu'il utilise une
 syntaxe plus proche de Raku et  que vous n'avez pas besoin d'apprendre
 à utiliser
 [`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array)
-ni [`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+ni [`NativeHelpers::Blob`](https://raku.land/zef:raku-community-modules/NativeHelpers::Blob).
 
 De l'autre côté, de nombreuses fonctionnalités sont absentes de `GD`,
 alors qu'elles sont déjà implémentées dans `GD::Raw`.

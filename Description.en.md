@@ -258,7 +258,7 @@ parentheses are not aligned as in  the Perl examples. This is required
 by the syntax of Raku. Too bad.
 
 The examples for `GD` are extracted from
-[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/master/examples/gd.p6).
+[`examples/gd.p6`](https://github.com/raku-community-modules/GD/blob/v0.0.2/examples/gd.p6).
 
 The examples for `GD::Raw` are extracted from
 [`xt/bug00010.rakutest`](https://github.com/raku-community-modules/GD-Raw/blob/main/xt/bug00010.rakutest)
@@ -272,7 +272,7 @@ Text
 
 `libgd` allows you to print labels with a font provided by the library
 or with a system font such as "Times New Roman" or "Helvetica". I have
-no artistic needs, no I will stick with the internal fonts.
+no artistic needs, so I will stick with the internal fonts.
 
 ```
 # Perl
@@ -404,10 +404,10 @@ The [Github repository](https://github.com/raku-community-modules/GD)
 includes a rather interesting
 [README file](https://github.com/raku-community-modules/GD/blob/master/README.md).
 On the other hand, the
-[documentation file proper](https://github.com/raku-community-modules/GD/blob/master/lib/GD.pod)
+[documentation file proper](https://github.com/raku-community-modules/GD/blob/v0.0.2/lib/GD.pod)
 gives no  additional information. Both files  include stale hyperlinks
 to some previous C library documentation. These links should lead to
-[a new repository](https://bitbucket.org/libgd/gd-libgd/src/master/).
+[a new repository](https://github.com/libgd/libgd/tree/master)
 
 Raku Module `GD::Raw`
 ---------------------
@@ -886,7 +886,7 @@ I could not run the experiment. While the
 states that an image object has methods named
 [`gd`](https://metacpan.org/pod/GD#$gddata-=-$image-%3Egd)
 and [`gd2`](https://metacpan.org/pod/GD#$gd2data-=-$image-%3Egd2),
-the [documentation for `GD::Image`](https://metacpan.org/pod/GD::Image),
+the [documentation for `GD::Image`](https://metacpan.org/pod/GD::Image)
 state that  formats "Gd" and "Gd2"  are not supported. Coming  back to
 the `GD` documentation, the comments for methods
 [`newFromGd`](https://metacpan.org/pod/GD#$image-=-GD::Image-%3EnewFromGd($file)),
@@ -1319,13 +1319,17 @@ In addition, a few cleaning  actions, such as removing tabulations and
 replacing them with spaces, or discarding useless spaces at the end of
 code lines. This is not done in every file.
 
+The  Raku community  did  its  part with  the  overhaul. For  example,
+splitting the  `doc` directory  from the  `lib` directory,  adding the
+script `run-tests` or refreshing the list of prerequisite.
+
 ### PNG (or Other) Data Without Using a File
 
 Before  I started  updating module  `GD`, the  prerequisites for  this
 module contained module
 [`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array).
 When I updated `GD::Raw`, I used
-[`NativeHelpers::Blob`](https://raku.land/github:salortiz/NativeHelpers::Blob)
+[`NativeHelpers::Blob`](https://raku.land/zef:raku-community-modules/NativeHelpers::Blob)
 because the
 [documentation for native call](https://docs.raku.org/language/nativecall#Buffers_and_blobs)
 was  referring to  it. Is  it possible  to use  `NativeHelpers::Array`
@@ -1706,7 +1710,7 @@ choosing a roadmap.
 The only benefit of using `GD` rather than `GD::Raw` is that it uses a
 more Raku-like syntax and that you do not have to learn using
 [`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array)
-and [`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+and [`NativeHelpers::Blob`](https://raku.land/zef:raku-community-modules/NativeHelpers::Blob).
 
 On the  other hand, many  features are  still missing from  `GD` while
 being already implemented in `GD::Raw`.
