@@ -563,6 +563,13 @@ avec un  dièse, aucun problème.  Si cette  ligne est active,  alors on
 constate une fuite  d'environ 4 Ko entre l'itération  1 et l'itération
 101, puis le processus se plante avant l'itération 201.
 
+Évidemment,  on n'a  pas l'habitude  de  déclarer un  style avec  8448
+pixels. Néanmoins, cela  donne des indications pour le  cas des styles
+avec  une taille  plus raisonnable.  Simplement, la  fuite de  mémoire
+mettra plus  de temps à  se produire.  À l'inverse, utiliser  un style
+dans une boucle à 1000 itérations,  cela peut arriver dans le cas d'un
+serveur web tournant en permanence pendant plusieurs semaines.
+
 Module Raku `GD:ver<0.0.2>` sur étagère
 ---------------------------------------
 
@@ -1698,6 +1705,116 @@ Et j'ai ajouté dans la fonction `check-compat` quelques contrôles pour
 signaler  que les  fonctionnalités  ne sont  pas encore  implémentées.
 Évidemment,  il faudra  supprimer ces  derniers contrôles  lorsque les
 fonctionnalités apparaîtront.
+
+CONCLUSION : QUEL MODULE UTILISER ?
+===================================
+
+Pour mon projet sur les graphes  et les chemins hamiltoniens, il n'y a
+pas  de doute,  j'utiliserai  `GD.rakumod`. C'est  en  fonction de  ce
+projet que  j'ai déterminé  les fonctionnalités  à ajouter.  Mais pour
+d'autres projets, lequel utiliser ?
+
+`Inline::Perl5` ou bien programmation native Raku ?
+---------------------------------------------------
+
+La  version  `Inline::Perl5` +  `GD.pm`  présente  deux avantages.  Le
+premier est que  toutes les fonctionnalités de `libgd`  (ou presque ?)
+sont implémentées.  Alors que de nombreuses  fonctionnalités n'ont pas
+encore été implémentées dans `GD::Raw`  et encore moins dans `GD`. Par
+exemple, `GD::Raw` ne permet pas de  tracer des lignes en utilisant un
+pinceau, ou de remplir un polygone avec un motif en tuile.
+
+Le second avantage est que  vous disposez d'une documentation étendue.
+Certes, cette  documentation est en Perl,  pas en Raku, mais  au moins
+elle  existe et  elle donne  de nombreux  détails intéressants.  Si un
+programmeur  utilise une  solution en  Raku  natif, il  est obligé  de
+fouiller  dans les  sous-répertoires `examples`  et `xt`  pour trouver
+comment utiliser telle ou telle fonctionnalité.
+
+Le  désavantage  de la  solution  `Inline::Perl5`  + `GD.pm`  est  les
+problèmes système  qui se traduisent  par une fuite de  mémoire, voire
+par un  plantage en erreur de  segmentation. Et je ne  peux pas donner
+d'instructions précises et complètes pour éviter ces problèmes.
+
+Il  y  a  une  seule  fonctionnalité où  `GD::Raw`  est  meilleur  que
+`Inline::Perl5` + `GD.pm`. Lorsque l'on  cherche à imprimer une chaîne
+Unicode,  s'il  y  a  un  problème tel  qu'une  police  de  caractères
+introuvable,  alors  `GD::Raw`  peut   afficher  un  message  d'erreur
+compréhensible, alors  que `Inline::Perl5` + `GD.pm`  donne un message
+d'erreur générique, susceptible d'induire en erreur le programmeur.
+
+Parmi les  fonctionnalités disponibles dans `Inline::Perl5`  + `GD.pm`
+mais pas dans `GD::Raw`, vous trouvez :
+
+* des formats ésotériques et peu connus, tels que
+[`HEIF`](https://libgd.github.io/manuals/2.3.3/files/gd_heif-c.html)
+et [`TGA`](https://libgd.github.io/manuals/2.3.3/files/gd_tga-c.html),
+
+* un format bien connu :
+[GIF animé](https://libgd.github.io/manuals/2.3.3/files/gd_gif_out-c.html)
+(alors que GIF statique est disponible dans `GD::Raw`),
+
+* [découpage d'images](https://libgd.github.io/manuals/2.3.3/files/gd_crop-c.html),
+
+* [options](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFTEx)
+lorsque l'on imprime une chaîne Unicode : interlignes, crénage, etc,
+
+* utiliser un [pinceau](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageSetBrush)
+pour dessiner un trait, un rectangle, une ellipse ou un polygone,
+
+* utiliser le [tuilage](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageSetTile)
+pour remplir une forme (rectangle, ellipse, polygone),
+
+* je ne suis pas sûr si les [canaux alpha](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageColorAllocateAlpha)
+fonctionnent avec `GD::Raw`.
+
+Bien sûr, cette  liste n'est pas exhaustive. Elle  peut toutefois vous
+donner des idées lorsque vous définirez votre feuille de route.
+
+`GD.rakumod` ou `GD::Raw` ?
+---------------------------
+
+Le seul bénéfice de `GD` par rapport à `GD::Raw` est qu'il utilise une
+syntaxe plus proche de Raku et  que vous n'avez pas besoin d'apprendre
+à utiliser
+[`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array)
+ni [`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+
+De l'autre côté, de nombreuses fonctionnalités sont absentes de `GD`,
+alors qu'elles sont déjà implémentées dans `GD::Raw`.
+
+`libgd`  prévoit deux  catégories d'images.  Il y  a les  images _True
+Color_, où  vous pouvez  choisir autant de  couleurs que  vous voulez,
+parmi les  16 millions de couleurs  disponibles. Et il y  a les images
+« palette », où vous pouvez choisir  256 couleurs (ou moins) parmi les
+16  millions   disponibles.  `GD::Raw`  permet  d'utiliser   ces  deux
+catégories, `GD`  ne permet  pas d'utiliser  les images  _True Color_,
+seulement les images « palette ».
+
+Un argument parallèle au précédent. `GD::Raw` propose une
+[fonction](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageString)
+(en réalité [deux fonctions](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageStringUp))
+pour  afficher une  chaîne de  caractères ISO-8859-2  avec une  police
+bitmap à espacement fixe, plus une
+[troisième fonction](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT)
+pour afficher  une chaîne  Unicode avec une  police _Free  Type_. Avec
+`GD`,  vous êtes  limités aux  256 caractères  ISO-8859-2 au  lieu des
+millions de caractères Unicode.
+
+`GD` vous permet de créer  une image _ex nihilo_. `GD::Raw` également,
+mais si  vous préférez, vous  pouvez partir d'un fichier  existant, au
+format
+[BMP](https://libgd.github.io/manuals/2.3.3/files/gd_bmp-c.html#gdImageCreateFromBmp),
+[GIF](https://libgd.github.io/manuals/2.3.3/files/gd_gif_in-c.html#gdImageCreateFromGif),
+[JPEG](https://libgd.github.io/manuals/2.3.3/files/gd_jpeg-c.html#gdImageCreateFromJpeg)
+ou [PNG](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImageCreateFromPng).
+Puis vous pouvez
+[tester chaque pixel](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageGetPixel),
+vous pouvez effectuer quelques
+[transformations](https://libgd.github.io/manuals/2.3.3/files/gd_interpolation-c.html#gdImageScale)
+[géométriques](https://libgd.github.io/manuals/2.3.3/files/gd_interpolation-c.html#gdImageRotateInterpolated)
+ou [chromatiques](https://libgd.github.io/manuals/2.3.3/files/gd_filter-c.html),
+toutes choses qui n'existent pas encore dans `GD`.
 
 AUTEUR
 ======

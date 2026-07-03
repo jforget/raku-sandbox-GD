@@ -548,6 +548,12 @@ What happens  within the `Inline::Perl5`  and `GD.pm` version?  If the
 this line is  activated, then we notice a 4K  leak between iteration 1
 and iteration 101, then the process crashes before iteration 201.
 
+Of course,  we seldom, if  ever, use a  style with 8448  entries. Yet,
+this  gives some  indications for  styles with  an ordinary  size. The
+memory leak will just  be spread on a longer time.  On the other hand,
+using a  style in a 1000-iteration  loop can happen, for  example in a
+web server with a uptime measured in weeks.
+
 Off-The-Shelf Raku Module `GD:ver<0.0.2>`
 -----------------------------------------
 
@@ -1631,6 +1637,109 @@ feature  is  available. In  addition,  in  function `check-compat`  of
 `GD.rakumod` there are a few checks  to warn the module user that such
 or such feature is still missing.  These checks should be removed when
 the feature is implemented.
+
+CONCLUSION: WHICH MODULE SHOULD WE USE?
+=======================================
+
+For  my project  about graphs  and  Hamiltonian paths,  the answer  is
+obvious, I  will use `GD.rakumod`. This  project is the basis  which I
+used to select the features that  I would add to the original versions
+of the modules. What about other projects?
+
+`Inline::Perl5` or pure-Raku?
+-----------------------------
+
+The `Inline::Perl5`  + `GD.pm` solution  gives two "plus"  points. The
+first  one  is  that  all   `libgd`  features  (or  nearly  all?)  are
+implemented. On the  other hand, many features are  still missing from
+`GD::Raw` and even  more from `GD`. For example, in  `GD::Raw`, we can
+neither draw  a line using  a brush nor fill  a polygon with  a tiling
+pattern.
+
+The second "plus" point is that there is an extended documentation. Of
+course, this documentation uses the  Perl syntax, not the Raku syntax.
+But at least,  it exists and it gives many  interesting elements. As a
+comparison, a programmer using a pure-Raku  module has to dig into the
+`examples` and  `xt` subdirectories to find  how to use such  and such
+features.
+
+The downside of  the `Inline::Perl5` + `GD.pm` solution  is the system
+problems which may trigger a memory leak or a segmentation fault. I am
+not sure how we can prevent these problems.
+
+There   is  a   single  feature   where  `GD::Raw`   is  better   than
+`Inline::Perl5` + `GD.pm`. When printing a Unicode string, if there is
+a  problem,  then `GD::Raw`  returns  a  useful error  message,  while
+`Inline::Perl5` + `GD.pm` gives a generic and usually misleading error
+message.
+
+Among the feature existing in `Inline::Perl5` + `GD.pm` but not yet in `GD::Raw`:
+
+* a few little known image formats, such as
+[`HEIF`](https://libgd.github.io/manuals/2.3.3/files/gd_heif-c.html)
+or [`TGA`](https://libgd.github.io/manuals/2.3.3/files/gd_tga-c.html),
+
+* a well known image format:
+[animated GIF](https://libgd.github.io/manuals/2.3.3/files/gd_gif_out-c.html)
+(static GIF is OK)
+
+* [image cropping](https://libgd.github.io/manuals/2.3.3/files/gd_crop-c.html),
+
+* [options](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFTEx)
+when printing Unicode strings: line spacing, kerning, etc.
+
+* using a [brush](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageSetBrush)
+when drawing a line, a rectangle, and ellipse or a polygon,
+
+* using [tiles](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageSetTile)
+when drawing a filled shape (rectangle, ellipse or polygon),
+
+* I am not sure whether [alpha channel](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageColorAllocateAlpha)
+works in `GD::Raw`.
+
+The  list is  not complete,  of  course. It  may give  you ideas  when
+choosing a roadmap.
+
+`GD.rakumod` or `GD::Raw`?
+--------------------------
+
+The only benefit of using `GD` rather than `GD::Raw` is that it uses a
+more Raku-like syntax and that you do not have to learn using
+[`NativeHelpers::Array`](https://raku.land/zef:jonathanstowe/NativeHelpers::Array)
+and [`NativeHelpers::Blob`](https://github.com/salortiz/NativeHelpers-Blob).
+
+On the  other hand, many  features are  still missing from  `GD` while
+being already implemented in `GD::Raw`.
+
+`libgd` provides two categories for the processed images: "True Color"
+images where you can choose any number of colours among the 16 million
+available colours, and "palette" images,  where you can choose at most
+256 colours  among the 16  million available. `GD::Raw`  supports both
+categories, `GD` supports only palette images.
+
+Another reason, with some parallelism with the reason above. `GD::Raw`
+provides a
+[function](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageString)
+(actually [two functions](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageStringUp))
+to print ISO-8859-2 strings with a bitmap fixed-width font, plus a
+[third function](https://libgd.github.io/manuals/2.3.3/files/gdft-c.html#gdImageStringFT)
+to print a Unicode string with a  Free Type font. When using `GD`, you
+are stuck with the 256 ISO-8859-2 characters instead of the full range
+of Unicode.
+
+`GD` allows  you to create an  image from scratch. So  does `GD::Raw`,
+but in addition this module allows you to read any existing
+[BMP](https://libgd.github.io/manuals/2.3.3/files/gd_bmp-c.html#gdImageCreateFromBmp),
+[GIF](https://libgd.github.io/manuals/2.3.3/files/gd_gif_in-c.html#gdImageCreateFromGif),
+[JPEG](https://libgd.github.io/manuals/2.3.3/files/gd_jpeg-c.html#gdImageCreateFromJpeg)
+or [PNG](https://libgd.github.io/manuals/2.3.3/files/gd_png-c.html#gdImageCreateFromPng)
+file. Then you can
+[examine each pixel](https://libgd.github.io/manuals/2.3.3/files/gd-c.html#gdImageGetPixel),
+you can apply a few
+[chromatic](https://libgd.github.io/manuals/2.3.3/files/gd_filter-c.html),
+or [geometric](https://libgd.github.io/manuals/2.3.3/files/gd_interpolation-c.html#gdImageScale)
+[transformations](https://libgd.github.io/manuals/2.3.3/files/gd_interpolation-c.html#gdImageRotateInterpolated),
+all actions unavailable in `GD`.
 
 AUTHOR
 ======
