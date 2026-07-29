@@ -334,7 +334,7 @@ The Perl examples come from
 [program `calibrage`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/calibrage)
 and from
 [program `appli.pl`](https://github.com/jforget/Perl-fixed-width-char-human-recognition/blob/master/appli/appli.pl)
-from the char recognition project.
+in the char recognition project.
 
 The `Inline::Perl5` examples  are built from the Perl  examples, but I
 have not tested them.
@@ -372,6 +372,32 @@ The example fror `GD::Raw` comes from
 
 For `GD`, I found nothing.
 
+Autocrop
+--------
+
+This is a need I have pinpointed  a long time after my contribution to
+version 0.0.5 of `GD.rakumod` and to version 0.7 of `GD::Raw`. This is
+an unfortunate  delay. Even if  I do not  need this feature  now, this
+feature is both very useful and very simple to implement.
+
+When you draw a line, you may specify the begin / end points _outside_
+the canvas  rectangle. For example,  you can ask  to draw a  line from
+`x=-10, y=20`  to `x=20,  y=-10` and  `libgd` will  automatically crop
+this to `x=0, y=10` to `x=10,  y=0`, without asking you to compute the
+cropping. Same thing for rectangles and ellipses. I did not check with
+polygons.
+
+It works  with Perl module  `GD.pm` in a  Perl program. It  works with
+`GD.pm`  and  `Inline::Perl5`.  It  works with  `GD::Raw`.  It  works,
+_partly_, with `GD.rakumod`. Why "partly"? It works on the bottom side
+of the canvas, it works on the  right side of the canvas, it works for
+ellipses  on the  top and  left sides  of the  canvas, but  the module
+triggers a  parameter type error  when drawing  a line or  a rectangle
+across the left side or across the top side of the canvas.
+
+The fix is very simple, just  replace type `UInt` with `Int` in method
+signatures. Yet, I will not create  a pull request with only this fix.
+If I work again on this module, I will include this fix.
 
 DOCUMENTATION
 =============
@@ -492,6 +518,13 @@ use, such as  `perlbrew`, `plenv` and `rakubrew`. I did  not use these
 instructions.
 
 ### Problems with `Inline::Perl5`
+
+Remark:  this  paragraph   is  shown  here,  because   it  applies  to
+`Inline::Perl5`. Yet,  it was  written at  the end of  my work  on the
+project, especially after the
+[various experiments on memory leaks](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.en.md#memory-management)
+with Raku  modules `GD`  and `GD::Raw`.  This is  the reason  why this
+paragraph mentions tests scripts such as `26-mem-leak.raku`.
 
 I had  a first problem when  working on graphs and  Hamiltonian paths.
 Oddly,  it did  not hapen  with  `Inline::Perl5` +  `GD.pm`, but  with
@@ -783,7 +816,7 @@ Improved Raku Module `GD::Raw:ver<0.6>`
 
 ### Loading PNG Data Without Any File
 
-While the outlines of rectangles and  ellipses was a milk run, loading
+While adding the outlines of rectangles and ellipses was a milk run, loading
 PNG data  into a Raku  blob is much trickier  and I had  to frequently
 search and read the documentation.
 

@@ -374,6 +374,39 @@ Exemple `GD::Raw` tiré de
 
 Pour `GD`, je n'ai rien trouvé.
 
+Massicotage automatique (_autocrop_)
+------------------------------------
+
+C'est un besoin  que j'ai identifié longtemps après  avoir contribué à
+la  version 0.0.5  du  module  `GD.rakumod` et  à  la  version 0.7  de
+`GD::Raw`.  Je regrette  ce  retard. Même  si je  n'en  ai pas  besoin
+immédiatement, c'est une  fonctionnalité très utile et,  de plus, très
+simple à mettre en œuvre.
+
+Lorsque vous  tracez une ligne,  vous pouvez dans une  certaine mesure
+spécifier  des points  _à l'extérieur_  du rectangle  de l'image.  Par
+exemple,  vous pouvez  demander un  trait  de `x=-10,  y=20` à  `x=20,
+y=-10`   et,  automatiquement,   sans   vous   demander  des   calculs
+supplémentaires,  `libgd` tracera  un trait  de `x=0,  y=10` à  `x=10,
+y=0`. Idem pour les rectangles et les ellipses. Je n'ai pas testé avec
+les polygones.
+
+Cela fonctionne  avec le module  Perl `GD.pm` dans un  programme Perl,
+cela fonctionne  avec `GD.pm` + `Inline::Perl5`,  cela fonctionne avec
+`GD::Raw` et cela fonctionne _à  moitié_ avec `GD.rakumod`. À moitié ?
+Oui, l'auto-massicotage fonctionne  avec le bord inférieur  et avec le
+bord droit, il  fonctionne pour les ellipses sur le  bord supérieur et
+le bord  gauche, mais le module  déclenche une erreur sur  le type des
+paramètres s'il est demandé pour une ligne ou un rectangle sur le bord
+supérieur ou le bord gauche.
+
+La correction est très simple, il suffit de remplacer les types `UInt`
+par `Int` dans les signatures des méthodes concernées. Cela dit, je ne
+vais  pas  soumettre une  _pull  request_  contenant uniquement  cette
+correction.  Si  je  dois  intervenir  de nouveau  sur  ce  module  et
+implémenter une  nouvelle fonctionnalité,  alors j'en  profiterai pour
+ajouter cette correction.
+
 DOCUMENTATION
 =============
 
@@ -501,6 +534,13 @@ des outils que je n'ai pas  utilisés dans ce projet, comme `perlbrew`,
 `plenv` et `rakubrew`.
 
 ### Problèmes avec `Inline::Perl5`
+
+Remarque : ce  paragraphe est présenté ici car  thématiquement, il est
+associé  à `Inline::Perl5`.  Il  a été  toutefois écrit  à  la fin  du
+projet, notamment après les
+[diverses expériences sur les fuites de mémoire](https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#gestion-de-la-m%C3%A9moire)
+avec les  modules Raku `GD` et  `GD::Raw`. C'est pour cela  qu'il fait
+référence à des scripts de tests comme `26-mem-leak.raku`.
 
 Le premier problème  s'est produit lors de mon projet  sur les graphes
 et   les  chemins   hamiltoniens.  Il   ne  s'est   pas  produit   sur
