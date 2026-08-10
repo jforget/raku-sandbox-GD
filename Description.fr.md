@@ -1030,8 +1030,8 @@ mémoire  est moins  bien  gérée  dans ce  nouveau  programme que  dans
 `gdImageSetStyle` avec un dièse, ou  lorsque je masque cet appel ainsi
 que  la   construction  du  `CArray`,  j'obtiens   le  même  résultat.
 L'augmentation  progressive  de  la  mémoire utilisée  est  donc  due,
-vraisemblablement à la construction du tableau Raku `@style`, pas à la
-construction du tableau C `@style-c`.
+vraisemblablement, à la  construction du tableau Raku  `@style`, pas à
+la construction du tableau C `@style-c`.
 
 Cette supposition est confirmée  avec le programme `26-mem-leak.raku`,
 qui construit le  tableau Raku `@style` en dehors de  la double boucle
@@ -1632,7 +1632,7 @@ Il faut juste que je pense dorénavant à taper :
 git push -u --tags origin dev1
 ```
 
-Avec la refonte, sont apparus  quelques actions de CI/CD. Le principal
+Avec la refonte, sont apparues quelques actions de CI/CD. Le principal
 effet de ces actions est de  m'envoyer tout plein de messages à chaque
 `push`, pour  m'indiquer que cela ne  fonctionne pas sur Macos  et sur
 Windows.  Comme je  ne  peux rien  faire  sur le  sujet  et comme  ces
@@ -1660,21 +1660,21 @@ pour le développement de `GD` version  0.0.3. J'ai enlevé ceux qui ont
 été installés  automatiquement parce que c'étaient  des prérequis pour
 d'autres :
 
-* LibraryCheck:ver<0.0.11>:auth<zef:jonathanstowe>:api<1.0>
-* Linux::Proc::Statm
-* MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>
-* NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>
-* NativeHelpers::Blob:ver<0.1.12>:auth<github:salortiz>
+* `LibraryCheck:ver<0.0.11>:auth<zef:jonathanstowe>:api<1.0>`
+* `Linux::Proc::Statm`
+* `MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>`
+* `NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>`
+* `NativeHelpers::Blob:ver<0.1.12>:auth<github:salortiz>`
 
 Et  voici  maintenant  la  liste   des  modules  nécessaires  pour  le
 développement de `GD` version 0.0.5 :
 
-* LibraryCheck:ver<0.0.12>:auth<zef:jonathanstowe>:api<1.0>
-* Linux::Proc::Statm
-* MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>
-* NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>
-* NativeHelpers::Blob:ver<0.1.12>:auth<zef:raku-community-modules>
-* Test::Coverage:ver<0.0.8>:auth<zef:lizmat>
+* `LibraryCheck:ver<0.0.12>:auth<zef:jonathanstowe>:api<1.0>`
+* `Linux::Proc::Statm`
+* `MIME::Base64:ver<1.2.5>:auth<zef:raku-community-modules>`
+* `NativeHelpers::Array:ver<0.0.6>:auth<zef:jonathanstowe>:api<1.0>`
+* `NativeHelpers::Blob:ver<0.1.12>:auth<zef:raku-community-modules>`
+* `Test::Coverage:ver<0.0.8>:auth<zef:lizmat>`
 
 Ainsi   que   vous  pouvez   le   constater,   il  a   fallu   ajouter
 `Test::Coverage`  (et  ses  nombreux   prérequis).  Et  si  vous  êtes
