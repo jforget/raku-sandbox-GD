@@ -1,0 +1,66 @@
+-*- encoding: utf-8; indent-tabs-mode: nil -*-
+
+Asymmetrical pattern and right-to-left line
+
+In the accompanying C program, I define an asymmetrical pattern: dashes
+with increasing lengths and spanning the colour spectrum from blue to
+red. Then I draw four lines with this pattern, with small black
+arrowheads to show how the lines are drawn.
+
+How to reproduce
+
+	gcc -o asym-pat asym-pat.c -lgd -lpng -lz -ljpeg -lfreetype -lm
+	./asym-pat
+	display asym-pat.png
+
+Of course, in the last line, instead of `display`, you can use any
+program rendering a PNG file: web browser, The Gimp, Ristretto, Eye of
+Gnome, etc.
+
+Observed Behaviour
+
+The pattern is correctly applied to the left-to-right line and to the
+top-down line. But it is applied in reverse to the right-to-left line
+and to the bottom-up line.
+
+More specifically, in the bottom horizontal line, the cyan pixels are
+to the right of blue pixels, the green pixels are to the right of cyan
+pixels, and so on.
+
+Likewise, in the left vertical line line, the cyan pixels are below
+the blue pixels, the green pixels are below the cyan pixels, and so
+on.
+
+Expected behaviour
+
+In the bottom horizontal line, the cyan pixels should be to the left
+of blue pixels, the green pixels should be to the left of cyan pixels,
+and so on.
+
+In the left vertical line, the cyan pixels should be above the blue
+pixels, the green pixels should be above the cyan pixels, and so on.
+
+Environment
+
+This test uses libgd version 2.3.3 on a virtual machine with xubuntu
+25.04. Version of gcc is 14.2.0.
+
+Can you fix it, please? Thank you in advance.
+
+By the way, I have made a few similar tests in Perl and in Raku.The
+purpose of these tests was checking what happens when using a style
+with a big number of pixels. Checking asymmetrical styles was an
+unplanned bonus. See the explanations in
+
+https://github.com/jforget/raku-sandbox-GD/blob/master/Description.en.md#stress-test-using-a-very-long-style
+
+and see the programs in
+
+https://github.com/jforget/raku-sandbox-GD/blob/master/Perl/22-long-style.pl
+https://github.com/jforget/raku-sandbox-GD/blob/master/Perl/23-style-polygon.pl
+https://github.com/jforget/raku-sandbox-GD/blob/master/Perl/24-rainbow.pl
+https://github.com/jforget/raku-sandbox-GD/blob/master/GD-Raw/22-long-style.raku
+https://github.com/jforget/raku-sandbox-GD/blob/master/GD-Raw/24-rainbow.raku
+https://github.com/jforget/raku-sandbox-GD/blob/master/GD/22-long-style.raku
+https://github.com/jforget/raku-sandbox-GD/blob/master/GD/23-style-polygon.raku
+
