@@ -1,6 +1,7 @@
 -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
 Asymmetrical pattern and right-to-left line
+===========================================
 
 In the accompanying C program, I define an asymmetrical pattern: dashes
 with increasing lengths and spanning the colour spectrum from blue to
@@ -8,6 +9,7 @@ red. Then I draw four lines with this pattern, with small black
 arrowheads to show how the lines are drawn.
 
 How to reproduce
+----------------
 
 	gcc -o asym-pat asym-pat.c -lgd -lpng -lz -ljpeg -lfreetype -lm
 	./asym-pat
@@ -18,6 +20,7 @@ program rendering a PNG file: web browser, The Gimp, Ristretto, Eye of
 Gnome, etc.
 
 Observed Behaviour
+------------------
 
 The pattern is correctly applied to the left-to-right line and to the
 top-down line. But it is applied in reverse to the right-to-left line
@@ -32,6 +35,7 @@ the blue pixels, the green pixels are below the cyan pixels, and so
 on.
 
 Expected behaviour
+------------------
 
 In the bottom horizontal line, the cyan pixels should be to the left
 of blue pixels, the green pixels should be to the left of cyan pixels,
@@ -41,18 +45,24 @@ In the left vertical line, the cyan pixels should be above the blue
 pixels, the green pixels should be above the cyan pixels, and so on.
 
 Environment
+-----------
 
 This test uses libgd version 2.3.3 on a virtual machine with xubuntu
 25.04. Version of gcc is 14.2.0.
 
-Can you fix it, please? Thank you in advance.
+Further Thoughts
+----------------
 
-By the way, I have made a few similar tests in Perl and in Raku.The
+By the way, I have made a few similar tests in Perl and in Raku. The
 purpose of these tests was checking what happens when using a style
 with a big number of pixels. Checking asymmetrical styles was an
 unplanned bonus. See the explanations in
 
 https://github.com/jforget/raku-sandbox-GD/blob/master/Description.en.md#stress-test-using-a-very-long-style
+
+or, for French speakers
+
+https://github.com/jforget/raku-sandbox-GD/blob/master/Description.fr.md#test-de-capacit%C3%A9-avec-un-style-tr%C3%A8s-long
 
 and see the programs in
 
@@ -64,3 +74,15 @@ https://github.com/jforget/raku-sandbox-GD/blob/master/GD-Raw/24-rainbow.raku
 https://github.com/jforget/raku-sandbox-GD/blob/master/GD/22-long-style.raku
 https://github.com/jforget/raku-sandbox-GD/blob/master/GD/23-style-polygon.raku
 
+What these tests show is that (1) the size of a pattern is no problem,
+(2) asymmetrical patterns are a problem for polygons, not only lines,
+(3) asymmetrical patterns are a problem in True Color images, not only
+palette images.
+
+Can you fix it, please? Thank you in advance.
+
+Follow-on
+=========
+
+Published on 2026-10-11
+https://github.com/libgd/libgd/issues/1025
